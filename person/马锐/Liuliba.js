@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 import {
   TextInput,
   View,
@@ -11,37 +11,38 @@ export default class Liuliba extends Component{
     render(){
         return(
             <View>
+                {/* 搜索框 */}
                 <View style={{
                     width:'100%',
                     backgroundColor:'white',
                     height:80,
                     }}>
-                        <View style={{
-                            width:'90%',
-                            height:50,
-                            backgroundColor:'#eeeeee',
-                            marginLeft:25,
-                            marginTop:15
-                        }}>
-                            <TextInput 
-                                placeholder={'大家正在搜：今日话题'} 
-                                style={{
-                                    height:50,
-                                    paddingLeft:30 ,
-                                    fontSize:20,
-                                    
-                            }}
-                            >            
-                            </TextInput>
-                            
-                        </View>
-                        
-                    </View>
                     <View style={{
+                        width:'85%',
+                        height:50,
+                        backgroundColor:'#eeeeee',
+                        marginLeft:40,
+                        marginTop:15,
+                        borderRadius:30 
+                    }}>
+                        <TextInput 
+                            placeholder={'大家正在搜：今日话题'} 
+                            style={{
+                                height:50,
+                                paddingLeft:30 ,
+                                fontSize:20,  
+                                            
+                        }}
+                        >            
+                        </TextInput>
+                    </View>
+                </View>
+                {/* 轮播图 */}
+                <View style={{
                     marginTop:10,
                     height:200,
-                    width:'90%',
-                    marginLeft:28
+                    width:'95%',
+                    marginLeft:12
                     }}>
                     <Swiper 
                         height={400}                   
@@ -77,34 +78,35 @@ export default class Liuliba extends Component{
                         <Image source={require('./img/b.jpg')} style={{height: 400}}/>
                         <Image source={require('./img/c.jpg')} style={{height: 400}}/>
                     </Swiper>
-                    </View>
-                    <View style={{height:80,flexDirection:'row'}}>
+                </View>
+                {/* 中部四个按钮 */}
+                <View style={{height:80,flexDirection:'row'}}>
                     <View style={{
                         width:'15%',
                         height:80,
                         marginTop:30,
                         flex: 1,
-                        marginLeft:60,
+                        marginLeft:55,
                     }}>
-                         <View style={{
-                            padding: 5,
-                            height: 50,
-                            width: 50, 
-                            borderRadius:400, 
-                            backgroundColor:'#cccccc',
+                        <View style={{
+                        padding: 5,
+                        height: 50,
+                        width: 50, 
+                        borderRadius:400, 
+                        backgroundColor:'#cccccc',
                         }}>
                         <Text style={{fontSize:30}}>&nbsp;1</Text>
                         </View>
-                        <Text style={{fontSize:20}}>&nbsp;圈子</Text>
+                        <Text style={{fontSize:15}}>&nbsp;&nbsp;&nbsp;圈子</Text>
                     </View>
                     <View style={{
                         width:'15%',
                         height:80,
                         marginTop:30,
                         flex: 1,
-                        marginLeft:30,
+                        marginLeft:35,
                     }}>
-                         <View style={{
+                        <View style={{
                             padding: 5,
                             height: 50,
                             width: 50, 
@@ -113,7 +115,7 @@ export default class Liuliba extends Component{
                         }}>
                         <Text style={{fontSize:30}}>&nbsp;2</Text>
                         </View>
-                        <Text style={{fontSize:20}}>&nbsp;说客</Text>
+                        <Text style={{fontSize:15}}>&nbsp;&nbsp;&nbsp;说客</Text>
                     </View>
                     <View style={{
                         width:'15%',
@@ -131,7 +133,7 @@ export default class Liuliba extends Component{
                         }}>
                         <Text style={{fontSize:30}}>&nbsp;3</Text>
                         </View>
-                        <Text style={{fontSize:20}}>&nbsp;视频</Text>
+                        <Text style={{fontSize:15}}>&nbsp;&nbsp;&nbsp;视频</Text>
                     </View>
                     <View style={{
                         width:'15%',
@@ -140,7 +142,7 @@ export default class Liuliba extends Component{
                         flex: 1,
                         marginLeft:30,
                     }}>
-                         <View style={{
+                        <View style={{
                             padding: 5,
                             height: 50,
                             width: 50, 
@@ -149,10 +151,90 @@ export default class Liuliba extends Component{
                         }}>
                         <Text style={{fontSize:30}}>&nbsp;4</Text>
                         </View>
-                        <Text style={{fontSize:20}}>&nbsp;关注</Text>
+                        <Text style={{fontSize:15}}>&nbsp;&nbsp;&nbsp;关注</Text>
                     </View>                    
                 </View>
-            </View>
+                {/* 发布内容 */}
+                <View style={{
+                width:'90%',
+                height:240,
+                marginLeft:28,
+                marginTop:50,
+                flexDirection:'row'
+                }}>
+                    {/* 头像框 */}
+                    <View style={{
+                    width:"15%",
+                    height:"100%"
+        
+                    }}>
+                    <View style={{
+                        padding: 5,
+                        height: 70,
+                        width: 70, 
+                        borderRadius:400, 
+                        backgroundColor:'green',
+                        }}>
+                        <Text style={{fontSize:30}}>&nbsp;tou</Text>
+                        </View>
+                    </View>
+                    {/* 头像框右侧区域 */}
+                    <View style={{
+                    width:'80%',
+                    height:'100%',
+                    marginLeft:15,
+                    }}>
+                    <View style={{
+                        width:'100%',
+                        height:30,
+                        flexDirection:'row'
+                    }}>
+                        {/* 用户名（上方左侧） */}
+                        <View style={{
+                        width:110,
+                        height:30
+                        }}>
+                        <Text style={{fontSize:18,color:'#555555'}}>流利君@流利说:</Text>
+                        </View>
+                        {/* 话题名称（上方右侧） */}
+                        <View style={{
+                        width:220,
+                        height:30,
+                        }}>
+                        <Text style={{fontSize:18,color:'grey',marginLeft:50,marginTop:10}}>
+                            话题 | 新年倒计时5天
+                        </Text>
+                        </View>
+                    </View>
+                    
+                    {/* 进入图片（下方大图以及文字） */}
+                    <View style={{
+                        width:'100%',
+                        height:70,
+                        marginTop:18
+                    }}>
+                        <Image source={require('./img/a.jpg')} style={{
+                        height: 150,
+                        width:'100%',
+                        borderRadius:10
+                        }}/>
+                        <Text style={{
+                        fontSize:18,
+                        color:'white',
+                        marginTop:5,
+                        marginLeft:55,
+                        paddingTop:90,
+                        position:'absolute'
+                        }}>
+                        &#8745;话题讨论#2019年你最大的改变#
+                        </Text>
+                        <Text style={{color:'grey',fontSize:15,marginTop:10,marginLeft:260}}
+                        >8888浏览&nbsp;&nbsp;888回复</Text>
+                    </View>          
+                    </View>
+        
+                </View>
+          </View>
         )
     }
 }
