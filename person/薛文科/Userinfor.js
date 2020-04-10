@@ -136,19 +136,102 @@ export default class Mine extends Component {
                             />
                         </View>
                         <View  style={styles.content}>
-                            <List>
+                            <WhiteSpace style={{backgroundColor:'#eee'}}/>
+                            <View style={styles.item}>
+                                <Icon name='desktop' size={30} color="red" style={styles.icon}/>
+                                <Text style={styles.text}>英语水平定级测试</Text>
+                                <TouchableOpacity style={styles.leve}>
+                                    <Text style={{color: '#fff',fontSize:18}}>Lv3 初级</Text>
+                                </TouchableOpacity>
+                                <Icon name="right" color="#8a8a8a" size={20} 
+                                    style={{
+                                        position:'absolute',
+                                        right:25,
+                                    }}
+                                />
+                            </View>
+                            <WhiteSpace style={{backgroundColor:'#eee',height:1}}/>
+                            <View style={styles.item}>
+                                <Icon name='flag' size={30} color="red" style={styles.icon}/>
+                                <Text style={styles.text}>我的任务</Text>
+                                <TouchableOpacity style={styles.button}>
+                                    <Text style={{color: 'red',fontSize:18}}>3个待完成</Text>
+                                </TouchableOpacity>
+                                <Icon name="right" color="#8a8a8a" size={20} 
+                                    style={{
+                                        position:'absolute',
+                                        right:25,
+                                    }}
+                                />
+                            </View>
+                            <WhiteSpace style={{backgroundColor:'#eee'}} />
+                            <View style={styles.item}>
+                                <Icon name='table' size={30} color="red" style={styles.icon}/>
+                                <Text style={styles.text}>已完成的课程</Text>
+                                <Icon name="right" color="#8a8a8a" size={20} 
+                                    style={{
+                                        position:'absolute',
+                                        right:25,
+                                    }}
+                                />
+                            </View>
+                            <WhiteSpace style={{backgroundColor:'#eee',height:1}}/>
+                            <View style={styles.item}>
+                                <Icon name='flag' size={30} color="red" style={styles.icon}/>
+                                <Text style={styles.text}>我的任务</Text>
+                                <Icon name="right" color="#8a8a8a" size={20} 
+                                    style={{
+                                        position:'absolute',
+                                        right:25,
+                                    }}
+                                />
+                            </View>
+                            <WhiteSpace style={{backgroundColor:'#eee'}} />
+                            <View style={styles.item}>
+                                <Icon name='file' size={30} color="red" style={styles.icon}/>
+                                <Text style={styles.text}>已完成的课程</Text>
+                                <Icon name="right" color="#8a8a8a" size={20} 
+                                    style={{
+                                        position:'absolute',
+                                        right:25,
+                                    }}
+                                />
+                            </View>
+                            <WhiteSpace style={{backgroundColor:'#eee',height:1}}/>
+                            <View style={styles.item}>
+                                <Icon name='like' size={30} color="red" style={styles.icon}/>
+                                <Text style={styles.text}>我的任务</Text>
+                                <Icon name="right" color="#8a8a8a" size={20} 
+                                    style={{
+                                        position:'absolute',
+                                        right:25,
+                                    }}
+                                />
+                            </View>
+                            <WhiteSpace style={{backgroundColor:'#eee'}} />
+                            <View style={styles.item}>
+                                <Icon name='file' size={30} color="red" style={styles.icon}/>
+                                <Text style={styles.text}>已完成的课程</Text>
+                                <Icon name="right" color="#8a8a8a" size={20} 
+                                    style={{
+                                        position:'absolute',
+                                        right:25,
+                                    }}
+                                />
+                            </View>
+                            <WhiteSpace style={{backgroundColor:'#eee',height:1}}/>
+                            <View style={styles.item}>
+                                <Icon name='like' size={30} color="red" style={styles.icon}/>
+                                <Text style={styles.text}>我的任务</Text>
+                                <Icon name="right" color="#8a8a8a" size={20} 
+                                    style={{
+                                        position:'absolute',
+                                        right:25,
+                                    }}
+                                />
+                            </View>
+                            {/* <List>
                                 <WhiteSpace style={{backgroundColor:'#eee'}} />
-                                <Item arrow="horizontal" style={{
-                                    height:80*s,
-                                }} onPress={() => {}}>
-                                    <View style={styles.item}>
-                                        <Icon name='desktop' size={30} color="red" style={styles.icon}/>
-                                        <Text style={styles.text}>英语水平定级测试</Text>
-                                        <TouchableOpacity style={styles.leve}>
-                                            <Text style={{color: '#fff',fontSize:18}}>Lv3 初级</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </Item>
                                 <Item arrow="horizontal" style={{
                                     height:80*s,
                                 }} onPress={() => {}}>
@@ -213,7 +296,7 @@ export default class Mine extends Component {
                                 </Item>
                                 <WhiteSpace style={{backgroundColor:'#eee'}} />
 
-                            </List>
+                            </List> */}
                         </View>
                     </ScrollView>
                 </SafeAreaView>
@@ -253,17 +336,17 @@ const styles=StyleSheet.create({
     },
     item:{
         flexDirection:'row',
-        flexWrap:'wrap',
+        alignItems:'center',
         paddingBottom:5,
-        marginTop:10,
+        height:60,
     },
     icon:{
-        marginLeft:20
+        marginLeft:35
     },
     leve:{
         backgroundColor:'red',
         position:'absolute',
-        right:10,
+        right:70,
         width:100,
         height:30,
         borderRadius:10,
@@ -273,7 +356,7 @@ const styles=StyleSheet.create({
     button:{
         backgroundColor:'#ccc',
         position:'absolute',
-        right:10,
+        right:68,
         width:100,
         height:30,
         borderRadius:10,
