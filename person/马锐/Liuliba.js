@@ -1,5 +1,12 @@
-import React, { Component } from 'react';
-import { View,Text} from 'react-native';
+import React from 'react';
+import {
+  TextInput,
+  View,
+  Image,
+  Text
+} from 'react-native';
+import Swiper from 'react-native-swiper';
+
 export default class Liuliba extends Component{
     render(){
         return(
