@@ -6,6 +6,48 @@ import Word from './Word';
 const {width,scale} = Dimensions.get('window');
 const s = width / 640;
 export default class Learn extends Component {
+    constructor(){
+        super();
+        this.state={
+            searchData:''
+        }
+    }
+    searchhandle = (text)=>{
+        this.setState({searchData:text})
+    }
+    search=()=>{
+        let formData=new FormData();
+        formData.append('id','3');
+        var opts={
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:formData
+        }
+        const post ={
+            id:this.state.searchData
+        }
+        fetch('http://129.211.62.80:8080/word',{
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(post),
+        }).then(res=>{
+            if(res.ok){
+                return res.json()
+            }
+        }).then(res=>{
+            console.log(res);
+            console.log(res.id)
+            Actions.search()
+        }).catch((err)=>{
+            console.error(err);
+        })
+    }
     render() {
         const tabs = [
             { title: '轻松学' },
@@ -37,10 +79,11 @@ export default class Learn extends Component {
                                 padding: 0,
                                 paddingLeft: 10
                             }}
+                            onChangeText={this.searchhandle}
                         />
                     </View>    
                     <TouchableOpacity>
-                            <Icon name='search' color='gray'/>
+                            <Icon name='search' color='gray' onPress={this.search} />
                     </TouchableOpacity>       
                 </View>
                 <Tabs tabs={tabs} style={{
