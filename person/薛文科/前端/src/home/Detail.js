@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet,Image,TouchableOpacity, TextInput,ScrollView } from 'react-native'
-import { NoticeBar,Icon ,Tabs, WhiteSpace, Button} from '@ant-design/react-native';
-import { Actions} from 'react-native-router-flux'
+import { Text, View, StyleSheet ,TouchableOpacity,Dimensions,TextInput, Alert, ScrollView} from 'react-native'
+import { Actions, Scene } from 'react-native-router-flux';
+// import { Icon } from '@ant-design/react-native';
+import { Button, Icon } from '@ant-design/react-native';
 import Sound from 'react-native-sound';
-export default class Search extends Component {
+const {width,scale,height} = Dimensions.get('window');
+const s = width / 640;
+
+export default class Detail extends Component {
     constructor(){
         super();
         this.state={
@@ -11,7 +15,7 @@ export default class Search extends Component {
         }
     }
     componentDidMount(){
-        fetch('http://129.211.62.80:8080/word/search')
+        fetch('http://129.211.62.80:8080/word/show')
         .then(res=>res.json())
         .then(res=>{
             this.setState({
@@ -19,60 +23,17 @@ export default class Search extends Component {
             })
         })
     }
+    next=()=>{
+        Actions.pop();
+    }
     render() {
-        const customIcon = (
-            <Image
-              source={{
-                uri: 'https://zos.alipayobjects.com/rmsportal/bRnouywfdRsCcLU.png',
-              }}
-              style={{ width: 12, height: 12 }}
-            />
-        );
         return (
-            <View style={styles.main}>
+            <View>
                 <View style={{height:55,width:'100%',backgroundColor:'#8a8a8a',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                     <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
                     <Text style={{color:'#fff',fontSize:23}}>单词详情</Text>
                     <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
                 </View>
-                {/* <View style={styles.header}>
-                    {
-                        this.state.data.map((item)=>(
-                            <Text style={styles.text} >{item.name}</Text>
-                        ))
-                    }
-                </View>
-                <View>
-                    {
-                        this.state.data.map((item)=>(
-                            <Text style={styles.chiness}>{item.chiness}</Text>
-                        ))
-                    }
-                </View>
-                <WhiteSpace/>
-                <NoticeBar 
-                    mode="closable" 
-                    icon={undefined}
-                    marqueeProps={{style: { fontSize: 20, color: 'red',marginLeft:10 } }}
-                >
-                    词根体现单词本质含义
-                </NoticeBar>
-                <WhiteSpace/>
-                <NoticeBar 
-                    mode="closable" 
-                    icon={undefined}
-                    marqueeProps={{style: { fontSize: 20, color: 'red',marginLeft:10 } }}
-                >
-                    派生联想，把单词串成树
-                </NoticeBar>
-
-                <View>
-                    <Text style={styles.chiness}>例句</Text>
-                    <Text style={styles.chiness}></Text>
-                </View>
-                <TouchableOpacity style={styles.start}  onPress={this.start}>
-                    <Text style={{color: '#fff',fontSize:18}}>添加到我的收藏</Text>
-                </TouchableOpacity> */}
                 <ScrollView style={{backgroundColor:'#fff'}}>
                     <View style={styles.header}>
                         {
@@ -106,22 +67,6 @@ export default class Search extends Component {
                             ))
                         }
                     </View>
-                    <WhiteSpace/>
-                    <NoticeBar 
-                        mode="closable" 
-                        icon={undefined}
-                        marqueeProps={{style: { fontSize: 20, color: 'red',marginLeft:10 } }}
-                    >
-                        词根体现单词本质含义
-                    </NoticeBar>
-                    <WhiteSpace/>
-                    <NoticeBar 
-                        mode="closable" 
-                        icon={undefined}
-                        marqueeProps={{style: { fontSize: 20, color: 'red',marginLeft:10 } }}
-                    >
-                        派生联想，把单词串成树
-                    </NoticeBar>
                     <View style={{width:'100%'}}>
                         <Text style={styles.symbol1}>例句</Text>
                         {
@@ -130,30 +75,17 @@ export default class Search extends Component {
                             ))
                         }
                     </View>
+                    <View style={styles.footer}>
+                        <Button style={styles.button} onPress={this.next}>
+                            <Text style={styles.text1}>继续</Text>
+                        </Button>
+                    </View>
                 </ScrollView>
             </View>
         )
     }
 }
-
 const styles=StyleSheet.create({
-    main:{
-        backgroundColor:'#fff',
-        width:'100%',
-        flex:1
-    },
-    start: {
-        position: 'absolute',
-        bottom: 150,
-        width: 200,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#8a8a8a',
-        borderRadius: 20,
-        opacity:0.8,
-        marginLeft:140
-    },
     header:{
         width:'100%',
         height:80,
@@ -195,4 +127,20 @@ const styles=StyleSheet.create({
         fontSize:22,
         color:'#000'
     },
+    footer:{
+        width:'100%',
+        height:120,
+        marginTop:400,
+        backgroundColor:'#fff',
+        alignItems:'center',
+    },
+    button:{
+        width:'80%',
+        height:50,
+        borderRadius:20,
+        backgroundColor:'#8a8a8a'
+    },
+    text1:{
+        color:'#fff'
+    }
 })

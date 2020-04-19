@@ -1,38 +1,117 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet ,TouchableOpacity,Dimensions,TextInput} from 'react-native'
+import { Text, View, StyleSheet ,TouchableOpacity,Dimensions,TextInput, Alert, ScrollView} from 'react-native'
 import { Actions, Scene } from 'react-native-router-flux';
-import { Icon } from '@ant-design/react-native';
+// import { Icon } from '@ant-design/react-native';
+import { Button, Icon } from '@ant-design/react-native';
+import Sound from 'react-native-sound';
 const {width,scale,height} = Dimensions.get('window');
 const s = width / 640;
+
+// let musciPath='https://v.ylapi.cn/img/api/api_reciteword_word_list/492850dde8ca9392.mp3';
+// var music=new Sound(musciPath,null,(err)=>{
+//     if(err){
+//         Alert.alert('播放失败');
+//     }
+// })
 export default class WordCard extends Component {
+    constructor(){
+        super();
+        this.state={
+            course:1,
+            data:[]
+        }
+    }
+    componentDidMount(){
+        fetch('http://129.211.62.80:8080/word/show')
+        .then(res=>res.json())
+        .then(res=>{
+            this.setState({
+                data:res.content
+            })
+        })
+    }
+    componentWillUpdate(){
+        fetch('http://129.211.62.80:8080/word/show')
+        .then(res=>res.json())
+        .then(res=>{
+            this.setState({
+                data:res.content
+            })
+        })
+    }
+    next=()=>{
+        // console.log('认识')
+        var course1=this.state.course+1
+        this.setState({
+            course:course1
+        })
+        console.log(this.state.course)
+        const post ={
+            id:this.state.course
+        }
+        fetch('http://129.211.62.80:8080/word/add',{
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(post),
+        }).then(res=>{
+            if(res.ok){
+                return res.json()
+            }
+        }).then(res=>{
+            console.log(res);
+            console.log(res.id)
+        }).catch((err)=>{
+            console.error(err);
+        })
+    }
+    donot=()=>{
+        console.log('不认识')
+        Actions.detail();
+    }
+    play=(name)=>{
+        let musciPath='http://dict.youdao.com/dictvoice?audio='+name;
+        var music=new Sound(musciPath,null,(err)=>{
+            if(err){
+                console.log(1)
+            }
+        })
+    }
     render() {
         return (
-            <View>
-                <View style={styles.header}>
-                    <View style={styles.back}>
-                        <TouchableOpacity 
-                            onPress={Actions.pop}
-                        >
-                            <Icon name='left' color='gray'/>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.search}>
-                        <TextInput 
-                            placeholder="请输入您要搜索的单词"
-                            style={{
-                                width: 490*s,height: 50*s,
-                                padding: 0,
-                                paddingLeft: 10
-                            }}
-                        />
-                    </View>    
-                    <TouchableOpacity>
-                            <Icon name='search' color='gray'/>
-                    </TouchableOpacity>       
+            <View style={{backgroundColor:'#fff',width:'100%',height:800}}>
+                <View style={{height:55,width:'100%',backgroundColor:'#8a8a8a',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+                    <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
+                    <Text style={{color:'#fff',fontSize:23}}>单词</Text>
+                    <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
                 </View>
-                <View >
-
+                <ScrollView>
+                <View style={styles.content}>
+                    {
+                        this.state.data.map((item)=>{
+                            return (
+                                <View style={styles.main}>
+                                    <Text style={styles.word} >{item.name}</Text>
+                                    <View style={{flexDirection:'row',width:'100%',marginTop:30,justifyContent:'center',alignItems:'center'}}>
+                                        <Icon name='setting' style={styles.icon} color="#8a8a8a" size={25} />
+                                        <Text style={{fontSize:20,color:'#8a8a8a',marginLeft:5}}>{item.symbol}</Text>
+                                    </View>
+                                </View>
+                            )
+                        })
+                    }
                 </View>
+                <View style={styles.footer}>
+                    <Button style={styles.button} onPress={this.next}>
+                        <Text style={styles.text}>我认识</Text>
+                    </Button>
+                    <Button style={styles.button1} onPress={this.donot}>
+                        <Text style={styles.text}>不认识</Text>
+                    </Button>
+                </View>
+                </ScrollView>
             </View>
         )
     }
@@ -42,7 +121,7 @@ const styles=StyleSheet.create({
         width:width,
         height: 70*s,
         // borderBottomColor: 'red',
-        // backgroundColor:'red',
+        backgroundColor:'#fff',
         borderBottomWidth: 1/3,
         flexDirection:'row',
         justifyContent: 'space-around',
@@ -66,4 +145,43 @@ const styles=StyleSheet.create({
         justifyContent:'center',
         alignItems:'center'
     },
+    content:{
+        width:'100%',
+        height:150,
+        overflow:'hidden',
+        backgroundColor:'#fff',
+        marginTop:50
+    },
+    main:{
+        width:'100%',
+        height:150,
+        justifyContent:'center',
+        alignItems:'center',
+    },
+    word:{
+        fontSize:40
+    },
+    footer:{
+        width:'100%',
+        height:120,
+        marginTop:400,
+        backgroundColor:'#fff',
+        alignItems:'center',
+    },
+    button:{
+        width:'80%',
+        height:50,
+        borderRadius:20,
+        backgroundColor:'#8a8a8a'
+    },
+    button1:{
+        width:'80%',
+        height:50,
+        marginTop:10,
+        borderRadius:20,
+        backgroundColor:'red'
+    },
+    text:{
+        color:'#fff'
+    }
 })

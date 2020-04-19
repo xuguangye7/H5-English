@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View,Dimensions,StyleSheet, ScrollView,Image,TouchableOpacity,TextInput} from 'react-native'
+import { Text, View,Dimensions,StyleSheet, ScrollView,Image,TouchableOpacity,TextInput,ToastAndroid} from 'react-native'
 import {Router,Overlay,Scene,Drawer,Lightbox,Modal, Actions} from 'react-native-router-flux'
 import { Icon ,Tabs} from '@ant-design/react-native';
 import Word from './Word';
@@ -9,7 +9,8 @@ export default class Learn extends Component {
     constructor(){
         super();
         this.state={
-            searchData:''
+            searchData:'',
+            data:[]
         }
     }
     searchhandle = (text)=>{
@@ -43,7 +44,12 @@ export default class Learn extends Component {
         }).then(res=>{
             console.log(res);
             console.log(res.id)
-            Actions.search()
+            console.log(res.message)
+            if(res.message){
+                Actions.search()
+            }else{
+                ToastAndroid.show('没有搜索到你要的词汇');
+            }
         }).catch((err)=>{
             console.error(err);
         })
@@ -77,13 +83,14 @@ export default class Learn extends Component {
                             style={{
                                 width: 490*s,height: 50*s,
                                 padding: 0,
-                                paddingLeft: 10
+                                paddingLeft: 10,
+                                fontSize:15
                             }}
                             onChangeText={this.searchhandle}
                         />
                     </View>    
                     <TouchableOpacity>
-                            <Icon name='search' color='gray' onPress={this.search} />
+                            <Icon name='search' size={28} color='gray' onPress={this.search} />
                     </TouchableOpacity>       
                 </View>
                 <Tabs tabs={tabs} style={{
@@ -96,7 +103,9 @@ export default class Learn extends Component {
                                     height:30,
                                     backgroundColor:'red',
                                 }}>
-                                    <Text style={{fontSize:20}}>签到</Text>
+                                    {
+
+                                    }
                                 </View>
                                 <View></View>
                             </View>
