@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Text, View,Dimensions,StyleSheet, ScrollView,Image,TouchableOpacity,TextInput,ToastAndroid} from 'react-native'
+import { Text, View,Dimensions,StyleSheet, ScrollView,Image,TouchableOpacity,TextInput,ToastAndroid, ImageBackground} from 'react-native'
 import {Router,Overlay,Scene,Drawer,Lightbox,Modal, Actions} from 'react-native-router-flux'
 import { Icon ,Tabs} from '@ant-design/react-native';
 import Word from './Word';
+import Sound from 'react-native-sound';
 const {width,scale} = Dimensions.get('window');
 const s = width / 640;
 export default class Learn extends Component {
@@ -12,6 +13,29 @@ export default class Learn extends Component {
             searchData:'',
             data:[]
         }
+    }
+    // 每日一句
+    componentDidMount(){
+        fetch('http://open.iciba.com/dsapi/')
+        .then(res=>res.json())
+        .then(res=>{
+            console.log(res.content)
+            this.setState({
+                data:res
+            })
+            console.log('data',this.state.data.content)
+        })
+    }
+    play1=()=>{
+        console.log('tts',this.state.data.tts)
+        let musciPath=this.state.data.tts;
+        var music=new Sound(musciPath,null,(err)=>{
+            if(err){
+                Alert.alert('播放失败');
+            }else{
+                music.play();
+            }
+        })
     }
     searchhandle = (text)=>{
         this.setState({searchData:text})
@@ -98,16 +122,19 @@ export default class Learn extends Component {
                     <View style={style}>
                         <ScrollView>
                             <View style={styles.card}>
-                                <View style={{
-                                    width:50,
-                                    height:30,
-                                    backgroundColor:'red',
-                                }}>
-                                    {
-
-                                    }
-                                </View>
-                                <View></View>
+                                <ImageBackground source={this.state.data.picture}  style={{width:'100%', height:'100%',alignItems:'center'}}>
+                                    <View style={{
+                                        width:'100%',
+                                        height:150,
+                                        backgroundColor:'#66dd00'
+                                    }}>
+                                        <Text style={{marginLeft:10,fontSize:15,marginTop:10,color:'#fff'}}>每日一句</Text>
+                                        <Icon name='setting' style={styles.icon} color="#fff" size={25} onPress={this.play1} />
+                                        <Text style={{fontSize:20,marginTop:15,color:'#fff',marginLeft:15}}>{this.state.data.content}</Text>
+                                        <Text style={{fontSize:20,marginTop:15,color:'#fff',marginLeft:15}}>{this.state.data.note}</Text>
+                                    </View>
+                                    <View></View>
+                                </ImageBackground>
                             </View>
                             <View style={styles.course}>
                                 <View style={styles.course1}>
@@ -364,7 +391,7 @@ const styles = StyleSheet.create({
   card:{
     marginTop:3,
     width:width,
-    height:150*s,
+    height:150,
     backgroundColor:'white',
     alignItems:'center',
     justifyContent:'space-around'
@@ -447,4 +474,9 @@ search:{
     flexDirection: 'row',
     alignItems: 'center'
 },
+icon:{
+    position:'absolute',
+    right:15,
+    top:10
+}
 });
