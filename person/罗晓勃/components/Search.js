@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet,Image,TouchableOpacity, TextInput,ScrollView } from 'react-native'
 import { NoticeBar,Icon ,Tabs, WhiteSpace, Button} from '@ant-design/react-native';
 import { Actions} from 'react-native-router-flux'
-// import Sound from 'react-native-sound';
+import Sound from 'react-native-sound';
 export default class Search extends Component {
     constructor(){
         super();

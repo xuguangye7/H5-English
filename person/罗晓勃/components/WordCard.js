@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet ,TouchableOpacity,Dimensions,TextInput, Alert, ScrollView} from 'react-native'
 import { Actions, Scene } from 'react-native-router-flux';
-// import { Icon } from '@ant-design/react-native';
 import { Button, Icon } from '@ant-design/react-native';
-// import Sound from 'react-native-sound';
+import Sound from 'react-native-sound';
 const {width,scale,height} = Dimensions.get('window');
 const s = width / 640;
 
@@ -27,7 +26,8 @@ export default class WordCard extends Component {
         .then(res=>{
             this.setState({
                 data:res.content
-            })
+            }),
+            console.log(this.state.data)
         })
     }
     componentWillUpdate(){
@@ -40,7 +40,6 @@ export default class WordCard extends Component {
         })
     }
     next=()=>{
-        // console.log('认识')
         var course1=this.state.course+1
         this.setState({
             course:course1
@@ -81,7 +80,7 @@ export default class WordCard extends Component {
     }
     render() {
         return (
-            <View style={{backgroundColor:'#fff',width:'100%',height:800}}>
+            <View style={{backgroundColor:'#e9e4d9',width:'100%',height:800}}>
                 <View style={{height:55,width:'100%',backgroundColor:'#8a8a8a',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                     <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
                     <Text style={{color:'#fff',fontSize:23}}>单词</Text>
@@ -131,7 +130,6 @@ const styles=StyleSheet.create({
     search:{
         width: 525*s,
         height: 50*s,
-        // backgroundColor: '#fbb8b8',
         borderRadius:25*s,
         borderWidth:1,
         borderColor:'gray',
@@ -139,8 +137,6 @@ const styles=StyleSheet.create({
         alignItems: 'center'
     },
     back:{
-        // width:20*s,
-        // height:70*s,
         flexDirection:'row',
         justifyContent:'center',
         alignItems:'center'
@@ -149,7 +145,7 @@ const styles=StyleSheet.create({
         width:'100%',
         height:150,
         overflow:'hidden',
-        backgroundColor:'#fff',
+        backgroundColor:'#f8f6f1',
         marginTop:50
     },
     main:{
@@ -157,6 +153,7 @@ const styles=StyleSheet.create({
         height:150,
         justifyContent:'center',
         alignItems:'center',
+        // backgroundColor:'red'
     },
     word:{
         fontSize:40
@@ -164,15 +161,15 @@ const styles=StyleSheet.create({
     footer:{
         width:'100%',
         height:120,
-        marginTop:400,
-        backgroundColor:'#fff',
+        marginTop:400*s,
+        backgroundColor:'#e9e4d9',
         alignItems:'center',
     },
     button:{
         width:'80%',
         height:50,
         borderRadius:20,
-        backgroundColor:'#8a8a8a'
+        backgroundColor:'#7eaedc'
     },
     button1:{
         width:'80%',

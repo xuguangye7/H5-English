@@ -78,7 +78,7 @@ export default class Learn1 extends Component {
                             <View style={{
                                     width:500*s,
                                     height:70*s,
-                                    backgroundColor:'#66dd00',
+                                    backgroundColor:'#7eaedc',
                                     borderRadius:10,
                                     flexDirection:'row',
                                     justifyContent:'space-around',
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     course:{
         width:width,
         height:228,
-        backgroundColor:'white',
+        backgroundColor:'#e9e4d9',
         // marginTop:0,
         flex:1
     },
@@ -276,18 +276,18 @@ const styles = StyleSheet.create({
         justifyContent:"space-around",
         width:width,
         height:80*s,
-        backgroundColor:'white',
+        backgroundColor:'#e9e4d9',
     },
     oral:{
       width:width,
         height:240,
-        backgroundColor:'white',
+        backgroundColor:'#e9e4d9',
         marginTop:10
     },
     dub:{
       width:width,
       height:450,
-      backgroundColor:'white',
+      backgroundColor:'#e9e4d9',
       marginTop:10
     },
     dub1:{

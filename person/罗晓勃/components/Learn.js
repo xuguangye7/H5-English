@@ -7,6 +7,12 @@ import Word from './Word'
 const {width,scale,height} = Dimensions.get('window');
 const s = width / 640;
 export default class Learn2 extends Component {
+    constructor(){
+        super();
+        this.state={
+            searchData:''
+        }
+    }
     searchhandle = (text)=>{
         this.setState({searchData:text})
     }
@@ -57,7 +63,7 @@ export default class Learn2 extends Component {
             alignItems: 'center',
             justifyContent: 'center',
             height: 150,
-            backgroundColor: '#fff',
+            backgroundColor: '#e9e4d9',
           };
         return (
             <View style={{flex:1}}>
@@ -80,9 +86,11 @@ export default class Learn2 extends Component {
                         <Icon name='search' color='gray'/>
                     </TouchableOpacity>       
                 </View>
-                <Tabs tabs={tabs}
-                    tabBarActiveTextColor='pink'
+                <Tabs tabs={tabs} 
+                    tabBarActiveTextColor='#7eaedc'
                     usePaged='true'
+                    tabBarBackgroundColor='#e9e4d9'
+                    // tabBarTextStyle='bolder'
                 >
                     <Learn1/>
                     <Word/>
@@ -98,7 +106,7 @@ const styles=StyleSheet.create({
         flexDirection:'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor:"#fff",
+        backgroundColor:"#e9e4d9",
         marginBottom:3
     },
     search:{
