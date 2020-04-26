@@ -1,50 +1,53 @@
 import React,{Component} from 'react';
 import { Icon ,Tabs} from '@ant-design/react-native';
-// import Icon from 'react-native-vector-icons/FontAwesome';
+import { Actions } from 'react-native-router-flux';
+import Button from 'react-native-button';
 import {
   TextInput,
   View,ScrollView,
   Image,
-  localStorage,
+  TouchableOpacity,
+  AsyncStorage,
+//   localStorage,
   Text
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { WhiteSpace } from '@ant-design/react-native';
-import Item from '@ant-design/react-native/lib/list/ListItem';
+
 
 export default class Goods extends Component{
-    // constructor(){
-    //     super();
+    constructor(){
+        super();
 
-    //     this.state={
-    //         data:[],
-    //         time:'',
-    //         img:'',
-    //         // dian:'../img/点赞.png'
-    //     }
-    // }
-    // componentDidMount(){
-    //     fetch('http://129.211.62.80:8080/essay')
-    //         .then(res=>res.json())
-    //         .then(res=>{
-    //             this.setState({
-    //                 data:res.content
-    //             })
-    //         })
-    //     let localStorageData=JSON.parse(localStorage.getItem('data'))[0];
-    //     this.setState({
-    //         img:localStorageData.sclass.slice(4)
-    //     })
-    // }
-    // componentDidUpdate(){
-    //     fetch('http://129.211.62.80:8080/essay')
-    //         .then(res=>res.json())
-    //         .then(res=>{
-    //             this.setState({
-    //                 data:res.content
-    //             })
-    //         })
-    // }
+        this.state={
+            data:[],
+            time:'',
+            img:'',
+            // dian:'../img/点赞.png'
+        }
+    }
+    componentDidMount(){
+        fetch('http://129.211.62.80:8080/essay')
+            .then(res=>res.json())
+            .then(res=>{
+                this.setState({
+                    data:res.content
+                })
+            })
+        // let localStorageData=JSON.parse(AsyncStorage.getItem('data'))[0];
+        // this.setState({
+        //     img:localStorageData.sclass.slice(4)
+        // })
+    }
+    componentDidUpdate(){
+        fetch('http://129.211.62.80:8080/essay')
+            .then(res=>res.json())
+            .then(res=>{
+                this.setState({
+                    data:res.content
+                })
+            })
+    }
     // delete=(idx)=>{
     //     console.log(idx)
     //     fetch('http://129.211.62.80:8080/essay/delete?scontent='+idx.scontent)
@@ -58,8 +61,8 @@ export default class Goods extends Component{
     //         .then(res=>res.json())
     //         .then((res)=>{
     //             console.log('ok')
-    //             // var img1=document.getElementById('img1');
-    //             // img1.src="../img/点赞1.png"
+    //             var img1=document.getElementById('img1');
+    //             img1.src="../img/点赞1.png"
     //         })
     // }
     render(){
@@ -67,11 +70,12 @@ export default class Goods extends Component{
           <View style={{height:"100%",backgroundColor:"#fff"}}>
             <View style={{
                 width:'100%',
-                backgroundColor:'#fff',
+                // backgroundColor:'red',
+                flexDirection:'row',
                 height:50,
                 }}>
                 <View style={{
-                    width:'95%',
+                    width:"85%",
                     height:40,
                     backgroundColor:'#eeeeee',
                     marginLeft:14,
@@ -92,7 +96,9 @@ export default class Goods extends Component{
                     </TextInput>
                     
                 </View>
-                
+                <TouchableOpacity  style={{backgroundColor:'#aaaaaa',marginTop:12,marginLeft:7,width:36,height:36,borderRadius:18}} onPress={()=>{Actions.add()}}>
+                    <Image source={require('../../pic/jiahao.png')}  style={{padding:18,height:16,width:16}}/>
+                </TouchableOpacity>
             </View>
             <View style={{
                 marginTop:10,
@@ -136,8 +142,8 @@ export default class Goods extends Component{
                 </Swiper>
             </View>
             {/* 中部四个按钮 */}
-            <View style={{height:105,flexDirection:'row'}}>
-                {/* 按钮一 */}
+            {/* <View style={{height:105,flexDirection:'row'}}>
+
                 <View style={{
                     width:'6%',
                     height:80,
@@ -156,7 +162,7 @@ export default class Goods extends Component{
                     </View>
                     <Text style={{fontSize:18,marginTop:10}}>&nbsp;圈子</Text>
                 </View>
-                {/* 按钮二 */}
+
                 <View style={{
                     width:'6%',
                     height:80,
@@ -175,7 +181,7 @@ export default class Goods extends Component{
                     </View>
                     <Text style={{fontSize:18,marginTop:10}}>&nbsp;说客</Text>
                 </View>
-                {/* 按钮三 */}
+
                 <View style={{
                     width:'6%',
                     height:80,
@@ -194,7 +200,7 @@ export default class Goods extends Component{
                     </View>
                     <Text style={{fontSize:18,marginTop:10}}>&nbsp;视频</Text>
                 </View>
-                {/* 按钮四 */}
+
                 <View style={{
                     width:'6%',
                     height:80,
@@ -214,97 +220,109 @@ export default class Goods extends Component{
                     <Text style={{fontSize:18,marginTop:10}}>&nbsp;关注</Text>
                 </View>                    
             </View>
-            <WhiteSpace style={{height:2,backgroundColor:"#eee"}}/>
+            <WhiteSpace style={{height:2,backgroundColor:"#eee"}}/> */}
             <ScrollView> 
             
-
+            <View style={{backgroundColor:"#eee"}}>
             {/* 发布内容 */}
-            <View style={{
-                // width:'74%',
-                // backgroundColor:"red",
-                // marginLeft:'10%',
-                // marginTop:50,
-                height:250,
-                flexDirection:'row'
-                }}>
-                {/* 头像框 */}
+            {
+                this.state.data.reverse().map((item,index)=>
+            
                 <View style={{
-                    width:"15%",
-                    height:"100%",
-                    marginTop:15,
-                    marginLeft:15
-                }}>
-                    <View style={{
-                        padding: 5,
-                        height: 55,
-                        width: 55, 
-                        borderRadius:400, 
-                        backgroundColor:'green',
+                    // width:'74%',
+                    backgroundColor:"#fff",
+                    // marginLeft:'10%',
+                    marginTop:5,
+                    height:300,
+                    flexDirection:'row'
                     }}>
-                        <Text style={{fontSize:30}}>tou</Text>
-                    </View>
-                </View>
-                {/* 发布内容 */}
-                <View style={{
-                    width:'80%',
-                    height:'100%',
-                    // marginLeft:25,
-                }}>
+                    {/* 头像框 */}
                     <View style={{
-                        width:'100%',
-                        height:30,
-                        
-                        flexDirection:'row',
-                        marginTop:20
-                        }}>
-                        {/* 用户名（上方左侧） */}
+                        width:"15%",
+                        height:240,
+                        // backgroundColor:"red",
+                        marginTop:15,
+                        marginLeft:15
+                    }}>
                         <View style={{
-                            width:110,
-                            height:30
+                            padding: 5,
+                            height: 55,
+                            width: 55, 
+                            borderRadius:40, 
+                            backgroundColor:'green',
                         }}>
-                            <Text style={{fontSize:18,color:'#555555'}}>流利君</Text>
-                        </View>
-                        {/* 话题名称（上方右侧） */}
-                        <View style={{
-                            // width:220,
-                            height:30,
-                            marginLeft:5
-                        }}>
-                            <Text style={{fontSize:18,color:'grey',marginLeft:75}}>
-                            话题 | 新年倒计时5天
-                            </Text>
+                            <Image source={`http://129.211.62.80:8080/images/img?name=${item.touxiang.slice(4)}`}></Image>
                         </View>
                     </View>
-                    
-                    {/* 进入图片（下方大图以及文字） */}
+                    {/* 发布内容 */}
                     <View style={{
-                        width:'100%',
-                        height:70,
-                        marginTop:12
-                        }}>
-                        <Image source={require('../../pic/a.jpg')} style={{
-                            height: 150,
+                        width:'80%',
+                        height:240,
+                        // marginLeft:25,
+                    }}>
+                        <View style={{
                             width:'100%',
-                            borderRadius:10
-                            }}/>
-                        <Text style={{
-                            fontSize:18,
-                            color:'white',
-                            marginTop:5,
-                            marginLeft:55,
-                            paddingTop:90,
-                            position:'absolute'
-                        }}>
-                            &#8745;话题讨论#2019年你最大的改变#
-                        </Text>
-                        <Text style={{color:'grey',fontSize:15,marginTop:10,marginLeft:230}}
-                        >8888浏览&nbsp;&nbsp;888回复</Text>
-                    </View>          
+                            height:30,
+                            
+                            flexDirection:'row',
+                            marginTop:20
+                            }}>
+                            {/* 用户名（上方左侧） */}
+                            <View style={{
+                                width:110,
+                                height:30
+                            }}>
+                                <Text style={{fontSize:18,color:'#555555'}}>{item.smane}</Text>
+                            </View>
+                            {/* 话题名称（上方右侧） */}
+                            <View style={{
+                                // width:220,
+                                height:30,
+                                marginLeft:5
+                            }}>
+                                <Text style={{fontSize:18,color:'grey',marginLeft:75}}>
+                                {/* 话题 | 新年倒计时5天 */}
+                                </Text>
+                            </View>
+                        </View>
+                        
+                        {/* 进入图片（下方大图以及文字） */}
+                        <View style={{
+                            width:'100%',
+                            height:70,
+                            marginTop:12
+                            }}>
+                            <View style={{
+                                // width:110,
+                                // height:30
+                            }}>
+                                <Text style={{fontSize:18,color:'#555555'}}>{item.scontent}</Text>
+                            </View>
+                            <Image source={require('../../pic/a.jpg')} style={{
+                                height: 150,
+                                width:'100%',
+                                marginTop:15,
+                                borderRadius:10
+                                }}/>
+                            <Text style={{
+                                fontSize:18,
+                                color:'white',
+                                marginTop:5,
+                                marginLeft:55,
+                                paddingTop:90,
+                                position:'absolute'
+                            }}>
+                                &#8745;话题讨论#2019年你最大的改变#
+                            </Text>
+                            <Text style={{color:'grey',fontSize:15,marginTop:10,marginLeft:230}}
+                            >8888浏览&nbsp;&nbsp;888回复</Text>
+                        </View>          
+                    </View>
+                    <WhiteSpace style={{height:2,backgroundColor:"#eee"}}/>
                 </View>
-            
+                )
+            }
             </View>
-            <WhiteSpace style={{height:2,backgroundColor:"#eee"}}/>
-            
             </ScrollView>
         </View>
         )

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text,Dimensions,Alert, Image,ActivityIndicator, TextInput, AsyncStorage, TouchableOpacity, ImageBackground} from 'react-native';
-import { Icon } from '@ant-design/react-native';
+import { Icon, Button } from '@ant-design/react-native';
 import { Actions } from 'react-native-router-flux';
 import {myFetch} from '../utils'
 const {width,scale}=Dimensions.get('window');
@@ -9,46 +9,62 @@ console.log('s',scale)
 const s=width/640
 console.log(s)
 export default class Login extends Component {
-    constructor(){
-        super();
-        this.state = {
+    constructor(props){
+
+        super(props);
+        this.state={
+            data:[],
+            url:'',
             username:'',
-            pwd:'',
-            isloading:false
+            pws:''
         }
     }
-    userhandle = (text)=>{
-        this.setState({username:text})
+    componentWillUnmount = () => {
+        this.setState = (state,callback)=>{
+        return;
+        };
     }
-    pwdhandle = (text)=>{
-        this.setState({pwd:text})
+    handleChange=(e)=>{
+        this.setState({
+            username: e.target.value
+        })
     }
-    login = ()=>{
-        if(this.state.username!=''&&this.state.pwd!=''){
-            this.setState({isloading:true})
-            myFetch.post('/login',{
-                username:this.state.username,
-                pwd:this.state.pwd}
-            ).then(res=>{
-                if(res.data.state!='1'){
-                    this.setState({isloading:false})
-                    Alert.alert('用户名或密码错误');
-                }else{
-                    AsyncStorage.setItem('user',JSON.stringify(res.data))
-                        .then(()=>{
-                            this.setState({isloading:false})
-                            Actions.homePage();
-                        })
-                }
-            })
-        }else{
-            Alert.alert('不能为空');
+    handleChange1=(e)=>{
+        this.setState({
+            pws: e.target.value
+        })
+    }
+    check(e){
+        // this.state.data.map((item)=>{
+        //     if(this.state.username==item.sname&&this.state.pws==item.spwd){
+        //         this.props.history.push('/home')
+        //     }
+        // })
+        e.preventDefault();
+        // 把表单用的最终数据从state中提取出来,传入请求
+        const post ={
+            user:this.state.username,
+            password:this.state.pws
         }
+        fetch('http://129.211.62.80:8080/api',{
+            // post提交
+            method:"POST",
+            body:JSON.stringify(post)//把提交的内容转字符串
+        })
+        .then(res =>res.json())
+        .then(data =>{
+            console.log(data)
+            if(data.message){
+                AsyncStorage.setItem('data',data.content);
+                Actions.homePage
+                // this.props.history.push(()=>{Actions.learn()})
+                // this.props.onPress={Actions.learn()}
+            }else{
+                // onPress={()=>{Actions.learn()}} 
+                alert('登录失败')
+            }
+        })
     }
-    register=()=>{
-      AsyncStorage.setItem('user',true);
-      Actions.register()
-    } 
     render() {
         return (
             <View>
@@ -56,55 +72,57 @@ export default class Login extends Component {
                 <View
                   style={{flex: 1,justifyContent: 'center',alignItems: 'center'}}>
                     <Image style={{width:110,height:110,marginTop:-150}} source={require("../../pic/logo.png")}></Image>
-                    <View
-                      style={{
-                        width: '80%',
-                        marginRight: 10,
-                        marginTop:60,
-                        borderBottomColor: '#ccc',
-                        borderBottomWidth: 1,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        paddingLeft: 20,
-                      }}>
-                      <Icon name="user" color="red"/>
-                      <TextInput placeholder="用户名" 
-                          onChangeText={this.userhandle}
-                      />
-                    </View>
-                    <View
-                        style={{
-                            width: '80%',
-                            marginRight: 10,
-                            marginTop:10,
-                            borderBottomColor: '#ccc',
-                            borderBottomWidth: 1,
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            paddingLeft: 20,
-                        }}
-                      >
-                        <Icon name="lock" color="red"/>
-                        <TextInput 
-                            onChangeText={this.pwdhandle}
-                            placeholder="密码" 
-                            secureTextEntry={true}
-                        />
-                    </View>
-                    <TouchableOpacity 
-                        style={{
-                            width: '70%',
-                            height: 40,
-                            backgroundColor: '#ccc',
-                            marginTop: 60,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderRadius:10
-                        }}
-                        onPress={this.login}
-                    >
-                        <Text>登录</Text>
-                    </TouchableOpacity>
+                    {/* <View onSubmit={this.check.bind(this)}> */}
+                        <View
+                            style={{
+                                width: '80%',
+                                marginRight: 10,
+                                marginTop:60,
+                                borderBottomColor: '#ccc',
+                                borderBottomWidth: 1,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                paddingLeft: 20,
+                            }}>
+                            <Icon name="user" color="red"/>
+                            <TextInput placeholder="用户名" 
+                                onChange={this.handleChange}  id="username" name="username"
+                            />
+                        </View>
+                        <View
+                            style={{
+                                width: '80%',
+                                marginRight: 10,
+                                marginTop:10,
+                                borderBottomColor: '#ccc',
+                                borderBottomWidth: 1,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                paddingLeft: 20,
+                            }}
+                        >
+                            <Icon name="lock" color="red"/>
+                            <TextInput
+                                onChange={this.handleChange1}  id="pwd"  name="pwd"
+                                placeholder="密码"
+                            />
+                        </View>
+                    
+                        <TouchableOpacity
+                            style={{
+                                width: '70%',
+                                height: 40,
+                                backgroundColor: '#ccc',
+                                marginTop: 60,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius:10
+                            }}
+                            // onPress={Actions.homePage}
+                        >
+                            <Text>登录</Text>
+                        </TouchableOpacity>
+                    {/* </View> */}
                     <TouchableOpacity 
                         style={{
                             width: '70%',
@@ -115,18 +133,18 @@ export default class Login extends Component {
                             justifyContent: 'center',
                             borderRadius:10
                         }}
-                        onPress={this.register}
+                        onPress={Actions.register}
                     >
                         <Text>没有账号？去注册</Text>
                     </TouchableOpacity>
                 </View>
-                {
+                {/* {
                     this.state.isloading
                     ?<View style={{width:'100%',marginTop:50,alignItems:'center'}}>
                         <ActivityIndicator color="#8a8a8a" size={50}/>
                     </View>
                     :null
-                }
+                } */}
                 
                 </ImageBackground>
             </View>
