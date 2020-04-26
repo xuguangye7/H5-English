@@ -125,4 +125,11 @@ app.get('/search', function (req, res) {
     
 })
 
+app.get('/review', function (req, res) {
+    var uid2=uid1+3;
+    let sql = `SELECT * FROM word WHERE id BETWEEN '${uid1}' AND '${uid2}'`;
+    showdata(res,sql);
+    
+})
+
 module.exports=app;
