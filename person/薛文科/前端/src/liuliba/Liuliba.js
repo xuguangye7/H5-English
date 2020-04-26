@@ -252,13 +252,14 @@ export default class Liuliba extends Component{
                         <View>
                             <View style={styles.main}>
                                 <View style={styles.touxiang}>
-                                    <Image source={`http://129.211.62.80:8080/images/img?name=${item.touxiang.slice(4)}`} />
+                                    <Image source={{uri:`http://129.211.62.80:8080/images/img?name=${item.touxiang.slice(4)}`}} 
+                                           style={{width:55,height:55}} />
                                 </View>
                                 <Text style={styles.nicheng}>{item.smane}</Text>
                             </View>
                             <View style={styles.content}>
                                 <Text style={styles.text}>{item.scontent}</Text>
-                                <Image source={require('../../assets/a.jpg')} style={{
+                                <Image source={{uri:`http://129.211.62.80:8080/images/img?name=${item.touxiang.slice(4)}`}}  style={{
                                     height: 150,
                                     width:'95%',
                                     borderRadius:10,
@@ -284,11 +285,11 @@ const styles=StyleSheet.create({
         marginTop:5
     },
     touxiang:{
-        padding: 5,
         height: 55,
         width: 55, 
         borderRadius:400, 
         backgroundColor:'green',
+        overflow:'hidden'
     },
     main:{
         marginTop:15,
