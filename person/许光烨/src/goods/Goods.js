@@ -6,25 +6,57 @@ import {
   TextInput,
   View,ScrollView,
   Image,
+  ToastAndroid,
   TouchableOpacity,
   AsyncStorage,
+  StyleSheet,
 //   localStorage,
   Text
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { WhiteSpace } from '@ant-design/react-native';
-
+import Item from '@ant-design/react-native/lib/list/ListItem';
 
 export default class Goods extends Component{
     constructor(){
         super();
-
         this.state={
             data:[],
-            time:'',
-            img:'',
-            // dian:'../img/点赞.png'
+            searchData:''
         }
+    }
+    searchhandle = (text)=>{
+        this.setState({searchData:text})
+    }
+    search=()=>{
+        let formData=new FormData();
+        formData.append('id','3');
+        const post ={
+            id:this.state.searchData
+        }
+        fetch('http://129.211.62.80:8080/essay',{
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(post),
+        }).then(res=>{
+            if(res.ok){
+                return res.json()
+            }
+        }).then(res=>{
+            console.log(res);
+            console.log(res.id)
+            console.log(res.message)
+            if(res.message){
+                Actions.list()
+            }else{
+                ToastAndroid.show('没有您要搜索的内容');
+            }
+        }).catch((err)=>{
+            console.error(err);
+        })
     }
     componentDidMount(){
         fetch('http://129.211.62.80:8080/essay')
@@ -34,10 +66,6 @@ export default class Goods extends Component{
                     data:res.content
                 })
             })
-        // let localStorageData=JSON.parse(AsyncStorage.getItem('data'))[0];
-        // this.setState({
-        //     img:localStorageData.sclass.slice(4)
-        // })
     }
     componentDidUpdate(){
         fetch('http://129.211.62.80:8080/essay')
@@ -75,26 +103,29 @@ export default class Goods extends Component{
                 height:50,
                 }}>
                 <View style={{
-                    width:"85%",
+                    width:"78%",
                     height:40,
                     backgroundColor:'#eeeeee',
                     marginLeft:14,
                     marginTop:10,
-                    borderRadius:10 
+                    borderTopLeftRadius:10,
+                    borderBottomLeftRadius:10
                 }}>
                     <TextInput 
-                        // placeholder={'大家正在搜：今日话题'} 
                         style={{
                             height:40,
                             paddingLeft:10 ,
-                            fontSize:18,  
+                            fontSize:18,
+                            color:'#8a8a8a'  
                                     
-                    }}
-                    >
-                        <Image source={require('../../pic/fang.png')}  style={{height:16,width:16}}/>
-                        <Text style={{marginLeft:70,color:'#aaaaaa'}}>&nbsp;大家正在搜：今日话题</Text>
-                    </TextInput>
-                    
+                        }}
+                        placeholder="大家正在搜：今日话题"
+                        placeholderTextColor='#8a8a8a'
+                        onChangeText={this.searchhandle}
+                    />
+                </View>
+                <View style={{width:"8%",backgroundColor:"#eeeeee",marginTop:10,borderBottomRightRadius:10,borderTopRightRadius:10}}>
+                    <Icon name='search' size={28} color='gray' onPress={this.search} />
                 </View>
                 <TouchableOpacity  style={{backgroundColor:'#aaaaaa',marginTop:12,marginLeft:7,width:36,height:36,borderRadius:18}} onPress={()=>{Actions.add()}}>
                     <Image source={require('../../pic/jiahao.png')}  style={{padding:18,height:16,width:16}}/>
@@ -141,88 +172,7 @@ export default class Goods extends Component{
                     <Image source={require('../../pic/c.jpg')} style={{height: 450}}/>
                 </Swiper>
             </View>
-            {/* 中部四个按钮 */}
-            {/* <View style={{height:105,flexDirection:'row'}}>
-
-                <View style={{
-                    width:'6%',
-                    height:80,
-                    marginTop:15,
-                    flex: 1,
-                    marginLeft:50,
-                }}>
-                    <View style={{
-                        padding: 10,
-                        height: 50,
-                        width: 50, 
-                        borderRadius:400, 
-                        backgroundColor:'#66dd00',
-                    }}>
-                        <Icon name='' size={30} color='#fff'/>
-                    </View>
-                    <Text style={{fontSize:18,marginTop:10}}>&nbsp;圈子</Text>
-                </View>
-
-                <View style={{
-                    width:'6%',
-                    height:80,
-                    marginTop:15,
-                    flex: 1,
-                    marginLeft:0,
-                }}>
-                    <View style={{
-                        padding: 10,
-                        height: 50,
-                        width: 50, 
-                        borderRadius:400, 
-                        backgroundColor:'#00ffff',
-                    }}>
-                        <Icon name='heart' size={30} color='#fff'/>
-                    </View>
-                    <Text style={{fontSize:18,marginTop:10}}>&nbsp;说客</Text>
-                </View>
-
-                <View style={{
-                    width:'6%',
-                    height:80,
-                    marginTop:15,
-                    flex: 1,
-                    marginLeft:0,
-                }}>
-                    <View style={{
-                        padding: 10,
-                        height: 50,
-                        width: 50, 
-                        borderRadius:400, 
-                        backgroundColor:'yellow',
-                    }}>
-                    <Icon name='heart' size={30} color='#fff'/>
-                    </View>
-                    <Text style={{fontSize:18,marginTop:10}}>&nbsp;视频</Text>
-                </View>
-
-                <View style={{
-                    width:'6%',
-                    height:80,
-                    marginTop:15,
-                    flex: 1,
-                    marginLeft:0,
-                }}>
-                        <View style={{
-                        padding: 10,
-                        height: 50,
-                        width: 50, 
-                        borderRadius:400, 
-                        backgroundColor:'red',
-                    }}>
-                        <Icon name='heart' size={30} color='#fff'/>
-                    </View>
-                    <Text style={{fontSize:18,marginTop:10}}>&nbsp;关注</Text>
-                </View>                    
-            </View>
-            <WhiteSpace style={{height:2,backgroundColor:"#eee"}}/> */}
             <ScrollView> 
-            
             <View style={{backgroundColor:"#eee"}}>
             {/* 发布内容 */}
             {
@@ -245,13 +195,15 @@ export default class Goods extends Component{
                         marginLeft:15
                     }}>
                         <View style={{
-                            padding: 5,
+                            // padding: 5,
                             height: 55,
                             width: 55, 
+                            overflow:"hidden",
                             borderRadius:40, 
                             backgroundColor:'green',
                         }}>
-                            <Image source={`http://129.211.62.80:8080/images/img?name=${item.touxiang.slice(4)}`}></Image>
+                            <Image source={{uri:`http://129.211.62.80:8080/images/img?name=${item.touxiang.slice(4)}`}} 
+                                           style={{width:55,height:55}} />
                         </View>
                     </View>
                     {/* 发布内容 */}
@@ -298,24 +250,14 @@ export default class Goods extends Component{
                             }}>
                                 <Text style={{fontSize:18,color:'#555555'}}>{item.scontent}</Text>
                             </View>
-                            <Image source={require('../../pic/a.jpg')} style={{
-                                height: 150,
-                                width:'100%',
-                                marginTop:15,
-                                borderRadius:10
-                                }}/>
-                            <Text style={{
-                                fontSize:18,
-                                color:'white',
-                                marginTop:5,
-                                marginLeft:55,
-                                paddingTop:90,
-                                position:'absolute'
-                            }}>
-                                &#8745;话题讨论#2019年你最大的改变#
-                            </Text>
-                            <Text style={{color:'grey',fontSize:15,marginTop:10,marginLeft:230}}
-                            >8888浏览&nbsp;&nbsp;888回复</Text>
+                            <Image source={{uri:`http://129.211.62.80:8080/images/img?name=${item.touxiang.slice(4)}`}}  style={{
+                                    height: 150,
+                                    width:'95%',
+                                    borderRadius:10,
+                                    marginTop:12
+                                    }}
+                                />
+                            <Text style={styles.time}>{item.stime}</Text>
                         </View>          
                     </View>
                     <WhiteSpace style={{height:2,backgroundColor:"#eee"}}/>
@@ -328,3 +270,40 @@ export default class Goods extends Component{
         )
     }
 }
+
+const styles=StyleSheet.create({
+    text:{
+        fontSize:20,
+        marginBottom:10,
+        marginTop:5
+    },
+    touxiang:{
+        height: 55,
+        width: 55, 
+        borderRadius:400, 
+        backgroundColor:'green',
+        overflow:'hidden'
+    },
+    main:{
+        marginTop:15,
+        marginLeft:15,
+        flexDirection:'row',
+    },
+    nicheng:{
+        fontSize:18,
+        color:'#555555',
+        marginTop:15,
+        marginLeft:15
+    },
+    content:{
+        width:'80%',
+        marginLeft:80
+    },
+    time:{
+        fontSize:15,
+        // position:'absolute',
+        right:'5%',
+        marginLeft:300,
+        marginTop:18
+    }
+})
