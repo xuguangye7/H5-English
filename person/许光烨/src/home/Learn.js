@@ -1,17 +1,41 @@
 import React, { Component } from 'react'
-import { Text, View,Dimensions,StyleSheet, ScrollView,Image,TouchableOpacity,TextInput} from 'react-native'
+import { Text, View,Dimensions,StyleSheet, ScrollView,Image,TouchableOpacity,TextInput,ToastAndroid, ImageBackground} from 'react-native'
 import {Router,Overlay,Scene,Drawer,Lightbox,Modal, Actions} from 'react-native-router-flux'
-import { Icon ,WhiteSpace,Tabs} from '@ant-design/react-native';
-// import {Grid,Icon, WhiteSpace, List, Button} from '@ant-design/react-native' 
+import { Icon ,Tabs, WhiteSpace} from '@ant-design/react-native';
 import Word from './Word';
+import Sound from 'react-native-sound';
 const {width,scale} = Dimensions.get('window');
 const s = width / 640;
 export default class Learn extends Component {
     constructor(){
         super();
         this.state={
-            searchData:''
+            searchData:'',
+            data:[]
         }
+    }
+    // 每日一句
+    componentDidMount(){
+        fetch('http://open.iciba.com/dsapi/')
+        .then(res=>res.json())
+        .then(res=>{
+            console.log(res.content)
+            this.setState({
+                data:res
+            })
+            console.log('data',this.state.data.content)
+        })
+    }
+    play1=()=>{
+        console.log('tts',this.state.data.tts)
+        let musciPath=this.state.data.tts;
+        var music=new Sound(musciPath,null,(err)=>{
+            if(err){
+                Alert.alert('播放失败');
+            }else{
+                music.play();
+            }
+        })
     }
     searchhandle = (text)=>{
         this.setState({searchData:text})
@@ -44,7 +68,12 @@ export default class Learn extends Component {
         }).then(res=>{
             console.log(res);
             console.log(res.id)
-            Actions.search()
+            console.log(res.message)
+            if(res.message){
+                Actions.search()
+            }else{
+                ToastAndroid.show('没有搜索到你要的词汇');
+            }
         }).catch((err)=>{
             console.error(err);
         })
@@ -78,13 +107,14 @@ export default class Learn extends Component {
                             style={{
                                 width: 490*s,height: 50*s,
                                 padding: 0,
-                                paddingLeft: 10
+                                paddingLeft: 10,
+                                fontSize:15
                             }}
                             onChangeText={this.searchhandle}
                         />
                     </View>    
                     <TouchableOpacity>
-                            <Icon name='search' color='gray' onPress={this.search} />
+                            <Icon name='search' size={28} color='gray' onPress={this.search} />
                     </TouchableOpacity>       
                 </View>
                 <Tabs tabs={tabs} style={{
@@ -92,27 +122,30 @@ export default class Learn extends Component {
                     <View style={style}>
                         <ScrollView>
                             <View style={styles.card}>
-                                <View style={{
-                                    width:50,
-                                    height:30,
-                                    backgroundColor:'red',
-                                }}>
-                                    <Text style={{fontSize:20}}>1</Text>
-                                    <Text style={{fontSize:20}}>天</Text>
-                                </View>
-                                <View></View>
+                                <ImageBackground source={require('../../pic/1.png')}  style={{width:'100%', height:'100%',alignItems:'center'}}>
+                                    <View style={{
+                                        width:'100%',
+                                        height:160,
+                                        // backgroundColor:'#66dd00'
+                                    }}>
+                                        <Text style={{marginLeft:10,fontSize:17,marginTop:10,color:'#fff'}}>每日一句</Text>
+                                        <Icon name='notification' style={styles.icon} color="#fff" size={25} onPress={this.play1} />
+                                        <Text style={{fontSize:18,marginTop:15,color:'#fff',marginLeft:10}}>{this.state.data.content}</Text>
+                                        <Text style={{fontSize:18,marginTop:15,color:'#fff',marginLeft:10}}>{this.state.data.note}</Text>
+                                    </View>
+                                    {/* <View></View> */}
+                                </ImageBackground>
                             </View>
-                            <WhiteSpace style={{backgroundColor:'#eee',height:15}}/>
+                            <WhiteSpace style={{height:5,backgroundColor:"#eeeeee"}}></WhiteSpace>
                             <View style={styles.course}>
                                 <View style={styles.course1}>
                                     <View style={{padding:5}}>
                                         <Text style={{fontSize:16}}>我的课程</Text>
                                     </View>
                                     <View  style={{padding:5}}>
-                                        <Text>查看全部></Text>
+                                        <Text>查看全部 ></Text>
                                     </View>
-                                </View> 
-                                {/* <WhiteSpace style={{backgroundColor:'#eee',height:1}}/>    */}
+                                </View>    
                                 <ScrollView style={styles.scroll}
                                     horizontal={true} 
                                     showsHorizontalScrollIndicator={false}
@@ -129,7 +162,7 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../pic/course1.jpg')}
+                                                source={require('../../assets/course1.jpg')}
                                                 />
                                             <Text style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
@@ -139,7 +172,7 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../pic/course2.jpg')}
+                                                source={require('../../assets/course2.jpg')}
                                                 />
                                             <Text style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
@@ -149,13 +182,13 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../pic/course3.jpg')}
+                                                source={require('../../assets/course3.jpg')}
                                                 />
                                             <Text style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
                                         <View style={{width:150*s,
                                                     height:200*s,
-                                                    marginBottom:20,
+                                                    marginTop:10,
                                                     flexDirection:'row',
                                                     alignItems:'center',
                                                     justifyContent:'space-around',
@@ -179,84 +212,8 @@ export default class Learn extends Component {
                                     <Text onPress={()=>Actions.word()} style={{textAlign:'center',fontSize:18}}>添加课程</Text>
                                 </View>
                             </View>
-
+                            <WhiteSpace style={{marginTop:5,height:5,backgroundColor:"#eeeeee"}}></WhiteSpace>
                             {/* 口语课 */}
-                            <WhiteSpace style={{backgroundColor:'#eee',height:15}}/>
-                            <View style={styles.oral}>
-                                <View style={styles.course1}>
-                                    <View style={{padding:5}}>
-                                        <Text style={{fontSize:16}}>精选阅读课</Text>
-                                    </View>
-                                    <View  style={{padding:5}}>
-                                        <Text>全部口语课></Text>
-                                    </View>
-                                </View>
-                                {/* <WhiteSpace style={{backgroundColor:'#eee',height:1}}/> */}
-                                <ScrollView style={styles.scroll}
-                                    horizontal={true} 
-                                    showsHorizontalScrollIndicator={false}
-                                >
-                                    <View style={{
-                                        width:width*1.6,
-                                        height:280*s,
-                                        flexDirection:'row',
-                                        justifyContent:'space-around'
-                                    }}>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../pic/course1.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../pic/course2.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../pic/course3.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../pic/course3.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={{width:150*s,
-                                                    height:200*s,
-                                                    marginTop:10,
-                                                    flexDirection:'row',
-                                                    alignItems:'center',
-                                                    justifyContent:'space-around',
-                                                    backgroundColor:'gray'
-                                                    }}>
-                                            <Text>查看全部</Text>
-                                        </View>
-                                    </View>
-                                </ScrollView>                    
-                            </View>
-
-                            <WhiteSpace style={{backgroundColor:'#eee',height:15}}/>
                             <View style={styles.oral}>
                                 <View style={styles.course1}>
                                     <View style={{padding:5}}>
@@ -266,8 +223,6 @@ export default class Learn extends Component {
                                         <Text>全部口语课 ></Text>
                                     </View>
                                 </View>
-
-                                {/* <WhiteSpace style={{backgroundColor:'#eee',height:1}}/> */}
                                 <ScrollView style={styles.scroll}
                                     horizontal={true} 
                                     showsHorizontalScrollIndicator={false}
@@ -284,7 +239,7 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../pic/course1.jpg')}
+                                                source={require('../../assets/course1.jpg')}
                                                 />
                                             <Text style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
@@ -294,7 +249,7 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../pic/course2.jpg')}
+                                                source={require('../../assets/course2.jpg')}
                                                 />
                                             <Text style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
@@ -304,7 +259,7 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../pic/course3.jpg')}
+                                                source={require('../../assets/course3.jpg')}
                                                 />
                                             <Text style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
@@ -314,7 +269,7 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../pic/course3.jpg')}
+                                                source={require('../../assets/course3.jpg')}
                                                 />
                                             <Text style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
@@ -331,18 +286,16 @@ export default class Learn extends Component {
                                     </View>
                                 </ScrollView>                    
                             </View>
-
-                            <WhiteSpace style={{backgroundColor:'#eee',height:15}}/>
+                            <WhiteSpace style={{marginTop:5,height:5,backgroundColor:"#eeeeee"}}></WhiteSpace>
                             <View style={styles.oral}>
                                 <View style={styles.course1}>
                                     <View style={{padding:5}}>
-                                        <Text style={{fontSize:16}}>推荐课程</Text>
+                                        <Text style={{fontSize:16}}>精选口语课</Text>
                                     </View>
                                     <View  style={{padding:5}}>
                                         <Text>全部口语课 ></Text>
                                     </View>
                                 </View>
-                                {/* <WhiteSpace style={{backgroundColor:'#eee',height:1}}/> */}
                                 <ScrollView style={styles.scroll}
                                     horizontal={true} 
                                     showsHorizontalScrollIndicator={false}
@@ -359,7 +312,7 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../pic/course1.jpg')}
+                                                source={require('../../assets/course1.jpg')}
                                                 />
                                             <Text style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
@@ -369,7 +322,7 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../pic/course2.jpg')}
+                                                source={require('../../assets/course2.jpg')}
                                                 />
                                             <Text style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
@@ -379,7 +332,7 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../pic/course3.jpg')}
+                                                source={require('../../assets/course3.jpg')}
                                                 />
                                             <Text style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
@@ -389,7 +342,80 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../pic/course3.jpg')}
+                                                source={require('../../assets/course3.jpg')}
+                                                />
+                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
+                                        </View>
+                                        <View style={{width:150*s,
+                                                    height:200*s,
+                                                    marginTop:10,
+                                                    flexDirection:'row',
+                                                    alignItems:'center',
+                                                    justifyContent:'space-around',
+                                                    backgroundColor:'gray'
+                                                    }}>
+                                            <Text>查看全部</Text>
+                                        </View>
+                                    </View>
+                                </ScrollView>                    
+                            </View>
+                            <WhiteSpace style={{height:5,backgroundColor:"#eeeeee"}}></WhiteSpace>
+                            <View style={styles.oral}>
+                                <View style={styles.course1}>
+                                    <View style={{padding:5}}>
+                                        <Text style={{fontSize:16}}>推荐课程</Text>
+                                    </View>
+                                    <View  style={{padding:5}}>
+                                        <Text>全部口语课></Text>
+                                    </View>
+                                </View>
+                                <ScrollView style={styles.scroll}
+                                    horizontal={true} 
+                                    showsHorizontalScrollIndicator={false}
+                                >
+                                    <View style={{
+                                        width:width*1.6,
+                                        height:280*s,
+                                        flexDirection:'row',
+                                        justifyContent:'space-around'
+                                    }}>
+                                        <View style={styles.c1}>
+                                            <Image 
+                                                style={{
+                                                    width:s*150,
+                                                    height:200*s,
+                                                }}
+                                                source={require('../../assets/course1.jpg')}
+                                                />
+                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
+                                        </View>
+                                        <View style={styles.c1}>
+                                            <Image 
+                                                style={{
+                                                    width:s*150,
+                                                    height:200*s,
+                                                }}
+                                                source={require('../../assets/course2.jpg')}
+                                                />
+                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
+                                        </View>
+                                        <View style={styles.c1}>
+                                            <Image 
+                                                style={{
+                                                    width:s*150,
+                                                    height:200*s,
+                                                }}
+                                                source={require('../../assets/course3.jpg')}
+                                                />
+                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
+                                        </View>
+                                        <View style={styles.c1}>
+                                            <Image 
+                                                style={{
+                                                    width:s*150,
+                                                    height:200*s,
+                                                }}
+                                                source={require('../../assets/course3.jpg')}
                                                 />
                                             <Text style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
@@ -429,22 +455,20 @@ const styles = StyleSheet.create({
   card:{
     marginTop:3,
     width:width,
-    height:150*s,
-    borderRadius:2,
-    backgroundColor:'#fff',
-    // alignItems:'center',
-    // justifyContent:'space-around'
+    height:150,
+    backgroundColor:'white',
+    alignItems:'center',
+    justifyContent:'space-around'
   },
   course:{
       width:width,
       height:228,
       backgroundColor:'white',
-      marginTop:10,
+      marginTop:5,
       flex:1
   },
   course1:{
       flexDirection:'row',
-    //   backgroundColor:'#eee',
       justifyContent:'space-between'
   },
   course2:{
@@ -468,7 +492,7 @@ const styles = StyleSheet.create({
     width:width,
       height:240,
       backgroundColor:'white',
-      marginTop:10
+      marginTop:5
   },
   dub:{
     width:width,
@@ -514,4 +538,9 @@ search:{
     flexDirection: 'row',
     alignItems: 'center'
 },
+icon:{
+    position:'absolute',
+    right:15,
+    top:10
+}
 });
