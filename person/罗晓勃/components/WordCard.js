@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet ,TouchableOpacity,Dimensions,TextInput, Alert, ScrollView} from 'react-native'
 import { Actions, Scene } from 'react-native-router-flux';
+// import { Icon } from '@ant-design/react-native';
 import { Button, Icon } from '@ant-design/react-native';
 import Sound from 'react-native-sound';
 const {width,scale,height} = Dimensions.get('window');
@@ -17,7 +18,8 @@ export default class WordCard extends Component {
         super();
         this.state={
             course:1,
-            data:[]
+            data:[],
+            name:[]
         }
     }
     componentDidMount(){
@@ -25,9 +27,8 @@ export default class WordCard extends Component {
         .then(res=>res.json())
         .then(res=>{
             this.setState({
-                data:res.content
-            }),
-            console.log(this.state.data)
+                data:res.content,
+            })
         })
     }
     componentWillUpdate(){
@@ -42,11 +43,14 @@ export default class WordCard extends Component {
     next=()=>{
         var course1=this.state.course+1
         this.setState({
-            course:course1
+            course:course1,
+            
         })
-        console.log(this.state.course)
+
+        console.log(20)
         const post ={
-            id:this.state.course
+            id:this.state.course,
+            // name:
         }
         fetch('http://129.211.62.80:8080/word/add',{
             method:'POST',
@@ -71,16 +75,18 @@ export default class WordCard extends Component {
         Actions.detail();
     }
     play=(name)=>{
-        let musciPath='http://dict.youdao.com/dictvoice?audio='+name;
+        console.log(100)
+        let musciPath='http://dict.youdao.com/dictvoice?audio='+'opponent';
         var music=new Sound(musciPath,null,(err)=>{
             if(err){
                 console.log(1)
             }
         })
+        music.play();
     }
     render() {
         return (
-            <View style={{backgroundColor:'#e9e4d9',width:'100%',height:800}}>
+            <View style={{backgroundColor:'#fff',width:'100%',height:800}}>
                 <View style={{height:55,width:'100%',backgroundColor:'#8a8a8a',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                     <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
                     <Text style={{color:'#fff',fontSize:23}}>单词</Text>
@@ -94,7 +100,9 @@ export default class WordCard extends Component {
                                 <View style={styles.main}>
                                     <Text style={styles.word} >{item.name}</Text>
                                     <View style={{flexDirection:'row',width:'100%',marginTop:30,justifyContent:'center',alignItems:'center'}}>
-                                        <Icon name='setting' style={styles.icon} color="#8a8a8a" size={25} />
+                                        <TouchableOpacity onPress={this.play()}>
+                                        <Icon name='sound' style={styles.icon} color="#8a8a8a" size={25}/>
+                                        </TouchableOpacity>
                                         <Text style={{fontSize:20,color:'#8a8a8a',marginLeft:5}}>{item.symbol}</Text>
                                     </View>
                                 </View>
@@ -130,6 +138,7 @@ const styles=StyleSheet.create({
     search:{
         width: 525*s,
         height: 50*s,
+        // backgroundColor: '#fbb8b8',
         borderRadius:25*s,
         borderWidth:1,
         borderColor:'gray',
@@ -137,6 +146,8 @@ const styles=StyleSheet.create({
         alignItems: 'center'
     },
     back:{
+        // width:20*s,
+        // height:70*s,
         flexDirection:'row',
         justifyContent:'center',
         alignItems:'center'
@@ -145,7 +156,7 @@ const styles=StyleSheet.create({
         width:'100%',
         height:150,
         overflow:'hidden',
-        backgroundColor:'#f8f6f1',
+        backgroundColor:'#fff',
         marginTop:50
     },
     main:{
@@ -153,7 +164,6 @@ const styles=StyleSheet.create({
         height:150,
         justifyContent:'center',
         alignItems:'center',
-        // backgroundColor:'red'
     },
     word:{
         fontSize:40
@@ -162,14 +172,14 @@ const styles=StyleSheet.create({
         width:'100%',
         height:120,
         marginTop:400*s,
-        backgroundColor:'#e9e4d9',
+        backgroundColor:'#fff',
         alignItems:'center',
     },
     button:{
         width:'80%',
         height:50,
         borderRadius:20,
-        backgroundColor:'#7eaedc'
+        backgroundColor:'#8a8a8a'
     },
     button1:{
         width:'80%',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet ,Dimensions,TextInput, TouchableOpacity,Animated,Data} from 'react-native'
+import { Text, View, StyleSheet ,Dimensions,TextInput, TouchableOpacity,Animated,Data,ToastAndroid} from 'react-native'
 import { Icon ,Modal} from '@ant-design/react-native';
 import { Actions, Scene } from 'react-native-router-flux';
 import Progress from './Progress';
@@ -40,10 +40,19 @@ export default class Word extends Component {
         // console.log(1)
     }
     sure=()=>{
-        this.setState({
-            resday:this.state.plandatas,
-            display:false
-        })
+        if(parseInt(this.state.plandatas)<=100 && parseInt(this.state.plandatas)>=10 ){
+            this.setState({
+                resday:this.state.plandatas,
+                display:false
+            })
+            
+        }
+        else if(parseInt(this.state.plandatas)>100){
+            alert('时间太长,10-100');
+        }else if(parseInt(this.state.plandatas)<10){
+            alert('时间太短,10-100');
+        } 
+        
     }
     // showdata=()=>{
     //     var d=new Data("2018-02-19");
@@ -72,7 +81,7 @@ export default class Word extends Component {
             }
             this.setState({
                 data:res,
-                len:jsonLength/this.state.num
+                len:jsonLength/resday
             })
         });
     }

@@ -54,6 +54,9 @@ export default class Learn2 extends Component {
             console.error(err);
         })
     }
+    log=()=>{
+        console.log('ok')
+    }
     render() {
         const tabs = [
             { title: '轻松学' },
@@ -66,7 +69,7 @@ export default class Learn2 extends Component {
             backgroundColor: '#e9e4d9',
           };
         return (
-            <View style={{flex:1}}>
+            <View style={{flex:1,zIndex:1}}>
                 <View style={styles.header}>
                     <View style={styles.search}>
                         <TextInput 
@@ -95,6 +98,19 @@ export default class Learn2 extends Component {
                     <Learn1/>
                     <Word/>
                 </Tabs>
+                
+                <View style={styles.listenclick} >
+                <TouchableOpacity onPress={Actions.listen}>
+                    <Image 
+                    style={{
+                        width:100*s,
+                        height:100*s,
+                        borderRadius:50*s
+                    }}
+                    source={require('../pic/timg.jpg')}/>
+                     </TouchableOpacity>
+                </View>
+               
             </View>
         )
     }
@@ -112,11 +128,17 @@ const styles=StyleSheet.create({
     search:{
         width: 525*s,
         height: 60*s,
-        // backgroundColor: '#fbb8b8',
-        // borderRadius:25*s,
-        // borderBottomWidth:1,
-        // borderColor:'gray',
         flexDirection: 'row',
         alignItems: 'center'
     },
+    listenclick:{
+        width:100*s,
+        height:100*s,
+        position:'absolute',
+        right:10,
+        bottom:10,
+        backgroundColor:'red',
+        borderRadius:50*s,
+        // zIndex:99
+    }
 })

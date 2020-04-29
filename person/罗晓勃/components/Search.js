@@ -35,44 +35,6 @@ export default class Search extends Component {
                     <Text style={{color:'#fff',fontSize:23}}>单词详情</Text>
                     <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
                 </View>
-                {/* <View style={styles.header}>
-                    {
-                        this.state.data.map((item)=>(
-                            <Text style={styles.text} >{item.name}</Text>
-                        ))
-                    }
-                </View>
-                <View>
-                    {
-                        this.state.data.map((item)=>(
-                            <Text style={styles.chiness}>{item.chiness}</Text>
-                        ))
-                    }
-                </View>
-                <WhiteSpace/>
-                <NoticeBar 
-                    mode="closable" 
-                    icon={undefined}
-                    marqueeProps={{style: { fontSize: 20, color: 'red',marginLeft:10 } }}
-                >
-                    词根体现单词本质含义
-                </NoticeBar>
-                <WhiteSpace/>
-                <NoticeBar 
-                    mode="closable" 
-                    icon={undefined}
-                    marqueeProps={{style: { fontSize: 20, color: 'red',marginLeft:10 } }}
-                >
-                    派生联想，把单词串成树
-                </NoticeBar>
-
-                <View>
-                    <Text style={styles.chiness}>例句</Text>
-                    <Text style={styles.chiness}></Text>
-                </View>
-                <TouchableOpacity style={styles.start}  onPress={this.start}>
-                    <Text style={{color: '#fff',fontSize:18}}>添加到我的收藏</Text>
-                </TouchableOpacity> */}
                 <ScrollView style={{backgroundColor:'#fff'}}>
                     <View style={styles.header}>
                         {
