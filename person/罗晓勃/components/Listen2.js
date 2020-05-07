@@ -44,32 +44,34 @@ export default class Main extends Component {
             currentTime: 0.0,   //当前时间
             duration: 0.0,     //歌曲时间
             currentIndex:0,    //当前第几首
-            isplayBtn:require('../pic/timg.jpg'),  //播放/暂停按钮背景图
+            isplayBtn:require('../pic/bofang.png'),  //播放/暂停按钮背景图
             url:''
         }
     }
     //上一曲
     prevAction = (index) =>{
         this.recover()
-        lyrObj = [];
+        // lyrObj = [];
         if(index == -1){
             index = this.state.songs.length - 1 // 如果是第一首就回到最后一首歌
         }
         this.setState({
             currentIndex:index  //更新数据
         })
+        console.log(this.state.currentIndex)
         this.loadSongInfo(index)  //加载数据
     }
     //下一曲
     nextAction = (index) =>{
         this.recover()
         lyrObj = [];
-        if(index == 10){
+        if(index == 2){
             index = 0 //如果是最后一首就回到第一首
         }
         this.setState({
             currentIndex:index,  //更新数据
         })
+        console.log(this.state.currentIndex)
         this.loadSongInfo(index)   //加载数据
     }
     //换歌时恢复进度条 和起始时间
@@ -110,11 +112,11 @@ export default class Main extends Component {
         //判断按钮显示什么
         if(this.state.pause == true){
             this.setState({
-                isplayBtn:require('../pic/timg.jpg')
+                isplayBtn:require('../pic/bofang.png')
             })
         }else {
             this.setState({
-                isplayBtn:require('../pic/timg.jpg')
+                isplayBtn:require('../pic/pause.png')
             })
         }
  
@@ -188,9 +190,9 @@ export default class Main extends Component {
     loadSongInfo = (index) => {
         //加载歌曲
         let songid =  this.state.songs[index]
-        let url1 = 'http://129.211.62.80:8080/sound/play?name=' + songid
+        let url = 'http://129.211.62.80:8080/sound/play?name=' + songid
         this.setState({
-            url:url1
+            url:url
         })
  
                 //加载歌词
@@ -199,7 +201,6 @@ export default class Main extends Component {
     }
     componentWillMount() {
         //先从总列表中获取到song_id保存
-        // console.log(100);
         fetch('http://129.211.62.80:8080/sound')
             .then((response) => response.json())
             .then((responseJson) => {
@@ -209,7 +210,7 @@ export default class Main extends Component {
                       let song_name = listAry[i].song_name
                       song_nameAry.push(song_name)
                   }
-                  console.log('idary'+song_nameAry);
+                //   console.log('idary'+song_nameAry);
                 this.setState({
                     songs:song_nameAry
                 })
@@ -235,43 +236,35 @@ export default class Main extends Component {
     }
  
     render() {
-        //如果未加载出来数据 就一直转菊花
-        // if (this.state.file_link.length <= 0 ) {
-        //     return(
-        //         <ActivityIndicator
-        //             animating={this.state.animating}
-        //             style={{flex: 1,alignItems: 'center',justifyContent: 'center'}}
-        //             size="large" />
-        //     )
-        // }else{
             const spin = this.spinValue.interpolate({
                 inputRange: [0, 1],
                 outputRange: ['0deg', '360deg']
             })
- 
- 
-            //数据加载出来
             return (
                 <View style={styles.container}>
                     {/*背景大图*/}
-                    <Image source={{uri:this.state.pic_big}} style={{flex:1}}/>
+                    {/* <Image source={{uri:this.state.pic_big}} style={{flex:1}}/> */}
                     {/*背景白色透明遮罩*/}
                     <View style = {{position:'absolute',width: width,height:height,backgroundColor:'white',opacity:0.8}}/>
  
-                    <View style = {{position:'absolute',width: width}}>
-                        {/*胶片光盘*/}
-                        <Image source={require('../pic/timg.jpg')} style={{width:220,height:220,alignSelf:'center'}}/>
- 
-                        {/*旋转小图*/}
-                        <Animated.Image
-                            ref = 'myAnimate'
-                            style={{width:140,height:140,marginTop: -180,alignSelf:'center',borderRadius: 140*0.5,transform: [{rotate: spin}]}}
-                            source={{uri: this.state.pic_small}}
-                        />
- 
+                    <View style = {{position:'absolute',width: width,height:500}}>
+                        <View style={{
+                            width:width,
+                            height:500,
+                        }}>
+                            {/*胶片光盘*/}
+                            {/* <Image source={require('../pic/timg.jpg')} style={{width:220,height:220,alignSelf:'center'}}/> */}
+    
+                            {/*旋转小图*/}
+                            <Animated.Image
+                                ref = 'myAnimate'
+                                style={{width:240,height:240,marginTop: 150,alignSelf:'center',borderRadius: 240*0.5,transform: [{rotate: spin}]}}
+                                source={require('../pic/timg.jpg')}
+                            />
+                        </View>
                         {/*播放器*/}
                         <Video
-                            source={{uri:'http://129.211.62.80:8080/sound/play?name=U1.mp3'}}
+                            source={{uri:'http://129.211.62.80:8080/sound/play?name=U2.mp3'}}
                             ref='video'
                             volume={1.0}
                             paused={this.state.pause}
@@ -286,11 +279,11 @@ export default class Main extends Component {
                             <Text>{this.formatTime(Math.floor(this.state.currentTime))} - {this.formatTime(Math.floor(this.state.duration))}</Text>
                         </View>
                         {/*播放模式*/}
-                        <View style = {{marginTop: 5,marginBottom:5,marginLeft: 20}}>
+                        {/* <View style = {{marginTop: 5,marginBottom:5,marginLeft: 20}}>
                             <TouchableOpacity onPress={()=>this.playModel(this.state.playModel)}>
                                 <Image source={this.state.btnModel} style={{width:20,height:20}}/>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
                         {/*进度条*/}
                         <Slider
                             ref='slider'
@@ -312,27 +305,17 @@ export default class Main extends Component {
                         {/*歌曲按钮*/}
                         <View style = {{flexDirection:'row',justifyContent:'space-around'}}>
                             <TouchableOpacity onPress={()=>this.prevAction(this.state.currentIndex - 1)}>
-                                <Image source={require('../pic/timg.jpg')} style={{width:30,height:30}}/>
+                                <Image source={require('../pic/shangyiqu101.png')} style={{width:40,height:40}}/>
                             </TouchableOpacity>
  
                             <TouchableOpacity onPress={()=>this.playAction()}>
-                                <Image source={this.state.isplayBtn} style={{width:30,height:30}}/>
+                                <Image source={this.state.isplayBtn} style={{width:50,height:50}}/>
                             </TouchableOpacity>
  
                             <TouchableOpacity onPress={()=>this.nextAction(this.state.currentIndex + 1)}>
-                                <Image source={require('../pic/timg.jpg')} style={{width:30,height:30}}/>
+                                <Image source={require('../pic/xiayiqu101.png')} style={{width:40,height:40}}/>
                             </TouchableOpacity>
                         </View>
- 
-                        {/*歌词*/}
-                        {/* <View style={{height:140,alignItems:'center'}}>
- 
-                            <ScrollView style={{position:'relative'}}
-                                        ref={(scrollView) => { _scrollView = scrollView}}
-                            >
-                                {this.renderItem()}
-                            </ScrollView>
-                        </View> */}
                     </View>
  
                 </View>
