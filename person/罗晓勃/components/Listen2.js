@@ -44,7 +44,8 @@ export default class Main extends Component {
             currentTime: 0.0,   //当前时间
             duration: 0.0,     //歌曲时间
             currentIndex:0,    //当前第几首
-            isplayBtn:require('../pic/timg.jpg')  //播放/暂停按钮背景图
+            isplayBtn:require('../pic/timg.jpg'),  //播放/暂停按钮背景图
+            url:''
         }
     }
     //上一曲
@@ -187,81 +188,34 @@ export default class Main extends Component {
     loadSongInfo = (index) => {
         //加载歌曲
         let songid =  this.state.songs[index]
-        let url = 'http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid=' + songid
-        fetch(url)
-            .then((response) => response.json())
-            .then((responseJson) => {
-                let songinfo = responseJson.songinfo
-                let bitrate = responseJson.bitrate
-                this.setState({
-                    pic_small:songinfo.pic_small, //小图
-                    pic_big:songinfo.pic_big,  //大图
-                    title:songinfo.title,     //歌曲名
-                    author:songinfo.author,   //歌手
-                    file_link:bitrate.file_link,   //播放链接
-                    file_duration:bitrate.file_duration //歌曲长度
-                })
+        let url1 = 'http://129.211.62.80:8080/sound/play?name=' + songid
+        this.setState({
+            url:url1
+        })
  
                 //加载歌词
-                let url = 'http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.lry&songid=' + songid
-                fetch(url)
-                    .then((response) => response.json())
-                    .then((responseJson) => {
  
-                        let lry = responseJson.lrcContent
-                        let lryAry = lry.split('\n')   //按照换行符切数组
-                        lryAry.forEach(function (val, index) {
-                            var obj = {}   //用于存放时间
-                            val = val.replace(/(^\s*)|(\s*$)/g, '')    //正则,去除前后空格
-                            let indeofLastTime = val.indexOf(']')  // ]的下标
-                            let timeStr = val.substring(1, indeofLastTime) //把时间切出来 0:04.19
-                            let minSec = ''
-                            let timeMsIndex = timeStr.indexOf('.')  // .的下标
-                            if (timeMsIndex !== -1) {
-                                //存在毫秒 0:04.19
-                                minSec = timeStr.substring(1, val.indexOf('.'))  // 0:04.
-                                obj.ms = parseInt(timeStr.substring(timeMsIndex + 1, indeofLastTime))  //毫秒值 19
-                            } else {
-                                //不存在毫秒 0:04
-                                minSec = timeStr
-                                obj.ms = 0
-                            }
-                            let curTime = minSec.split(':')  // [0,04]
-                            obj.min = parseInt(curTime[0])   //分钟 0
-                            obj.sec = parseInt(curTime[1])   //秒钟 04
-                            obj.txt = val.substring(indeofLastTime + 1, val.length) //歌词文本: 留下唇印的嘴
-                            obj.txt = obj.txt.replace(/(^\s*)|(\s*$)/g, '')
-                            obj.dis = false
-                            obj.total = obj.min * 60 + obj.sec + obj.ms / 100   //总时间
-                            if (obj.txt.length > 0) {
-                                lyrObj.push(obj)
-                            }
-                        })
-                    })
- 
-            })
+            
     }
- 
- 
     componentWillMount() {
         //先从总列表中获取到song_id保存
         // console.log(100);
-        fetch('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.billboard.billList&type=2&size=10&offset=0')
+        fetch('http://129.211.62.80:8080/sound')
             .then((response) => response.json())
             .then((responseJson) => {
-                  var listAry = responseJson.song_list
-                  var song_idAry = []; //保存song_id的数组
+                  var listAry = responseJson.content
+                  var song_nameAry = []; //保存song_id的数组
                  for(var i = 0;i<listAry.length;i++){
-                      let song_id = listAry[i].song_id
-                      song_idAry.push(song_id)
+                      let song_name = listAry[i].song_name
+                      song_nameAry.push(song_name)
                   }
-                //   console.log(song_idAry);
+                  console.log('idary'+song_nameAry);
                 this.setState({
-                    songs:song_idAry
+                    songs:song_nameAry
                 })
-                // this.loadSongInfo(0)   //预先加载第一首
+                // console.log(this.state.songs);
+                this.loadSongInfo(0)   //预先加载第一首
             })
- 
         this.spin()   //   启动旋转
  
     }
@@ -317,7 +271,7 @@ export default class Main extends Component {
  
                         {/*播放器*/}
                         <Video
-                            source={{uri: this.state.file_link}}
+                            source={{uri:'http://129.211.62.80:8080/sound/play?name=U1.mp3'}}
                             ref='video'
                             volume={1.0}
                             paused={this.state.pause}
