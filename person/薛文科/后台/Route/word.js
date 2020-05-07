@@ -132,4 +132,30 @@ app.get('/review', function (req, res) {
     
 })
 
+
+let inssql1 = 'INSERT into likeword(userid,id,name,symbol,chiness,exmple) VALUES($1,$2,$3,$4,$5,$6)';
+app.post('/like',(req,res)=>{
+    var data = '';
+    req.on('data',(chunk)=>{
+      data += chunk;
+    });
+    req.on('end',()=>{
+        var jsonstr=JSON.parse(data);
+        var arr = [];
+        for(let i in jsonstr){
+            arr.push(jsonstr[i]);
+        }
+        console.log("Landing successfully");
+        db = { state: 200, message: '收藏成功', content: isregister };
+        console.log(jsonstr)
+        pool.query(inssql1,arr);
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.json(db);
+    });
+});
+
+app.get('/like',(req,res)=>{
+    let  sql = 'SELECT * FROM likes';
+    showdata(res,sql);
+});
 module.exports=app;
