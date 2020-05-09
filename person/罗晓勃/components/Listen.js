@@ -167,7 +167,7 @@ export default class WatchScreen extends React.Component{
                         onPress={this._changePauseSliderFullState}
                         onResponderMove={this._onStartShouldSetResponder}
                     >  
-                        <Video source={{uri:'http://129.211.62.80:8080/video/show?name=2.3.mp4'}}
+                        <Video source={{uri:'http://129.211.62.80:8080/sound/play?name=U2.mp3'}}
                             ref={(ref) => {
                                 this.player = ref
                             }}  

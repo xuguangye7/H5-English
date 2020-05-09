@@ -245,7 +245,19 @@ export default class Learn1 extends Component {
                         </ScrollView>
                         <View style={styles.word}>
                 </View>   
+                <View style={styles.listenclick} >
+                    <TouchableOpacity onPress={Actions.listen}>
+                        <Image 
+                        style={{
+                            width:100*s,
+                            height:100*s,
+                            borderRadius:50*s
+                        }}
+                        source={require('../pic/timg.jpg')}/>
+                    </TouchableOpacity>
+                </View>
             </View>
+            
         )
     }
 }
@@ -303,5 +315,15 @@ const styles = StyleSheet.create({
     scroll:{
       flexDirection:'row',
     },
+    listenclick:{
+        width:100*s,
+        height:100*s,
+        position:'absolute',
+        right:10,
+        bottom:10,
+        backgroundColor:'red',
+        borderRadius:50*s,
+        // zIndex:99
+    }
   });
   

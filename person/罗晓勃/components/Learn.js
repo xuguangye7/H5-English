@@ -99,17 +99,7 @@ export default class Learn2 extends Component {
                     <Word/>
                 </Tabs>
                 
-                <View style={styles.listenclick} >
-                <TouchableOpacity onPress={Actions.listen}>
-                    <Image 
-                    style={{
-                        width:100*s,
-                        height:100*s,
-                        borderRadius:50*s
-                    }}
-                    source={require('../pic/timg.jpg')}/>
-                     </TouchableOpacity>
-                </View>
+                
                
             </View>
         )

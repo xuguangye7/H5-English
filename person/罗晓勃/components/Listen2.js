@@ -13,6 +13,8 @@ import {
     Animated,
     Easing
 } from 'react-native'
+import {Icon} from '@ant-design/react-native';
+import { Actions} from 'react-native-router-flux'
 var {width,height} = Dimensions.get('window');
 import Video from 'react-native-video'
 var lyrObj = []   // 存放歌词
@@ -174,7 +176,7 @@ export default class Main extends Component {
                 //所有歌词
                 itemAry.push(
                     <View key={i} style={styles.itemStyle}>
-                        <Text style={{ color: 'red' }}> {item} </Text>
+                        <Text style={{ color: 'red' }}> {item} </Text>                         
                     </View>
                 )
             }
@@ -245,8 +247,12 @@ export default class Main extends Component {
                     {/*背景大图*/}
                     {/* <Image source={{uri:this.state.pic_big}} style={{flex:1}}/> */}
                     {/*背景白色透明遮罩*/}
-                    <View style = {{position:'absolute',width: width,height:height,backgroundColor:'white',opacity:0.8}}/>
- 
+                    <View style = {{position:'absolute',width: width,height:height,backgroundColor:'#f8f6f1',opacity:0.8}}/>
+                        <View style={{height:45,width:'100%',backgroundColor:'#e9e4d9',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+                            <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
+                            <Text style={{color:'#fff',fontSize:23}}>单词</Text>
+                            <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
+                        </View>
                     <View style = {{position:'absolute',width: width,height:500}}>
                         <View style={{
                             width:width,
@@ -328,6 +334,7 @@ export default class Main extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        // backgroundColor:"#e9e4d9"
     },
     image: {
         flex: 1
