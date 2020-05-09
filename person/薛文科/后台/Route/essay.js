@@ -15,7 +15,8 @@ app.get('/delete',(req,res)=>{
     for(let i in req.query){
         data.push(req.query[i]);
     }
-    pool.query('DELETE FROM essay WHERE scontent=$1',data)
+    console.log('data',data);
+    pool.query('DELETE FROM likes WHERE scontent=$1',data)
     .catch(err=>{
         console.error(err)
     });
@@ -135,4 +136,30 @@ app.get('/show',(req,res)=>{
     showdata(res,sql);
 });
 
+
+let inssql1 = 'INSERT into likes(userid,scontent,touxiang,sname,stime) VALUES($1,$2,$3,$4,$5)';
+app.post('/like',(req,res)=>{
+    var data = '';
+    req.on('data',(chunk)=>{
+      data += chunk;
+    });
+    req.on('end',()=>{
+        var jsonstr=JSON.parse(data);
+        var arr = [];
+        for(let i in jsonstr){
+            arr.push(jsonstr[i]);
+        }
+        console.log("Landing successfully");
+        db = { state: 200, message: '收藏成功', content: isregister };
+        console.log(jsonstr)
+        pool.query(inssql1,arr);
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.json(db);
+    });
+});
+
+app.get('/like',(req,res)=>{
+    let  sql = 'SELECT * FROM likes';
+    showdata(res,sql);
+});
 module.exports=app;
