@@ -8,6 +8,7 @@ import {
   Image,
   localStorage,
   ToastAndroid,
+  AsyncStorage,
   Text,
   StyleSheet
 } from 'react-native';
@@ -20,7 +21,8 @@ export default class Liuliba extends Component{
         super();
         this.state={
             data:[],
-            searchData:''
+            searchData:'',
+            isClick:true
         }
     }
     searchhandle = (text)=>{
@@ -64,7 +66,108 @@ export default class Liuliba extends Component{
                 data:res.content
             })
         })
+        AsyncStorage.getItem('clic')
+        .then((res)=>{
+            if(res=='false'){
+                this.setState({
+                    isClick:true
+                })
+            }else{
+                this.setState({
+                    isClick:false
+                })
+            }
+        })
     }
+    componentDidUpdate(){
+        AsyncStorage.getItem('clic')
+        .then((res)=>{
+            if(res=='false'){
+                this.setState({
+                    isClick:true
+                })
+            }else{
+                this.setState({
+                    isClick:false
+                })
+            }
+        })
+    }
+    like=(idx)=>{
+        console.log(idx)
+        // var click=!this.state.isClick;
+        // this.setState({
+        //     isClick:click
+        // })
+        AsyncStorage.getItem('clic')
+        .then((res)=>{
+            if(res=='false'||res==null){
+                AsyncStorage.setItem('clic','true',
+                ()=>{
+                    console.log(res);
+                    this.setState({
+                        isClick:true
+                    })
+                    const post ={
+                        userid:15028341232,
+                        scontent:idx.scontent,
+                        touxiang:idx.touxiang,
+                        sname:idx.smane,
+                        stime:idx.stime
+                    }
+                    fetch('http://129.211.62.80:8080/essay/like',{
+                        method:'POST',
+                        headers:{
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body:JSON.stringify(post),
+                    }).then(res=>{
+                        if(res.ok){
+                            return res.json()
+                        }
+                    }).then(res=>{
+                        console.log(res);
+                        console.log(res.id)
+                    }).catch((err)=>{
+                        console.error(err);
+                    })
+                })
+            }else{
+                AsyncStorage.setItem('clic','false',
+                ()=>{
+                    console.log(res)
+                    this.setState({
+                        isClick:false
+                    })
+                    console.log('取消收藏')
+                    console.log(idx.time)
+                    fetch('http://129.211.62.80:8080/essay/delete?stime='+idx.stime)
+                    .then(res=>res.json())
+                    .then((res)=>{
+                        console.log('ok')
+                    })
+                })
+            }
+        })
+    }
+    // getData = ()=>{
+    //     AsyncStorage.getItem('clic')
+    //     .then((res)=>{
+    //         if(res=='false'){
+    //             AsyncStorage.setItem('clic','true',
+    //             ()=>{
+    //                 console.log(res)
+    //             })
+    //         }else{
+    //             AsyncStorage.setItem('clic','false',
+    //             ()=>{
+    //                 console.log(res)
+    //             })
+    //         }
+    //     })
+    // }
+
     render(){
         return(
           <View style={{height:"100%",backgroundColor:"#fff"}}>
@@ -266,7 +369,8 @@ export default class Liuliba extends Component{
                                     marginBottom:50
                                     }}
                                 />
-                                <Text style={styles.time}>{item.stime}</Text>
+                                <Icon style={styles.icon} name="like" color={this.state.isClick?'#8a8a8a':"red"} size={30} onPress={()=>this.like(item)} />
+                                {/* <Text style={styles.time}>{item.stime}</Text> */}
                             </View>
                         
                         </View>
@@ -311,5 +415,10 @@ const styles=StyleSheet.create({
         position:'absolute',
         right:'5%',
         bottom:10
+    },
+    icon:{
+        position:'absolute',
+        right:20,
+        bottom:0
     }
 })

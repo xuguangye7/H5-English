@@ -28,8 +28,8 @@ export default class List1 extends Component {
         })
     }
     delete=(idx)=>{
-        console.log(idx.scontent)
-        fetch('http://129.211.62.80:8080/essay/delete?scontent='+idx.scontent)
+        console.log(idx.stime)
+        fetch('http://129.211.62.80:8080/essay/delete?stime='+idx.stime)
         .then(res=>res.json())
         .then((res)=>{
             console.log('ok')
