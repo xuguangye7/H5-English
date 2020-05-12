@@ -323,7 +323,6 @@ const styles = StyleSheet.create({
         bottom:10,
         backgroundColor:'red',
         borderRadius:50*s,
-        // zIndex:99
     }
   });
   

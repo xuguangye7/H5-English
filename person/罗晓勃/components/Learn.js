@@ -121,14 +121,4 @@ const styles=StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    listenclick:{
-        width:100*s,
-        height:100*s,
-        position:'absolute',
-        right:10,
-        bottom:10,
-        backgroundColor:'red',
-        borderRadius:50*s,
-        // zIndex:99
-    }
 })
