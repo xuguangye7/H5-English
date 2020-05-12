@@ -16,7 +16,7 @@ app.get('/delete',(req,res)=>{
         data.push(req.query[i]);
     }
     console.log('data',data);
-    pool.query('DELETE FROM likes WHERE scontent=$1',data)
+    pool.query('DELETE FROM likes WHERE stime=$1',data)
     .catch(err=>{
         console.error(err)
     });
