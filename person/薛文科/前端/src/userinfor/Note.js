@@ -20,28 +20,38 @@ export default class Note extends Component {
             })
         })
     }
-    componentDidUpdate(){
-        fetch('http://129.211.62.80:8080/word/like')
-        .then(res=>res.json())
-        .then(res=>{
-            this.setState({
-                data:res.content
-            })
-        })
-    }
+    // componentDidUpdate(){
+    //     fetch('http://129.211.62.80:8080/word/like')
+    //     .then(res=>res.json())
+    //     .then(res=>{
+    //         this.setState({
+    //             data:res.content
+    //         })
+    //     })
+    // }
     delete=(idx)=>{
         console.log(idx.scontent)
-        fetch('http://129.211.62.80:8080/word/delete?scontent='+idx.scontent)
+        fetch('http://129.211.62.80:8080/word/delete?id='+idx.id)
         .then(res=>res.json())
         .then((res)=>{
             console.log('ok')
         })
     }
-    look=()=>{
+    look=(idx)=>{
         var click=!this.state.isClick;
         this.setState({
             isClick:click
         })
+        // fetch('http://129.211.62.80:8080/word/like')
+        // .then(res=>res.json())
+        // .then(res=>{
+        //     console.log(res.content.length)
+        //     for(var i=1;i<=res.content.length;i++){
+        //         if(res.content[i].id==idx.id){
+
+        //         }
+        //     }
+        // })
     }
     render() {
         return (
@@ -67,7 +77,7 @@ export default class Note extends Component {
                                         <Text style={styles.symbol}>{item.symbol}</Text>
                                         <Icon style={styles.icon} name='sound' color="#8a8a8a" size={25} onPress={()=>{music.play()}}/>
                                     </View>
-                                    <TouchableOpacity style={this.state.isClick?styles.background1:styles.background2} onPress={this.look}>
+                                    <TouchableOpacity style={this.state.isClick?styles.background1:styles.background2} onPress={()=>this.look(item)}>
                                         <Text style={styles.chiness}>{item.chiness}</Text>
                                     </TouchableOpacity>
                                 </View>
