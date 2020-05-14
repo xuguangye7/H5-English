@@ -7,28 +7,28 @@ const {width,scale}=Dimensions.get('window');
 const s=width/640
 
 
-// const IconName=['setting','environment','audit','file-done','qrcode','hdd','star']
-// const name=['账户管理','收货地址','我的信息','我的订单','我的二维码','我的积分','我的收藏']
-// const data = Array.from(new Array(7)).map((_val, i) => ({
-//     icon: <Icon size={30} color={'#aeaeae'} name={IconName[i]}/>,
-//     text: <Text style={{fontSize:17,color:'#4f4e4e'}}>{name[i]}</Text>,
-// }));
+const IconName=['setting','environment','audit','file-done','qrcode','hdd','star']
+const name=['账户管理','收货地址','我的信息','我的订单','我的二维码','我的积分','我的收藏']
+const data = Array.from(new Array(7)).map((_val, i) => ({
+    icon: <Icon size={30} color={'#aeaeae'} name={IconName[i]}/>,
+    text: <Text style={{fontSize:17,color:'#4f4e4e'}}>{name[i]}</Text>,
+}));
 
-// const IconName1=['tool','car','user','desktop','flag','form'];
-// const name1=['居家维修','出行接送','我的受赠人','我的住宿优惠','我的活动','我的发布']
-// const data1 = Array.from(new Array(6)).map((_val, i) => {
-//     if(i==5){
-//         return {
-//             icon: <Icon onPress={()=>Actions.publish()} size={30} color={'#aeaeae'} name={IconName1[i]}/>,
-//             text: <Text onPress={()=>Actions.publish()} style={{fontSize:17,color:'#4f4e4e'}}>{name1[i]}</Text>,
-//         }
-//     }else{
-//         return {
-//             icon: <Icon size={30} color={'#aeaeae'} name={IconName1[i]}/>,
-//             text: <Text style={{fontSize:17,color:'#4f4e4e'}}>{name1[i]}</Text>,
-//         }
-//     }
-// });
+const IconName1=['tool','car','user','desktop','flag','form'];
+const name1=['居家维修','出行接送','我的受赠人','我的住宿优惠','我的活动','我的发布']
+const data1 = Array.from(new Array(6)).map((_val, i) => {
+    if(i==5){
+        return {
+            icon: <Icon onPress={()=>Actions.publish()} size={30} color={'#aeaeae'} name={IconName1[i]}/>,
+            text: <Text onPress={()=>Actions.publish()} style={{fontSize:17,color:'#4f4e4e'}}>{name1[i]}</Text>,
+        }
+    }else{
+        return {
+            icon: <Icon size={30} color={'#aeaeae'} name={IconName1[i]}/>,
+            text: <Text style={{fontSize:17,color:'#4f4e4e'}}>{name1[i]}</Text>,
+        }
+    }
+});
 
 const options = {
     title: '上传头像',
@@ -44,7 +44,7 @@ export default class Mine extends Component {
     constructor(){
         super();
         this.state={
-            imageUrl:require('../../pic/touxiang.png'),
+            imageUrl:require('../../assets/touxiang.png'),
         }
     }
     componentDidMount(){
@@ -57,7 +57,7 @@ export default class Mine extends Component {
                 });
             }else{
                 this.setState({
-                    imageUrl:require('../../pic/touxiang.png')
+                    imageUrl:require('../../assets/touxiang.png')
                 })
             }
         })
@@ -72,7 +72,7 @@ export default class Mine extends Component {
                 });
             }else{
                 this.setState({
-                    imageUrl:require('../../pic/touxiang.png')
+                    imageUrl:require('../../assets/touxiang.png')
                 })
             }
         })
@@ -219,8 +219,8 @@ export default class Mine extends Component {
                                     }}
                                 />
                             </View>
-                            <WhiteSpace style={{backgroundColor:'#eee',height:1}}/>
-                            <View style={styles.item}>
+                            {/* <WhiteSpace style={{backgroundColor:'#eee',height:1}}/> */}
+                            {/* <View style={styles.item}>
                                 <Icon name='like' size={30} color="red" style={styles.icon}/>
                                 <Text style={styles.text}>我的任务</Text>
                                 <Icon name="right" color="#8a8a8a" size={20} 
@@ -229,7 +229,23 @@ export default class Mine extends Component {
                                         right:25,
                                     }}
                                 />
+                            </View> */}
+                            <View style={{backgroundColor:"#eeeeee"}}>
+                            <View style={{marginLeft:50,marginTop:20,backgroundColor:"#eeeeee"}}>
+                                <View style={{
+                                        width:500*s,
+                                        height:70*s,
+                                        backgroundColor:'#66dd00',
+                                        borderRadius:10,
+                                        flexDirection:'row',
+                                        justifyContent:'space-around',
+                                        alignItems:'center'
+                                        }}>
+                                    <Text onPress={()=>Actions.login()} style={{textAlign:'center',fontSize:18}}>退出登录</Text>
+                                </View>
                             </View>
+                            </View>
+                            
                         </View>
                     </ScrollView>
                 </SafeAreaView>
