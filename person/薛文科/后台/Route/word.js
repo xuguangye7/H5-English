@@ -7,7 +7,27 @@ app.get('/',(req,res)=>{
     showdata(res,sql);
 });
 
+app.get('/writ',function (req, res){
+    let sql='SELECT * FROM writer';
+    showdata(res,sql);
+})
+app.get('/writer',(req,res)=>{
+    let id=req.query.id;
+    let  sql = `SELECT * FROM writer WHERE id='${id}'`;
+    showdata(res,sql);
+});
 
+app.get('/delete',(req,res)=>{
+    var data = [];
+    for(let i in req.query){
+        data.push(req.query[i]);
+    }
+    console.log('data',data);
+    pool.query('DELETE FROM likeword WHERE id=$1',data)
+    .catch(err=>{
+        console.error(err)
+    });
+})
 // 查询
 let  sql = 'SELECT * FROM word';
 let isregister;
@@ -155,7 +175,7 @@ app.post('/like',(req,res)=>{
 });
 
 app.get('/like',(req,res)=>{
-    let  sql = 'SELECT * FROM likes';
+    let  sql = 'SELECT * FROM likeword';
     showdata(res,sql);
 });
 module.exports=app;

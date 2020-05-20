@@ -5,17 +5,19 @@ var login = require('./Route/login');
 var essay = require('./Route/essay');
 var register=require('./Route/register')
 var photo = require('./Route/photo')
-var tiku = require('./Route/tiku')
+var writ = require('./Route/writ')
 var images=require('./Route/Images')
-var word=require('./Route/word'),
-    video=require('./Route/video')
+var word=require('./Route/word');
+var video=require('./Route/video');
+var sound=require('./Route/sound');
 app.use('/login',login);
 app.use('/api',api);
 app.use('/essay',essay);
 app.use('/register',register)
 app.use('/photo',photo)
-app.use('/tiku',tiku)
+app.use('/writ',writ)
 app.use('/images',images);
 app.use('/word',word);
 app.use('/video',video);
+app.use('/sound',sound);
 app.listen(8080);
