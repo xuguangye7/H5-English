@@ -4,9 +4,12 @@ import { Actions, Scene } from 'react-native-router-flux';
 // import { Icon } from '@ant-design/react-native';
 import { Button, Icon } from '@ant-design/react-native';
 import Sound from 'react-native-sound';
+import Header from '../utils/Header';
+import {myFetch} from '../utils/FetchData'
 const {width,scale,height} = Dimensions.get('window');
 const s = width / 640;
 
+let index;
 // let musciPath='https://v.ylapi.cn/img/api/api_reciteword_word_list/492850dde8ca9392.mp3';
 // var music=new Sound(musciPath,null,(err)=>{
 //     if(err){
@@ -17,76 +20,70 @@ export default class WordCard extends Component {
     constructor(){
         super();
         this.state={
-            course:1,
-            data:[],
-            review:[]
+            review:[],
+            id:1,
+            answe:''
         }
     }
     componentDidMount(){
-        fetch('http://129.211.62.80:8080/word/show')
-        .then(res=>res.json())
+        let review_url='review/look';
+        myFetch.get(review_url,{id:this.state.id})
         .then(res=>{
+            console.log(res.content)
             this.setState({
-                data:res.content
+                review:res.content
             })
         })
-
-        fetch('http://129.211.62.80:8080/word/review')
-        .then(res=>res.json())
+    }
+    componentDidUpdate(){
+        let review_url='review/look';
+        myFetch.get(review_url,{id:this.state.id})
         .then(res=>{
             this.setState({
                 review:res.content
             })
         })
     }
-    componentWillUpdate(){
-        fetch('http://129.211.62.80:8080/word/show')
-        .then(res=>res.json())
-        .then(res=>{
-            this.setState({
-                data:res.content
-            })
-        })
-
-        fetch('http://129.211.62.80:8080/word/review')
-        .then(res=>res.json())
-        .then(res=>{
-            this.setState({
-                review:res.content
-            })
-        })
+    check=()=>{
+        index=0;
+        this.next(index);
     }
-    next=()=>{
-        // console.log('认识')
-        var course1=this.state.course+1
-        this.setState({
-            course:course1
-        })
-        console.log(this.state.course)
-        const post ={
-            id:this.state.course
+    check1=()=>{
+        index=1;
+        this.next(index);
+    }
+    check2=()=>{
+        index=2;
+        this.next(index);
+    }
+    check3=()=>{
+        index=3;
+        this.next(index);
+    }
+    next=(index)=>{
+        var first=this.state.review[0].chinessfirst;
+        console.log('first',first);
+        var second=this.state.review[0].chinesssecond;
+        var third=this.state.review[0].chinessthird;
+        var fourth=this.state.review[0].chinessfourth;
+        var arr=[first,second,third,fourth];
+        console.log('arr',arr);
+        if(arr[index]==this.state.review[0].answe){
+            this.setState({
+                answe:'正确'
+            })
+        }else{
+            this.setState({
+                answe:'错误'
+            })
         }
-        fetch('http://129.211.62.80:8080/word/add',{
-            method:'POST',
-            headers:{
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body:JSON.stringify(post),
-        }).then(res=>{
-            if(res.ok){
-                return res.json()
-            }
-        }).then(res=>{
-            console.log(res);
-            console.log(res.id)
-        }).catch((err)=>{
-            console.error(err);
-        })
     }
-    donot=()=>{
-        console.log('不认识')
-        Actions.detail();
+    add=()=>{
+        var id1=this.state.id+1;
+        this.setState({
+            id:id1,
+            answe:''
+        })
     }
     play=(name)=>{
         let musciPath='http://dict.youdao.com/dictvoice?audio='+name;
@@ -99,15 +96,11 @@ export default class WordCard extends Component {
     render() {
         return (
             <View style={{backgroundColor:'#fff',width:'100%',height:800}}>
-                <View style={{height:55,width:'100%',backgroundColor:'#8a8a8a',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                    <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
-                    <Text style={{color:'#fff',fontSize:23}}>复习</Text>
-                    <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
-                </View>
+                <Header name='复习' />
                 <ScrollView>
                 <View style={styles.content}>
                     {
-                        this.state.data.map((item)=>{
+                        this.state.review.map((item)=>{
                             return (
                                 <View style={styles.main}>
                                     <Text style={styles.word} >{item.name}</Text>
@@ -128,13 +121,27 @@ export default class WordCard extends Component {
                         this.state.review.map((item)=>{
                             return (
                                 <View>
-                                    <Button style={styles.button} onPress={this.next}>
-                                        <Text style={styles.text}>{item.chiness}</Text>
+                                    <Button style={styles.button} onPress={this.check}>
+                                        <Text style={styles.text}>{item.chinessfirst}</Text>
+                                    </Button>
+                                    <Button style={styles.button} onPress={this.check1}>
+                                        <Text style={styles.text}>{item.chinesssecond}</Text>
+                                    </Button>
+                                    <Button style={styles.button} onPress={this.check2}>
+                                        <Text style={styles.text}>{item.chinessthird}</Text>
+                                    </Button>
+                                    <Button style={styles.button} onPress={this.check3}>
+                                        <Text style={styles.text}>{item.chinessfourth}</Text>
                                     </Button>
                                 </View>
                             )
                         })
                     }
+                    <View>
+                        <Text>答案区</Text>
+                        <Text>{this.state.answe}</Text>
+                    </View>
+                    <Text onPress={this.add}>下一个</Text>
                 </View>
                 </ScrollView>
             </View>
