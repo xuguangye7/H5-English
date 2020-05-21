@@ -10,6 +10,7 @@ var images=require('./Route/Images')
 var word=require('./Route/word');
 var video=require('./Route/video');
 var sound=require('./Route/sound');
+var review=require('./Route/review')
 app.use('/login',login);
 app.use('/api',api);
 app.use('/essay',essay);
@@ -20,4 +21,5 @@ app.use('/images',images);
 app.use('/word',word);
 app.use('/video',video);
 app.use('/sound',sound);
+app.use('/review',review)
 app.listen(8080);
