@@ -125,7 +125,7 @@ export default class Learn extends Component {
                                 <ImageBackground source={require('../../pic/1.png')}  style={{width:'100%', height:'100%',alignItems:'center'}}>
                                     <View style={{
                                         width:'100%',
-                                        height:160,
+                                        height:160, 
                                         // backgroundColor:'#66dd00'
                                     }}>
                                         <Text style={{marginLeft:10,fontSize:17,marginTop:10,color:'#fff'}}>每日一句</Text>
@@ -164,7 +164,7 @@ export default class Learn extends Component {
                                                 }}
                                                 source={require('../../assets/course1.jpg')}
                                                 />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
+                                            <Text onPress={Actions.watchScreen} style={{marginTop:10,marginLeft:25}}>交际英语</Text>
                                         </View>
                                         <View style={styles.c1}>
                                             <Image 
@@ -286,6 +286,64 @@ export default class Learn extends Component {
                                     </View>
                                 </ScrollView>                    
                             </View>
+
+
+
+                            <View style={styles.all}>
+                                <TouchableOpacity>
+                                    <View style={styles.allbtn}>
+                                            <Text style={styles.btntext}>Look at all</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.articleBack}>
+                        <View style={styles.article}>
+                            <Image 
+                                style={{
+                                    width:width*0.45,
+                                    height:350*s,
+                                    opacity:0.5
+                                }}
+                                source={require('../../pic/article.jpg')}
+                            />
+                            <TouchableOpacity style={styles.write}>
+                            {/* <View style={styles.write}> */}
+                                <Text style={{
+                                    width:width*0.18,
+                                    height:width*0.18,
+                                    // backgroundColor:'red',
+                                    borderRadius:width*0.09,
+                                    textAlign:'center',
+                                    lineHeight:width*0.18,
+                                    fontSize:18
+                                }}>Writing</Text>
+                            {/* </View> */}
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.listen}>
+                            <Image 
+                                    style={{
+                                        width:width*0.45,
+                                        height:350*s,
+                                        opacity:0.5
+                                    }}
+                                    source={require('../../pic/listen2.jpg')}
+                                />
+                            <TouchableOpacity style={styles.listenclick} onPress={Actions.listen}>
+                                {/* <View style={styles.listenclick}> */}
+                                    <Text style={{
+                                        width:width*0.18,
+                                        height:width*0.18,
+                                        borderRadius:width*0.09,
+                                        textAlign:'center',
+                                        lineHeight:width*0.18,
+                                        fontSize:18
+                                    }}>Listening</Text>
+                                {/* </View> */}
+                            </TouchableOpacity>
+                        </View>
+
+                    </View>
                             <WhiteSpace style={{marginTop:5,height:5,backgroundColor:"#eeeeee"}}></WhiteSpace>
                             <View style={styles.oral}>
                                 <View style={styles.course1}>
@@ -542,5 +600,79 @@ icon:{
     position:'absolute',
     right:15,
     top:10
+},
+all:{
+    width:width*0.96,
+    height:70*s,
+    marginLeft:width*0.02,
+    backgroundColor:'#e9e4d9',
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:"center",
+    borderWidth:1*s,
+    borderTopWidth:0,
+    // backgroundColor:'#fff',
+},
+allbtn:{
+    width:250*s,
+    height:60*s,
+    backgroundColor:'#7eaedc',
+    borderRadius:30*s,
+    borderWidth:1*s
+},
+btntext:{
+    width:250*s,
+    height:60*s,
+    textAlign:'center',
+    lineHeight:60*s,
+    fontSize:20,
+    // fontFamily:''
+    // backgroundColor:"red"
+},
+articleBack:{
+    width:width,
+    height:350*s,
+    // backgroundColor:'#e9e4d9',
+    marginTop:10*s,
+    flexDirection:'row',
+    justifyContent:'space-around',
+},
+article:{
+    width:width*0.45,
+    height:350*s,
+    // backgroundColor:'blue'
+    borderWidth:1*s,
+    position:'relative'
+},
+write:{
+    position:'absolute',
+    top:width*0.13,
+    left:width*0.13,
+    width:width*0.18,
+    height:width*0.18,
+    // backgroundColor:'red',
+    backgroundColor:'#fff',
+    opacity:0.8,
+    borderRadius:width*0.09,
+    borderWidth:1*s,
+},
+listen:{
+    position:'relative',
+    width:width*0.45,
+    height:350*s,
+    // backgroundColor:'green'
+    borderWidth:1*s,
+},
+listenclick:{
+    position:'absolute',
+    top:width*0.13,
+    left:width*0.13,
+    width:width*0.18,
+    height:width*0.18,
+    // backgroundColor:'red',
+    backgroundColor:'#fff',
+    opacity:0.8,
+    borderRadius:width*0.09,
+    borderWidth:1*s,
 }
 });
