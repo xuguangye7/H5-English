@@ -137,21 +137,21 @@ export default class Learn extends Component {
                                 </ImageBackground>
                             </View>
                             <WhiteSpace style={{height:5,backgroundColor:"#eeeeee"}}></WhiteSpace>
-                            <View style={styles.course}>
+                            <View style={styles.oral}>
                                 <View style={styles.course1}>
                                     <View style={{padding:5}}>
-                                        <Text style={{fontSize:16}}>我的课程</Text>
+                                        <Text style={{fontSize:16}}>精选口语课</Text>
                                     </View>
                                     <View  style={{padding:5}}>
-                                        <Text>查看全部 ></Text>
+                                        <Text>全部口语课 ></Text>
                                     </View>
-                                </View>    
+                                </View>
                                 <ScrollView style={styles.scroll}
                                     horizontal={true} 
                                     showsHorizontalScrollIndicator={false}
                                 >
                                     <View style={{
-                                        width:width*1.3,
+                                        width:width*1.6,
                                         height:280*s,
                                         flexDirection:'row',
                                         justifyContent:'space-around'
@@ -186,83 +186,6 @@ export default class Learn extends Component {
                                                 />
                                             <Text style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
-                                        <View style={{width:150*s,
-                                                    height:200*s,
-                                                    marginTop:10,
-                                                    flexDirection:'row',
-                                                    alignItems:'center',
-                                                    justifyContent:'space-around',
-                                                    backgroundColor:'gray'
-                                                    }}>
-                                            <Text>查看全部</Text>
-                                        </View>
-                                    </View>
-                                </ScrollView>    
-                            </View>
-                            <View style={styles.course3}>
-                                <View style={{
-                                        width:500*s,
-                                        height:70*s,
-                                        backgroundColor:'#66dd00',
-                                        borderRadius:10,
-                                        flexDirection:'row',
-                                        justifyContent:'space-around',
-                                        alignItems:'center'
-                                        }}>
-                                    <Text onPress={()=>Actions.word()} style={{textAlign:'center',fontSize:18}}>添加课程</Text>
-                                </View>
-                            </View>
-                            <WhiteSpace style={{marginTop:5,height:5,backgroundColor:"#eeeeee"}}></WhiteSpace>
-                            {/* 口语课 */}
-                            <View style={styles.oral}>
-                                <View style={styles.course1}>
-                                    <View style={{padding:5}}>
-                                        <Text style={{fontSize:16}}>精选口语课</Text>
-                                    </View>
-                                    <View  style={{padding:5}}>
-                                        <Text>全部口语课 ></Text>
-                                    </View>
-                                </View>
-                                <ScrollView style={styles.scroll}
-                                    horizontal={true} 
-                                    showsHorizontalScrollIndicator={false}
-                                >
-                                    <View style={{
-                                        width:width*1.6,
-                                        height:280*s,
-                                        flexDirection:'row',
-                                        justifyContent:'space-around'
-                                    }}>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../assets/course1.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../assets/course2.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../assets/course3.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
                                         <View style={styles.c1}>
                                             <Image 
                                                 style={{
@@ -286,209 +209,70 @@ export default class Learn extends Component {
                                     </View>
                                 </ScrollView>                    
                             </View>
-
-
-
                             <View style={styles.all}>
                                 <TouchableOpacity>
                                     <View style={styles.allbtn}>
-                                            <Text style={styles.btntext}>Look at all</Text>
+                                            <Text style={styles.btntext}>look at all</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
-                            <View style={styles.articleBack}>
-                        <View style={styles.article}>
-                            <Image 
-                                style={{
-                                    width:width*0.45,
-                                    height:350*s,
-                                    opacity:0.5
-                                }}
-                                source={require('../../pic/article.jpg')}
-                            />
-                            <TouchableOpacity style={styles.write}>
-                            {/* <View style={styles.write}> */}
-                                <Text style={{
-                                    width:width*0.18,
-                                    height:width*0.18,
-                                    // backgroundColor:'red',
-                                    borderRadius:width*0.09,
-                                    textAlign:'center',
-                                    lineHeight:width*0.18,
-                                    fontSize:18
-                                }}>Writing</Text>
-                            {/* </View> */}
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.listen}>
-                            <Image 
-                                    style={{
-                                        width:width*0.45,
-                                        height:350*s,
-                                        opacity:0.5
-                                    }}
-                                    source={require('../../pic/listen2.jpg')}
-                                />
-                            <TouchableOpacity style={styles.listenclick} onPress={Actions.listen}>
-                                {/* <View style={styles.listenclick}> */}
-                                    <Text style={{
-                                        width:width*0.18,
-                                        height:width*0.18,
-                                        borderRadius:width*0.09,
-                                        textAlign:'center',
-                                        lineHeight:width*0.18,
-                                        fontSize:18
-                                    }}>Listening</Text>
-                                {/* </View> */}
-                            </TouchableOpacity>
-                        </View>
 
-                    </View>
+                            {/* 读写 */}
                             <WhiteSpace style={{marginTop:5,height:5,backgroundColor:"#eeeeee"}}></WhiteSpace>
-                            <View style={styles.oral}>
-                                <View style={styles.course1}>
-                                    <View style={{padding:5}}>
-                                        <Text style={{fontSize:16}}>精选口语课</Text>
+                            <View style={{width:"100%",marginTop:10,flexDirection:'row',alignItems:'center',justifyContent:"center",}}>
+                                <TouchableOpacity>
+                                    <View style={styles.allbtn}>
+                                            <Text style={styles.btntext}>读写专区</Text>
                                     </View>
-                                    <View  style={{padding:5}}>
-                                        <Text>全部口语课 ></Text>
-                                    </View>
-                                </View>
-                                <ScrollView style={styles.scroll}
-                                    horizontal={true} 
-                                    showsHorizontalScrollIndicator={false}
-                                >
-                                    <View style={{
-                                        width:width*1.6,
-                                        height:280*s,
-                                        flexDirection:'row',
-                                        justifyContent:'space-around'
-                                    }}>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../assets/course1.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../assets/course2.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../assets/course3.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../assets/course3.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={{width:150*s,
-                                                    height:200*s,
-                                                    marginTop:10,
-                                                    flexDirection:'row',
-                                                    alignItems:'center',
-                                                    justifyContent:'space-around',
-                                                    backgroundColor:'gray'
-                                                    }}>
-                                            <Text>查看全部</Text>
-                                        </View>
-                                    </View>
-                                </ScrollView>                    
+                                </TouchableOpacity>
                             </View>
-                            <WhiteSpace style={{height:5,backgroundColor:"#eeeeee"}}></WhiteSpace>
-                            <View style={styles.oral}>
-                                <View style={styles.course1}>
-                                    <View style={{padding:5}}>
-                                        <Text style={{fontSize:16}}>推荐课程</Text>
-                                    </View>
-                                    <View  style={{padding:5}}>
-                                        <Text>全部口语课></Text>
-                                    </View>
+                            
+                            <View style={styles.articleBack}>
+                                <View style={styles.article}>
+                                    <Image 
+                                        style={{
+                                            width:width*0.45,
+                                            height:350*s,
+                                            opacity:0.5
+                                        }}
+                                        source={require('../../pic/article.jpg')}
+                                    />
+                                    <TouchableOpacity style={styles.write}>
+                                    {/* <View style={styles.write}> */}
+                                        <Text onPress={()=>Actions.compositionDetail()} style={{
+                                            width:width*0.18,
+                                            height:width*0.18,
+                                            // backgroundColor:'red',
+                                            borderRadius:width*0.09,
+                                            textAlign:'center',
+                                            lineHeight:width*0.18,
+                                            fontSize:18
+                                        }}>Writing</Text>
+                                    {/* </View> */}
+                                    </TouchableOpacity>
                                 </View>
-                                <ScrollView style={styles.scroll}
-                                    horizontal={true} 
-                                    showsHorizontalScrollIndicator={false}
-                                >
-                                    <View style={{
-                                        width:width*1.6,
-                                        height:280*s,
-                                        flexDirection:'row',
-                                        justifyContent:'space-around'
-                                    }}>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../assets/course1.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../assets/course2.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../assets/course3.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../assets/course3.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={{width:150*s,
-                                                    height:200*s,
-                                                    marginTop:10,
-                                                    flexDirection:'row',
-                                                    alignItems:'center',
-                                                    justifyContent:'space-around',
-                                                    backgroundColor:'gray'
-                                                    }}>
-                                            <Text>查看全部</Text>
-                                        </View>
-                                    </View>
-                                </ScrollView>                    
+                                <View style={styles.listen}>
+                                    <Image 
+                                            style={{
+                                                width:width*0.45,
+                                                height:350*s,
+                                                opacity:0.5
+                                            }}
+                                            source={require('../../pic/listen2.jpg')}
+                                        />
+                                    <TouchableOpacity style={styles.listenclick} onPress={Actions.listen}>
+                                        {/* <View style={styles.listenclick}> */}
+                                            <Text style={{
+                                                width:width*0.18,
+                                                height:width*0.18,
+                                                borderRadius:width*0.09,
+                                                textAlign:'center',
+                                                lineHeight:width*0.18,
+                                                fontSize:18
+                                            }}>Listening</Text>
+                                        {/* </View> */}
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </ScrollView>
                     </View>
@@ -604,13 +388,14 @@ icon:{
 all:{
     width:width*0.96,
     height:70*s,
+    marginTop:-10,
     marginLeft:width*0.02,
-    backgroundColor:'#e9e4d9',
+    backgroundColor:'#fff',
     flexDirection:'row',
     alignItems:'center',
     justifyContent:"center",
-    borderWidth:1*s,
-    borderTopWidth:0,
+    // borderWidth:1*s,
+    // borderTopWidth:0,
     // backgroundColor:'#fff',
 },
 allbtn:{
@@ -632,8 +417,9 @@ btntext:{
 articleBack:{
     width:width,
     height:350*s,
-    // backgroundColor:'#e9e4d9',
-    marginTop:10*s,
+    // backgroundColor:'red',
+    marginTop:15*s,
+    marginBottom:15*s,
     flexDirection:'row',
     justifyContent:'space-around',
 },
@@ -646,8 +432,8 @@ article:{
 },
 write:{
     position:'absolute',
-    top:width*0.13,
-    left:width*0.13,
+    top:width*0.16,
+    left:width*0.14,
     width:width*0.18,
     height:width*0.18,
     // backgroundColor:'red',
@@ -665,8 +451,8 @@ listen:{
 },
 listenclick:{
     position:'absolute',
-    top:width*0.13,
-    left:width*0.13,
+    top:width*0.16,
+    left:width*0.14,
     width:width*0.18,
     height:width*0.18,
     // backgroundColor:'red',
