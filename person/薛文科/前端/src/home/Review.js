@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet ,TouchableOpacity,Dimensions,TextInput, Alert, ScrollView} from 'react-native'
+import { Text, View, StyleSheet ,TouchableOpacity,Dimensions,TextInput, Alert, ScrollView, DeviceEventEmitter} from 'react-native'
 import { Actions, Scene } from 'react-native-router-flux';
 // import { Icon } from '@ant-design/react-native';
 import { Button, Icon } from '@ant-design/react-native';
@@ -22,7 +22,8 @@ export default class WordCard extends Component {
         this.state={
             review:[],
             id:1,
-            answe:''
+            answe:'',
+            count:0
         }
     }
     componentDidMount(){
@@ -31,7 +32,7 @@ export default class WordCard extends Component {
         .then(res=>{
             console.log(res.content)
             this.setState({
-                review:res.content
+                review:res.content,
             })
         })
     }
@@ -72,6 +73,10 @@ export default class WordCard extends Component {
             this.setState({
                 answe:'正确'
             })
+            var num=this.state.count+1;
+            this.setState({
+                count:num
+            })
         }else{
             this.setState({
                 answe:'错误'
@@ -92,6 +97,16 @@ export default class WordCard extends Component {
                 console.log(1)
             }
         })
+    }
+    submit=()=>{
+        console.log('提交成功')
+        DeviceEventEmitter.emit("returngrade",this.state.count*10)
+        console.log(this.state.count);
+        this.setState({
+            count:0,
+            answe:''
+        })
+        Actions.grade()
     }
     render() {
         return (
@@ -142,6 +157,8 @@ export default class WordCard extends Component {
                         <Text>{this.state.answe}</Text>
                     </View>
                     <Text onPress={this.add}>下一个</Text>
+
+                    <Text onPress={this.submit}>提交</Text>
                 </View>
                 </ScrollView>
             </View>
