@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, Image,ActivityIndicator,  TextInput, AsyncStorage, TouchableOpacity, Alert,ImageBackground} from 'react-native';
+import {View, Text, Image,ActivityIndicator,  TextInput, AsyncStorage, TouchableOpacity, Alert} from 'react-native';
 import { Icon } from '@ant-design/react-native';
 import { Actions } from 'react-native-router-flux';
 
-import {myFetch} from '../utils'
+import {myFetch} from '../utils/FetchData'
 export default class Register extends Component {
     constructor(){
         super();
@@ -55,9 +55,8 @@ export default class Register extends Component {
     render() {
         return (
             <View style={{flex: 1,justifyContent: 'center'}}>
-                <ImageBackground style={{width:"100%",height:"100%"}} source={require("../../pic/yun.png")}>
                 <View
-                  style={{flex: 1,justifyContent: 'center',alignItems: 'center'}}>
+                  style={{ alignItems: 'center'}}>
                     <View
                       style={{
                         width: '80%',
@@ -131,7 +130,6 @@ export default class Register extends Component {
                     </View>
                     :null
                 }
-                </ImageBackground>
             </View>
         );
     }

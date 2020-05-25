@@ -1,77 +1,72 @@
 import React, {Component} from 'react';
-import {View, Text,Dimensions,Alert, Image,ActivityIndicator, TextInput, AsyncStorage, TouchableOpacity, ImageBackground} from 'react-native';
-import { Icon, Button } from '@ant-design/react-native';
+import {View, Text,Dimensions,Alert, Image,ActivityIndicator,ImageBackground, TextInput, AsyncStorage, TouchableOpacity} from 'react-native';
+import { Icon } from '@ant-design/react-native';
 import { Actions } from 'react-native-router-flux';
-import {myFetch} from '../utils'
+import {myFetch} from '../utils/FetchData'
 const {width,scale}=Dimensions.get('window');
 console.log('w',width);
 console.log('s',scale)
 const s=width/640
 console.log(s)
 export default class Login extends Component {
-    constructor(props){
-
-        super(props);
-        this.state={
-            data:[],
-            url:'',
+    constructor(){
+        super();
+        this.state = {
             username:'',
-            pws:''
+            pwd:'',
+            isloading:false
         }
     }
-    componentWillUnmount = () => {
-        this.setState = (state,callback)=>{
-        return;
-        };
+    userhandle = (text)=>{
+        this.setState({username:text})
     }
-    handleChange=(e)=>{
-        this.setState({
-            username: e.target.value
-        })
+    pwdhandle = (text)=>{
+        this.setState({pwd:text})
     }
-    handleChange1=(e)=>{
-        this.setState({
-            pws: e.target.value
-        })
-    }
-    check(e){
-        // this.state.data.map((item)=>{
-        //     if(this.state.username==item.sname&&this.state.pws==item.spwd){
-        //         this.props.history.push('/home')
+    login = ()=>{
+        // if(this.state.username!=''&&this.state.pwd!=''){
+        //     const post ={
+        //         user:this.state.username,
+        //         pwd:this.state.pwd
+
         //     }
-        // })
-        e.preventDefault();
-        // 把表单用的最终数据从state中提取出来,传入请求
-        const post ={
-            user:this.state.username,
-            password:this.state.pws
-        }
-        fetch('http://129.211.62.80:8080/api',{
-            // post提交
-            method:"POST",
-            body:JSON.stringify(post)//把提交的内容转字符串
-        })
-        .then(res =>res.json())
-        .then(data =>{
-            console.log(data)
-            if(data.message){
-                AsyncStorage.setItem('data',data.content);
-                Actions.homePage
-                // this.props.history.push(()=>{Actions.learn()})
-                // this.props.onPress={Actions.learn()}
-            }else{
-                // onPress={()=>{Actions.learn()}} 
-                alert('登录失败')
-            }
-        })
+        //     var newPost={}
+        //     newPost.username=post.username;
+        //     newPost.pwd=post.pwd
+        //     post.child=newPost
+        //     console.log('post',post)
+        //     fetch('http://129.211.62.80:8080/api',{
+        //         method:'POST',
+        //         headers:{
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body:JSON.stringify(newPost),
+        //     }).then(res=>{
+        //         if(res.ok){
+        //             return res.json()
+        //         }
+        //     }).then(res=>{
+        //         if(res.message){
+        //             Actions.homePage()
+        //         }
+        //     })
+        // }else{
+        //     Alert.alert('不能为空');
+        // }
+        Actions.homePage()
     }
+    register=()=>{
+      AsyncStorage.setItem('user',true);
+      Actions.register()
+    } 
     render() {
         return (
             <View>
-                <ImageBackground style={{width:"100%",height:"100%"}} source={require("../../pic/yun.png")}>
+                <ImageBackground style={{width:"100%",height:"100%"}} source={require("../../assets/yun.png")}>
                 <View
                   style={{flex: 1,justifyContent: 'center',alignItems: 'center'}}>
-                    <Image style={{width:110,height:110,marginTop:-150}} source={require("../../pic/logo.png")}></Image>
+                    <Image style={{width:110,height:110,marginTop:-150}} source={require("../../assets/logo.png")}></Image>
                     {/* <View onSubmit={this.check.bind(this)}> */}
                         <View
                             style={{
@@ -86,7 +81,7 @@ export default class Login extends Component {
                             }}>
                             <Icon name="user" color="red"/>
                             <TextInput placeholder="用户名" 
-                                onChange={this.handleChange}  id="username" name="username"
+                                onChange={this.userhandle}  id="username" name="username"
                             />
                         </View>
                         <View
@@ -103,7 +98,7 @@ export default class Login extends Component {
                         >
                             <Icon name="lock" color="red"/>
                             <TextInput
-                                onChange={this.handleChange1}  id="pwd"  name="pwd"
+                                onChange={this.pwdhandle}  id="pwd"  name="pwd"
                                 placeholder="密码"
                             />
                         </View>
@@ -118,7 +113,7 @@ export default class Login extends Component {
                                 justifyContent: 'center',
                                 borderRadius:10
                             }}
-                            // onPress={Actions.homePage}
+                            onPress={this.login}
                         >
                             <Text>登录</Text>
                         </TouchableOpacity>

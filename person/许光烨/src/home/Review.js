@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet ,TouchableOpacity,Dimensions,TextInput, Alert, ScrollView} from 'react-native'
+import { Text, View, StyleSheet ,Image,TouchableOpacity,Dimensions,TextInput, Alert, ScrollView} from 'react-native'
 import { Actions, Scene } from 'react-native-router-flux';
 // import { Icon } from '@ant-design/react-native';
 import { Button, Icon } from '@ant-design/react-native';
@@ -22,7 +22,7 @@ export default class WordCard extends Component {
         this.state={
             review:[],
             id:1,
-            answe:''
+            answe:'',
         }
     }
     componentDidMount(){
@@ -70,11 +70,16 @@ export default class WordCard extends Component {
         console.log('arr',arr);
         if(arr[index]==this.state.review[0].answe){
             this.setState({
-                answe:'正确'
+                answe:require('../../pic/dui.jpg')
             })
+
+
+            // this.state={
+            //     imageUrl:require('../assets/icon/001.png')
+            // }
         }else{
             this.setState({
-                answe:'错误'
+                answe:require('../../pic/cuo.jpg')
             })
         }
     }
@@ -137,11 +142,11 @@ export default class WordCard extends Component {
                             )
                         })
                     }
-                    <View>
-                        <Text>答案区</Text>
-                        <Text>{this.state.answe}</Text>
+                    <View style={{width:50,marginLeft:-100,height:50}}>
+                        <Text></Text>
+                        <Image style={{width:50,height:50}} source={this.state.answe} />
                     </View>
-                    <Text onPress={this.add}>下一个</Text>
+                    <Text style={{fontSize:18,marginLeft:300}} onPress={this.add}>NEXT>></Text>
                 </View>
                 </ScrollView>
             </View>

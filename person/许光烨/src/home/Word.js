@@ -55,7 +55,7 @@ export default class Word extends Component {
                             <Text style={{color:'#fff',fontSize:20,width:520*s,height:70*s,lineHeight:70*s,textAlign:"center"}}>开始背单词</Text>
                         </View>
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={Actions.review}>
                         <View style={styles.button}>
                             <Text style={{color:'#fff',fontSize:20,width:520*s,height:70*s,lineHeight:70*s,textAlign:"center"}}>复习单词</Text>
                         </View>

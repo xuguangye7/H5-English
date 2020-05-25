@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View,Dimensions,StyleSheet, ScrollView,Image,TouchableOpacity,TextInput,ToastAndroid, ImageBackground} from 'react-native'
+import { Text, View,Dimensions,StyleSheet, ScrollView,DeviceEventEmitter,Image,TouchableOpacity,TextInput,ToastAndroid, ImageBackground} from 'react-native'
 import {Router,Overlay,Scene,Drawer,Lightbox,Modal, Actions} from 'react-native-router-flux'
 import { Icon ,Tabs, WhiteSpace} from '@ant-design/react-native';
 import Word from './Word';
@@ -78,6 +78,18 @@ export default class Learn extends Component {
             console.error(err);
         })
     }
+    detail1=()=>{
+        DeviceEventEmitter.emit('returnname','大学英语四级多少分才算通过呢？_好看视频.mp4');
+        Actions.watchScreen()
+    }
+    detail2=()=>{
+        DeviceEventEmitter.emit('returnname','大学英语四级高频词汇1_好看视频.mp4');
+        Actions.watchScreen()
+    }
+    detail3=()=>{
+        DeviceEventEmitter.emit('returnname','大学英语四级高频词汇速记宝典 Lesson 1 测试课_好看视频.mp4');
+        Actions.watchScreen()
+    }
     render() {
         const tabs = [
             { title: '轻松学' },
@@ -143,7 +155,7 @@ export default class Learn extends Component {
                                         <Text style={{fontSize:16}}>精选口语课</Text>
                                     </View>
                                     <View  style={{padding:5}}>
-                                        <Text>全部口语课 ></Text>
+                                        <Text onPress={()=>Actions.screenList()}>全部口语课 ></Text>
                                     </View>
                                 </View>
                                 <ScrollView style={styles.scroll}
@@ -162,9 +174,9 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../assets/course1.jpg')}
+                                                source={require('../../pic/四级英语.jpg')}
                                                 />
-                                            <Text onPress={Actions.watchScreen} style={{marginTop:10,marginLeft:25}}>交际英语</Text>
+                                            <Text onPress={this.detail1} style={{marginTop:10,marginLeft:25}}>四级英语</Text>
                                         </View>
                                         <View style={styles.c1}>
                                             <Image 
@@ -172,9 +184,9 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../assets/course2.jpg')}
+                                                source={require('../../pic/口语.jpg')}
                                                 />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
+                                            <Text onPress={this.detail2} style={{marginTop:10,marginLeft:25}}>口语英语</Text>
                                         </View>
                                         <View style={styles.c1}>
                                             <Image 
@@ -182,9 +194,9 @@ export default class Learn extends Component {
                                                     width:s*150,
                                                     height:200*s,
                                                 }}
-                                                source={require('../../assets/course3.jpg')}
+                                                source={require('../../pic/新概念英语.jpg')}
                                                 />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
+                                            <Text onPress={this.detail3} style={{marginTop:10,marginLeft:25}}>新概念英语</Text>
                                         </View>
                                         <View style={styles.c1}>
                                             <Image 
@@ -212,7 +224,7 @@ export default class Learn extends Component {
                             <View style={styles.all}>
                                 <TouchableOpacity>
                                     <View style={styles.allbtn}>
-                                            <Text style={styles.btntext}>look at all</Text>
+                                            <Text onPress={()=>Actions.screenList()} style={styles.btntext}>look at all</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -239,7 +251,7 @@ export default class Learn extends Component {
                                     />
                                     <TouchableOpacity style={styles.write}>
                                     {/* <View style={styles.write}> */}
-                                        <Text onPress={()=>Actions.compositionDetail()} style={{
+                                        <Text onPress={()=>Actions.compositionTitle()} style={{
                                             width:width*0.18,
                                             height:width*0.18,
                                             // backgroundColor:'red',

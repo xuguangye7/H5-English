@@ -167,7 +167,7 @@ export default class Mine extends Component {
                             <WhiteSpace style={{backgroundColor:'#eee'}} />
                             <View style={styles.item}>
                                 <Icon name='table' size={30} color="red" style={styles.icon}/>
-                                <Text style={styles.text}>已完成的课程</Text>
+                                <Text style={styles.text} onPress={()=>Actions.collect()}>我的收藏</Text>
                                 <Icon name="right" color="#8a8a8a" size={20} 
                                     style={{
                                         position:'absolute',

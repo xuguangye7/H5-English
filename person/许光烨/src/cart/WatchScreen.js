@@ -1,13 +1,16 @@
 import React from 'react';
-import {View,Text,StyleSheet,TouchableWithoutFeedback,TouchableOpacity,Dimensions} from 'react-native';
+import {View,Text,StyleSheet,TouchableWithoutFeedback,TouchableOpacity,Dimensions, DeviceEventEmitter} from 'react-native';
 import Video from 'react-native-video';
 import {Icon} from '@ant-design/react-native';
 import { Actions} from 'react-native-router-flux'
 import Slider from 'react-native-slider';
 import Orientation from 'react-native-orientation-locker';
+import Header from '../utils/Header';
 
 let screenWidth  = Dimensions.get('window').width;
 let screenHeight = Dimensions.get('window').height;
+
+var name='';
 console.log(screenWidth+"   "+screenHeight+"带有小数");
 
 export default class WatchScreen extends React.Component{
@@ -30,6 +33,12 @@ export default class WatchScreen extends React.Component{
             isFullScreen: false,
             isVisiblePausedSliderFullScreen: false
         }
+    }
+    getName=()=>{
+        DeviceEventEmitter.addListener('returnname',(params)=>{
+            console.log('params',params)
+        })
+        console.log('name',name);
     }
     changePausedState(){ //控制按钮显示播放，要显示进度条3秒钟，之后关闭显示
         this.setState({
@@ -104,6 +113,11 @@ export default class WatchScreen extends React.Component{
             console.log('如果是横屏，就将其旋转过来');
             Orientation.lockToPortrait();
         }
+
+        DeviceEventEmitter.addListener('returnname',(params)=>{
+            console.log('params',params)
+            name=params
+        })
     }
     play=()=>{
         var play=!this.state.isPaused;
@@ -157,17 +171,13 @@ export default class WatchScreen extends React.Component{
         let pausedSliderFull = this.state.isVisiblePausedSliderFullScreen?pausedSliderFullComponent:null;
         return (
             <View>
-                <View style={{height:55,width:'100%',backgroundColor:'#8a8a8a',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                    <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
-                    <Text style={{color:'#fff',fontSize:23}}>视频</Text>
-                    <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
-                </View>
+                <Header name={name.length>10?name.substr(0,10)+'...':name} />
                 <View>
                     <TouchableWithoutFeedback
                         onPress={this._changePauseSliderFullState}
                         onResponderMove={this._onStartShouldSetResponder}
                     >  
-                        <Video source={{uri:'http://129.211.62.80:8080/video/show?name=2.3.mp4'}}
+                        <Video source={{uri:'http://129.211.62.80:8080/video/show?name='+name}}
                             ref={(ref) => {
                                 this.player = ref
                             }}  

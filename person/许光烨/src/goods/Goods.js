@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { Icon ,Tabs} from '@ant-design/react-native';
-import { Actions } from 'react-native-router-flux';
+import { Actions,Scene} from 'react-native-router-flux';
 import Button from 'react-native-button';
 import {
   TextInput,
@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   AsyncStorage,
   StyleSheet,
-//   localStorage,
+  localStorage,
   Text
 } from 'react-native';
 import Swiper from 'react-native-swiper';
@@ -22,7 +22,8 @@ export default class Goods extends Component{
         super();
         this.state={
             data:[],
-            searchData:''
+            searchData:'',
+            isClick:true
         }
     }
     searchhandle = (text)=>{
@@ -60,21 +61,96 @@ export default class Goods extends Component{
     }
     componentDidMount(){
         fetch('http://129.211.62.80:8080/essay')
-            .then(res=>res.json())
-            .then(res=>{
-                this.setState({
-                    data:res.content
-                })
+        .then(res=>res.json())
+        .then(res=>{
+            this.setState({
+                data:res.content
             })
+        })
+        AsyncStorage.getItem('clic')
+        .then((res)=>{
+            if(res=='false'){
+                this.setState({
+                    isClick:true
+                })
+            }else{
+                this.setState({
+                    isClick:false
+                })
+            }
+        })
     }
     componentDidUpdate(){
-        fetch('http://129.211.62.80:8080/essay')
-            .then(res=>res.json())
-            .then(res=>{
+        AsyncStorage.getItem('clic')
+        .then((res)=>{
+            if(res=='false'){
                 this.setState({
-                    data:res.content
+                    isClick:true
                 })
-            })
+            }else{
+                this.setState({
+                    isClick:false
+                })
+            }
+        })
+    }
+    like=(idx)=>{
+        console.log(idx)
+        // var click=!this.state.isClick;
+        // this.setState({
+        //     isClick:click
+        // })
+        AsyncStorage.getItem('clic')
+        .then((res)=>{
+            if(res=='false'||res==null){
+                AsyncStorage.setItem('clic','true',
+                ()=>{
+                    console.log(res);
+                    this.setState({
+                        isClick:true
+                    })
+                    const post ={
+                        userid:15028341232,
+                        scontent:idx.scontent,
+                        touxiang:idx.touxiang,
+                        sname:idx.smane,
+                        stime:idx.stime
+                    }
+                    fetch('http://129.211.62.80:8080/essay/like',{
+                        method:'POST',
+                        headers:{
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body:JSON.stringify(post),
+                    }).then(res=>{
+                        if(res.ok){
+                            return res.json()
+                        }
+                    }).then(res=>{
+                        console.log(res);
+                        console.log(res.id)
+                    }).catch((err)=>{
+                        console.error(err);
+                    })
+                })
+            }else{
+                AsyncStorage.setItem('clic','false',
+                ()=>{
+                    console.log(res)
+                    this.setState({
+                        isClick:false
+                    })
+                    console.log('取消收藏')
+                    console.log(idx.time)
+                    fetch('http://129.211.62.80:8080/essay/delete?stime='+idx.stime)
+                    .then(res=>res.json())
+                    .then((res)=>{
+                        console.log('ok')
+                    })
+                })
+            }
+        })
     }
     // delete=(idx)=>{
     //     console.log(idx)
@@ -125,7 +201,7 @@ export default class Goods extends Component{
                     />
                 </View>
                 <View style={{width:"8%",backgroundColor:"#eeeeee",marginTop:10,borderBottomRightRadius:10,borderTopRightRadius:10}}>
-                    <Icon name='search' size={28} color='gray' onPress={this.search} />
+                    <View style={{marginTop:5}}><Icon name='search' size={28} color='gray' onPress={this.search} /></View>
                 </View>
                 <TouchableOpacity  style={{backgroundColor:'#aaaaaa',marginTop:12,marginLeft:7,width:36,height:36,borderRadius:18}} onPress={()=>{Actions.add()}}>
                     <Image source={require('../../pic/jiahao.png')}  style={{padding:18,height:16,width:16}}/>
@@ -176,7 +252,7 @@ export default class Goods extends Component{
             <View style={{backgroundColor:"#eee"}}>
             {/* 发布内容 */}
             {
-                this.state.data.reverse().map((item,index)=>
+                this.state.data.map((item,index)=>
             
                 <View style={{
                     // width:'74%',
@@ -257,6 +333,7 @@ export default class Goods extends Component{
                                     marginTop:12
                                     }}
                                 />
+                            <Icon style={styles.icon} name="like" color={this.state.isClick?'#8a8a8a':"red"} size={30} onPress={()=>this.like(item)} />
                             <Text style={styles.time}>{item.stime}</Text>
                         </View>          
                     </View>
@@ -304,6 +381,11 @@ const styles=StyleSheet.create({
         // position:'absolute',
         right:'5%',
         marginLeft:300,
-        marginTop:18
+        marginTop:-25
+    },
+    icon:{
+        // position:'absolute',
+        marginLeft:200,
+        marginTop:10
     }
 })
