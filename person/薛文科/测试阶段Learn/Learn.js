@@ -92,6 +92,18 @@ export default class Learn extends Component {
         DeviceEventEmitter.emit('returnData',idx.id);
         Actions.details()
     }
+    detail1=()=>{
+        DeviceEventEmitter.emit('returnname','大学英语四级多少分才算通过呢？_好看视频.mp4');
+        Actions.watchScreen()
+    }
+    detail2=()=>{
+        DeviceEventEmitter.emit('returnname','大学英语四级高频词汇1_好看视频.mp4');
+        Actions.watchScreen()
+    }
+    detail3=()=>{
+        DeviceEventEmitter.emit('returnname','大学英语四级高频词汇速记宝典 Lesson 1 测试课_好看视频.mp4');
+        Actions.watchScreen()
+    }
     render() {
         const tabs = [
             { title: '轻松学' },
@@ -157,7 +169,7 @@ export default class Learn extends Component {
                                         <Text style={{fontSize:16}}>我的课程</Text>
                                     </View>
                                     <View  style={{padding:5}}>
-                                        <Text>查看全部 ></Text>
+                                        <Text onPress={()=>{Actions.screenlist()}}>查看全部 ></Text>
                                     </View>
                                 </View>    
                                 <ScrollView style={styles.scroll}
@@ -178,7 +190,7 @@ export default class Learn extends Component {
                                                 }}
                                                 source={require('../../assets/course1.jpg')}
                                                 />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
+                                            <Text onPress={this.detail1} style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
                                         <View style={styles.c1}>
                                             <Image 
@@ -188,7 +200,7 @@ export default class Learn extends Component {
                                                 }}
                                                 source={require('../../assets/course2.jpg')}
                                                 />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
+                                            <Text onPress={this.detail2} style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
                                         <View style={styles.c1}>
                                             <Image 
@@ -198,7 +210,7 @@ export default class Learn extends Component {
                                                 }}
                                                 source={require('../../assets/course3.jpg')}
                                                 />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
+                                            <Text onPress={this.detail3} style={{marginTop:10}}>维多利亚时期的</Text>
                                         </View>
                                         <View style={{width:150*s,
                                                     height:200*s,
@@ -208,7 +220,7 @@ export default class Learn extends Component {
                                                     justifyContent:'space-around',
                                                     backgroundColor:'gray'
                                                     }}>
-                                            <Text>查看全部</Text>
+                                            <Text >查看全部</Text>
                                         </View>
                                     </View>
                                 </ScrollView>    
@@ -470,6 +482,9 @@ export default class Learn extends Component {
                             
                             <TouchableOpacity style={{width:"100%",alignItems:'center'}} onPress={()=>{Actions.compositiontitle()}}>
                                 <Text style={{fontSize:24}}>写作</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{width:"100%",alignItems:'center'}} onPress={()=>{Actions.listen()}}>
+                                <Text style={{fontSize:24}}>音频</Text>
                             </TouchableOpacity>
                         </ScrollView> 
                     </View>
