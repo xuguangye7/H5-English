@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet ,TouchableOpacity,Dimensions,TextInput, Alert, ScrollView, DeviceEventEmitter} from 'react-native'
+import { Text, View, StyleSheet ,TouchableOpacity,Dimensions,TextInput, Alert, ScrollView, DeviceEventEmitter, Image, AsyncStorage} from 'react-native'
 import { Actions, Scene } from 'react-native-router-flux';
 // import { Icon } from '@ant-design/react-native';
 import { Button, Icon } from '@ant-design/react-native';
@@ -22,11 +22,21 @@ export default class WordCard extends Component {
         this.state={
             review:[],
             id:1,
+            idd:1,
             answe:'',
-            count:0
+            count:0,
+            number:0
         }
     }
     componentDidMount(){
+        AsyncStorage.getItem('reviewid')
+        .then(res=>{
+            console.log('reviewid',res);
+            this.setState({
+                idd:parseInt(res)
+            })
+            console.log('idd',this.state.idd+1)
+        })
         let review_url='review/look';
         myFetch.get(review_url,{id:this.state.id})
         .then(res=>{
@@ -75,20 +85,74 @@ export default class WordCard extends Component {
             })
             var num=this.state.count+1;
             this.setState({
-                count:num
+                count:num,
+            })
+            const post ={
+                id:this.state.idd,
+                name:this.state.review[0].name,
+                grade:'正确'
+            }
+            console.log('post',post);
+            fetch('http://129.211.62.80:8088/grade/check',{
+                method:'POST',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify(post),
+            }).then(res=>{
+                if(res.ok){
+                    return res.json()
+                }
+            }).then(res=>{
+                console.log(res);
+                // console.log(res.id)
+            }).catch((err)=>{
+                console.error(err);
             })
         }else{
             this.setState({
                 answe:'错误'
             })
+            const post ={
+                id:this.state.idd,
+                name:this.state.review[0].name,
+                grade:'错误'
+            }
+            console.log('post',post);
+            fetch('http://129.211.62.80:8088/grade/check',{
+                method:'POST',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify(post),
+            }).then(res=>{
+                if(res.ok){
+                    return res.json()
+                }
+            }).then(res=>{
+                console.log(res);
+                // console.log(res.id)
+            }).catch((err)=>{
+                console.error(err);
+            })
         }
+        var number1=this.state.number+1;
+        this.setState({
+            number:number1
+        })
+        setTimeout(this.add,1000)
     }
     add=()=>{
         var id1=this.state.id+1;
+        var idd1=this.state.idd+1;
         this.setState({
             id:id1,
-            answe:''
+            answe:'',
+            idd:idd1
         })
+        AsyncStorage.setItem('reviewid',this.state.idd.toString());
     }
     play=(name)=>{
         let musciPath='http://dict.youdao.com/dictvoice?audio='+name;
@@ -100,7 +164,7 @@ export default class WordCard extends Component {
     }
     submit=()=>{
         console.log('提交成功')
-        DeviceEventEmitter.emit("returngrade",this.state.count*10)
+        DeviceEventEmitter.emit("returngrade",{count:this.state.count,number:this.state.number,id:this.state.idd})
         console.log(this.state.count);
         this.setState({
             count:0,
@@ -154,9 +218,11 @@ export default class WordCard extends Component {
                     }
                     <View>
                         <Text>答案区</Text>
-                        <Text>{this.state.answe}</Text>
+                        <Text>{this.state.answe}
+                        {/* <Image source={this.state.answe} /> */}
+                        </Text>
                     </View>
-                    <Text onPress={this.add}>下一个</Text>
+                    {/* <Text onPress={this.add}>下一个</Text> */}
 
                     <Text onPress={this.submit}>提交</Text>
                 </View>
