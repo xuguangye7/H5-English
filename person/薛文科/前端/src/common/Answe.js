@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, DeviceEventEmitter } from 'react-native'
 import Header from '../utils/Header'
 import {myFetch} from '../utils/FetchData' 
+var id;
 export default class Answe extends Component {
     constructor(){
         super();
@@ -12,11 +13,12 @@ export default class Answe extends Component {
         }
     }
     componentDidMount(){
-        // DeviceEventEmitter.addListener("returnanswe", (params) => {
-        //     console.log('paramsaa',params);
-        // })
-        var title_url='writ/test'
-        myFetch.get(title_url)
+        DeviceEventEmitter.addListener("returntitles", (params) => {
+            console.log('paramsaa',params);
+            id=params;
+        })
+        var title_url='writ/detail'
+        myFetch.get(title_url,{id:id})
         .then(res=>{
             console.log(res.content);
             this.setState({

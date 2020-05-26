@@ -69,6 +69,7 @@ export default class CompositionDetail extends Component {
             id:this.state.val.slice(4),
             val:this.state.val
         })
+        DeviceEventEmitter.emit('returntitles',detail_id);
         Actions.answe();
     }
     render() {
@@ -90,7 +91,7 @@ export default class CompositionDetail extends Component {
                 <Button onPress={this.showView}>开始答题</Button>
                 <Animated.View style={{ position: "absolute",flex:1, top: this.state.securetyTipViewY,width:'100%'}}>
                     <List renderHeader='答题区'>
-                        <TextareaItem editable={true} rows={7} onChange={this.userhandle} placeholder="在此答题" count={200} />
+                        <TextareaItem editable={true} rows={7} onChange={this.userhandle} placeholder="在此答题" count={400} />
                     </List>
                     <Button onPress={this.sublimt}>提交</Button>
                     <Button onPress={this.hideView}>取消</Button>
