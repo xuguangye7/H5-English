@@ -44,7 +44,7 @@ export default class Main extends Component {
             file_link:'',   //歌曲播放链接
             songLyr:[],     //当前歌词
             sliderValue: 0,    //Slide的value
-            pause:false,       //歌曲播放/暂停
+            pause:true,       //歌曲播放/暂停
             spin:'false',
             currentTime: 0.0,   //当前时间
             duration: 0.0,     //歌曲时间
@@ -256,11 +256,11 @@ export default class Main extends Component {
                             <Text style={{color:'#fff',fontSize:23}}>听力</Text>
                             <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
                         </View>
-                    <View style = {{position:'absolute',width: width,height:500,backgroundColor:'red'}}>
+                    <View style = {{position:'absolute',width: width,height:500,}}>
                         <View style={{
                             width:width,
                             height:500,
-                            backgroundColor:'red'
+                            // backgroundColor:'red'
                         }}>
                             {/*胶片光盘*/}
                             {/* <Image source={require('../../assets/timg.jpg')} style={{width:220,height:220,alignSelf:'center'}}/> */}
@@ -289,11 +289,11 @@ export default class Main extends Component {
                             <Text>{this.formatTime(Math.floor(this.state.currentTime))} - {this.formatTime(Math.floor(this.state.duration))}</Text>
                         </View>
                         {/*播放模式*/}
-                        <View style = {{marginTop: 5,marginBottom:5,marginLeft: 20}}>
+                        {/* <View style = {{marginTop: 5,marginBottom:5,marginLeft: 20}}>
                             <TouchableOpacity onPress={()=>this.playModel(this.state.playModel)}>
                                 <Image source={this.state.btnModel} style={{width:20,height:20}}/>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
                         {/*进度条*/}
                         <Slider
                             ref='slider'

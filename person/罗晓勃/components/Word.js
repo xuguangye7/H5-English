@@ -191,8 +191,6 @@ const styles=StyleSheet.create({
         flexDirection:'column',
         height:height-70,
         backgroundColor:'#e9e4d9',
-        // backgroundColor:'#fff',
-        // justifyContent:'center',
         alignItems:'center'
     },
     plan:{
@@ -200,7 +198,6 @@ const styles=StyleSheet.create({
         width:520*s,
         height:520*s,
         backgroundColor:'#f8f6f1',
-        // backgroundColor:'#fff',
         borderRadius:20,
         borderWidth:1,
         borderColor:'#b5ac95',
@@ -235,8 +232,6 @@ const styles=StyleSheet.create({
     changeitem:{
         width:120*s,
         height:70*s,
-        // backgroundColor:'#fff',
-        
     },
     changebtn:{
         width:100*s,
@@ -285,8 +280,6 @@ const styles=StyleSheet.create({
         flexDirection:'column',
         alignItems:'center',
         borderWidth:1
-        // justifyContent:'space-between'
-        // borderRadius:50*s
     },
     active1:{
       display:'none',

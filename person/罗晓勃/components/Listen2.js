@@ -19,11 +19,6 @@ var {width,height} = Dimensions.get('window');
 import Video from 'react-native-video'
 var lyrObj = []   // 存放歌词
 var myAnimate;
-//       http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.billboard.billList&type=2&size=10&offset=0    //总列表
-//       http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.lry&songid=213508   //歌词文件
-//       http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid=877578   //播放
- 
- 
 export default class Main extends Component {
  
     constructor(props) {
@@ -42,12 +37,14 @@ export default class Main extends Component {
             file_link:'',   //歌曲播放链接
             songLyr:[],     //当前歌词
             sliderValue: 0,    //Slide的value
-            pause:false,       //歌曲播放/暂停
+            // pause:false,       //歌曲播放/暂停
+            pause:true,
             currentTime: 0.0,   //当前时间
             duration: 0.0,     //歌曲时间
             currentIndex:0,    //当前第几首
             isplayBtn:require('../pic/bofang.png'),  //播放/暂停按钮背景图
-            url:''
+            url:'',
+            num:0
         }
     }
     //上一曲
@@ -67,7 +64,7 @@ export default class Main extends Component {
     nextAction = (index) =>{
         this.recover()
         lyrObj = [];
-        if(index == 2){
+        if(index > 2){
             index = 0 //如果是最后一首就回到第一首
         }
         this.setState({
@@ -83,29 +80,7 @@ export default class Main extends Component {
             currentTime: 0.0
         })
     }
-    //播放模式 接收传过来的当前播放模式 this.state.playModel
-    playModel = (playModel) =>{
-        playModel++;
-        playModel = playModel == 4 ? 1 : playModel
-        //重新设置
-        this.setState({
-            playModel:playModel
-        })
-        //根据设置后的模式重新设置背景图片
-        if(playModel == 1){
-            this.setState({
-                btnModel:require('../pic/timg.jpg'),
-            })
-        }else if(playModel ==  2){
-            this.setState({
-                btnModel:require('../pic/timg.jpg'),
-            })
-        }else{
-            this.setState({
-                btnModel:require('../pic/timg.jpg'),
-            })
-        }
-    }
+
     //播放/暂停
     playAction =() => {
         this.setState({
@@ -114,11 +89,12 @@ export default class Main extends Component {
         //判断按钮显示什么
         if(this.state.pause == true){
             this.setState({
-                isplayBtn:require('../pic/bofang.png')
+                isplayBtn:require('../pic/pause.png')
             })
         }else {
             this.setState({
-                isplayBtn:require('../pic/pause.png')
+                isplayBtn:require('../pic/bofang.png')
+                
             })
         }
  
@@ -126,26 +102,11 @@ export default class Main extends Component {
     //播放器每隔250ms调用一次
     onProgress =(data) => {
         let val = parseInt(data.currentTime)
+        // console.log(val)
         this.setState({
             sliderValue: val,
             currentTime: data.currentTime
         })
- 
-        //如果当前歌曲播放完毕,需要开始下一首
-        if(val == this.state.file_duration){
-            if(this.state.playModel == 1){
-                //列表 就播放下一首
-                this.nextAction(this.state.currentIndex + 1)
-            }else if(this.state.playModel == 2){
-                let  last =  this.state.songs.length //json 中共有几首歌
-                let random = Math.floor(Math.random() * last)  //取 0~last之间的随机整数
-                this.nextAction(random) //播放
-            }else{
-                //单曲 就再次播放当前这首歌曲
-                this.refs.video.seek(0) //让video 重新播放
-                _scrollView.scrollTo({x: 0,y:0,animated:false});
-            }
-        }
  
     }
     //把秒数转换为时间类型
@@ -157,33 +118,7 @@ export default class Main extends Component {
         second = second >= 10 ? second : '0' + second
         return min + ':' + second
     }
-    // 歌词
-    renderItem() {
-        // 数组
-        var itemAry = [];
-        for (var i = 0; i < lyrObj.length; i++) {
-            var item = lyrObj[i].txt
-            if (this.state.currentTime.toFixed(2) > lyrObj[i].total) {
-                //正在唱的歌词
-                itemAry.push(
-                    <View key={i} style={styles.itemStyle}>
-                        <Text style={{ color: 'blue' }}> {item} </Text>
-                    </View>
-                );
-                _scrollView.scrollTo({x: 0,y:(25 * i),animated:false});
-            }
-            else {
-                //所有歌词
-                itemAry.push(
-                    <View key={i} style={styles.itemStyle}>
-                        <Text style={{ color: 'red' }}> {item} </Text>                         
-                    </View>
-                )
-            }
-        }
- 
-        return itemAry;
-    }
+    
     // 播放器加载好时调用,其中有一些信息带过来
     onLoad = (data) => {
         this.setState({ duration: data.duration });
@@ -192,16 +127,14 @@ export default class Main extends Component {
     loadSongInfo = (index) => {
         //加载歌曲
         let songid =  this.state.songs[index]
-        let url = 'http://129.211.62.80:8080/sound/play?name=' + songid
+        let url = 'http://129.211.62.80:8080/sound/play?name=' + songid;
         this.setState({
             url:url
         })
- 
-                //加载歌词
- 
-            
+        console.log(this.state.url)
     }
-    componentWillMount() {
+
+    componentDidMount() {
         //先从总列表中获取到song_id保存
         fetch('http://129.211.62.80:8080/sound')
             .then((response) => response.json())
@@ -212,11 +145,9 @@ export default class Main extends Component {
                       let song_name = listAry[i].song_name
                       song_nameAry.push(song_name)
                   }
-                //   console.log('idary'+song_nameAry);
                 this.setState({
                     songs:song_nameAry
                 })
-                // console.log(this.state.songs);
                 this.loadSongInfo(0)   //预先加载第一首
             })
         this.spin()   //   启动旋转
@@ -260,7 +191,6 @@ export default class Main extends Component {
                         }}>
                             {/*胶片光盘*/}
                             {/* <Image source={require('../pic/timg.jpg')} style={{width:220,height:220,alignSelf:'center'}}/> */}
-    
                             {/*旋转小图*/}
                             <Animated.Image
                                 ref = 'myAnimate'
@@ -270,7 +200,7 @@ export default class Main extends Component {
                         </View>
                         {/*播放器*/}
                         <Video
-                            source={{uri:'http://129.211.62.80:8080/sound/play?name=U2.mp3'}}
+                            source={{uri:this.state.url}}
                             ref='video'
                             volume={1.0}
                             paused={this.state.pause}
@@ -295,7 +225,7 @@ export default class Main extends Component {
                             ref='slider'
                             style={{ marginLeft: 10, marginRight: 10}}
                             value={this.state.sliderValue}
-                            maximumValue={this.state.file_duration}
+                            maximumValue={this.state.duration}
                             step={1}
                             minimumTrackTintColor='#FFDB42'
                             onValueChange={(value) => {
@@ -318,7 +248,7 @@ export default class Main extends Component {
                                 <Image source={this.state.isplayBtn} style={{width:50,height:50}}/>
                             </TouchableOpacity>
  
-                            <TouchableOpacity onPress={()=>this.nextAction(this.state.currentIndex + 1)}>
+                            <TouchableOpacity onPress={()=>this.nextAction()}>
                                 <Image source={require('../pic/xiayiqu101.png')} style={{width:40,height:40}}/>
                             </TouchableOpacity>
                         </View>
@@ -334,7 +264,6 @@ export default class Main extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor:"#e9e4d9"
     },
     image: {
         flex: 1
