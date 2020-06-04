@@ -34,7 +34,7 @@ export default class Write extends Component {
                 {
                     this.state.data.map((item)=>{
                         return (
-                            <View style={{width:'100%'}}>
+                            <View style={{width:'100%',backgroundColor:'blue'}}>
                                 <Text onPress={()=>this.detail(item)}>{item.title}</Text>
                             </View>
                         )
