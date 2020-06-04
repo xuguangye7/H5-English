@@ -3,6 +3,7 @@ import { Text, View, StyleSheet ,TouchableOpacity,Dimensions,TextInput, Alert, S
 import { Actions, Scene } from 'react-native-router-flux';
 // import { Icon } from '@ant-design/react-native';
 import { Button, Icon } from '@ant-design/react-native';
+import Header from '../utils/Header';
 import Sound from 'react-native-sound';
 const {width,scale,height} = Dimensions.get('window');
 const s = width / 640;
@@ -82,11 +83,7 @@ export default class WordCard extends Component {
     render() {
         return (
             <View style={{backgroundColor:'#fff',width:'100%',height:800}}>
-                <View style={{height:55,width:'100%',backgroundColor:'#8a8a8a',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                    <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
-                    <Text style={{color:'#fff',fontSize:23}}>单词</Text>
-                    <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
-                </View>
+                <Header name='背单词' />
                 <ScrollView>
                 <View style={styles.content}>
                     {
@@ -172,14 +169,15 @@ const styles=StyleSheet.create({
         width:'80%',
         height:50,
         borderRadius:20,
-        backgroundColor:'#8a8a8a'
+        backgroundColor:'red'
     },
     button1:{
         width:'80%',
         height:50,
         marginTop:10,
         borderRadius:20,
-        backgroundColor:'red'
+        backgroundColor:'#8a8a8a'
+        
     },
     text:{
         color:'#fff'

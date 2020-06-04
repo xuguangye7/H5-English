@@ -45,6 +45,7 @@ export default class CompositionTitle extends Component {
         return (
             <View>
                 <Header name='写作' />
+                <Text style={{marginLeft:200,fontSize:20,marginTop:3}}>真题部分</Text>
                 {
                     this.state.data.map((item)=>{
                         return (
@@ -55,6 +56,7 @@ export default class CompositionTitle extends Component {
                     })
                 }
                 <View>
+                <Text style={{marginLeft:200,fontSize:20,marginTop:3}}>经典范文</Text>
                 {
                     this.state.data1.map((item)=>{
                         return (
