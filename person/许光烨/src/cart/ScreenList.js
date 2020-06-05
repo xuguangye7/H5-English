@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View,DeviceEventEmitter } from 'react-native'
+import { Text, View,ScrollView,DeviceEventEmitter, Image } from 'react-native'
 import Header from '../utils/Header'
 import {myFetch} from '../utils/FetchData'
 import { Actions } from 'react-native-router-flux';
@@ -45,30 +45,35 @@ export default class ScreenList extends Component {
         return (
             <View>
                 <Header name="全部视频" />
-                <Text>cet4</Text>
+                <ScrollView>
+                <Text style={{marginLeft:210,fontSize:20,marginTop:3}}>cet4</Text>
                 {
                     this.state.data.map((item)=>(
-                        <View>
-                            <Text onPress={()=>this.detail(item)}>{item.name}</Text>
+                        <View style={{backgroundColor:"#fff",height:100,marginTop:20,flexDirection:'row',alignItems:'center',}}>
+                            <Image style={{width:150,marginLeft:5,height:90}} source={require("../../pic/siji.png")}/>
+                            <Text style={{width:200,marginLeft:100}} onPress={()=>this.detail(item)}>{item.name}</Text>
                         </View>
                     ))
                 }
-                <Text>新概念</Text>
+                <Text style={{marginLeft:210,fontSize:20,marginTop:3}}>新概念</Text>
                 {
                     this.state.data1.map((item)=>(
-                        <View>
-                            <Text onPress={()=>this.detail(item)}>{item.name}</Text>
+                        <View style={{backgroundColor:"#fff",height:100,marginTop:20,flexDirection:'row',alignItems:'center',}}>
+                            <Image style={{width:150,marginLeft:5,height:90}} source={require("../../pic/siji.png")}/>
+                            <Text style={{width:200,marginLeft:100}} onPress={()=>this.detail(item)}>{item.name}</Text>
                         </View>
                     ))
                 }
-                <Text>口语</Text>
+                <Text style={{marginLeft:210,fontSize:20,marginTop:3}}>口语</Text>
                 {
                     this.state.data2.map((item)=>(
-                        <View>
-                            <Text onPress={()=>this.detail(item)}>{item.name}</Text>
+                        <View style={{backgroundColor:"#fff",height:100,marginTop:20,flexDirection:'row',alignItems:'center',}}>
+                            <Image style={{width:150,marginLeft:5,height:90}} source={require("../../pic/siji.png")}/>
+                            <Text style={{width:200,marginLeft:100}} onPress={()=>this.detail(item)}>{item.name}</Text>
                         </View>
                     ))
                 }
+                </ScrollView>
             </View>
         )
     }

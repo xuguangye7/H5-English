@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet ,Image,TouchableOpacity,Dimensions,TextInput, Alert, ScrollView} from 'react-native'
+import { Text, View, StyleSheet ,TouchableOpacity,Dimensions,TextInput, Alert, ScrollView, DeviceEventEmitter, Image, AsyncStorage} from 'react-native'
 import { Actions, Scene } from 'react-native-router-flux';
 // import { Icon } from '@ant-design/react-native';
 import { Button, Icon } from '@ant-design/react-native';
@@ -22,16 +22,27 @@ export default class WordCard extends Component {
         this.state={
             review:[],
             id:1,
+            idd:1,
             answe:'',
+            count:0,
+            number:0
         }
     }
     componentDidMount(){
+        AsyncStorage.getItem('reviewid')
+        .then(res=>{
+            console.log('reviewid',res);
+            this.setState({
+                idd:parseInt(res)
+            })
+            console.log('idd',this.state.idd+1)
+        })
         let review_url='review/look';
         myFetch.get(review_url,{id:this.state.id})
         .then(res=>{
             console.log(res.content)
             this.setState({
-                review:res.content
+                review:res.content,
             })
         })
     }
@@ -72,23 +83,76 @@ export default class WordCard extends Component {
             this.setState({
                 answe:require('../../pic/dui.jpg')
             })
-
-
-            // this.state={
-            //     imageUrl:require('../assets/icon/001.png')
-            // }
+            var num=this.state.count+1;
+            this.setState({
+                count:num,
+            })
+            const post ={
+                id:this.state.idd,
+                name:this.state.review[0].name,
+                grade:'正确'
+            }
+            console.log('post',post);
+            fetch('http://129.211.62.80:8080/grade/check',{
+                method:'POST',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify(post),
+            }).then(res=>{
+                if(res.ok){
+                    return res.json()
+                }
+            }).then(res=>{
+                console.log(res);
+                // console.log(res.id)
+            }).catch((err)=>{
+                console.error(err);
+            })
         }else{
             this.setState({
-                answe:require('../../pic/cuo.jpg')
+              answe:require('../../pic/cuo.jpg')
+            })
+            const post ={
+                id:this.state.idd,
+                name:this.state.review[0].name,
+                grade:'错误'
+            }
+            console.log('post',post);
+            fetch('http://129.211.62.80:8080/grade/check',{
+                method:'POST',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify(post),
+            }).then(res=>{
+                if(res.ok){
+                    return res.json()
+                }
+            }).then(res=>{
+                console.log(res);
+                // console.log(res.id)
+            }).catch((err)=>{
+                console.error(err);
             })
         }
+        var number1=this.state.number+1;
+        this.setState({
+            number:number1
+        })
+        setTimeout(this.add,1000)
     }
     add=()=>{
         var id1=this.state.id+1;
+        var idd1=this.state.idd+1;
         this.setState({
             id:id1,
-            answe:''
+            answe:'',
+            idd:idd1
         })
+        AsyncStorage.setItem('reviewid',this.state.idd.toString());
     }
     play=(name)=>{
         let musciPath='http://dict.youdao.com/dictvoice?audio='+name;
@@ -97,6 +161,16 @@ export default class WordCard extends Component {
                 console.log(1)
             }
         })
+    }
+    submit=()=>{
+        console.log('提交成功')
+        DeviceEventEmitter.emit("returngrade",{count:this.state.count,number:this.state.number,id:this.state.idd})
+        console.log(this.state.count);
+        this.setState({
+            count:0,
+            answe:''
+        })
+        Actions.grade()
     }
     render() {
         return (
@@ -110,7 +184,7 @@ export default class WordCard extends Component {
                                 <View style={styles.main}>
                                     <Text style={styles.word} >{item.name}</Text>
                                     <View style={{flexDirection:'row',width:'100%',marginTop:30,justifyContent:'center',alignItems:'center'}}>
-                                        <Icon name='setting' style={styles.icon} color="#8a8a8a" size={25} />
+                                        <Icon name='notification' style={styles.icon} color="#8a8a8a" size={25} />
                                         <Text style={{fontSize:20,color:'#8a8a8a',marginLeft:5}}>{item.symbol}</Text>
                                     </View>
                                 </View>
@@ -142,11 +216,16 @@ export default class WordCard extends Component {
                             )
                         })
                     }
-                    <View style={{width:50,marginLeft:-100,height:50}}>
+                    <View>
                         <Text></Text>
-                        <Image style={{width:50,height:50}} source={this.state.answe} />
+                        {/* <Text>{this.state.answe} */}
+                        <Image style={{marginLeft:-100,width:50,height:50}} source={this.state.answe} />
+                        {/* <Image source={this.state.answe} /> */}
+                        {/* </Text> */}
                     </View>
-                    <Text style={{fontSize:18,marginLeft:300}} onPress={this.add}>NEXT>></Text>
+                    {/* <Text onPress={this.add}>下一个</Text> */}
+
+                    <Text style={{width:65,height:40,backgroundColor:"red",color:"#fff",borderRadius:10,fontSize:15,textAlign:"center",lineHeight:40,marginLeft:160,marginTop:-42}} onPress={this.submit}>提交</Text>
                 </View>
                 </ScrollView>
             </View>

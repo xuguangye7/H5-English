@@ -152,10 +152,10 @@ export default class Learn extends Component {
                             <View style={styles.oral}>
                                 <View style={styles.course1}>
                                     <View style={{padding:5}}>
-                                        <Text style={{fontSize:16}}>精选口语课</Text>
+                                        <Text style={{fontSize:16}}>精选课程</Text>
                                     </View>
                                     <View  style={{padding:5}}>
-                                        <Text onPress={()=>Actions.screenList()}>全部口语课 ></Text>
+                                        <Text onPress={()=>Actions.screenList()}>全部课程 ></Text>
                                     </View>
                                 </View>
                                 <ScrollView style={styles.scroll}
@@ -163,7 +163,7 @@ export default class Learn extends Component {
                                     showsHorizontalScrollIndicator={false}
                                 >
                                     <View style={{
-                                        width:width*1.6,
+                                        width:width*1,
                                         height:280*s,
                                         flexDirection:'row',
                                         justifyContent:'space-around'
@@ -198,26 +198,7 @@ export default class Learn extends Component {
                                                 />
                                             <Text onPress={this.detail3} style={{marginTop:10,marginLeft:25}}>新概念英语</Text>
                                         </View>
-                                        <View style={styles.c1}>
-                                            <Image 
-                                                style={{
-                                                    width:s*150,
-                                                    height:200*s,
-                                                }}
-                                                source={require('../../assets/course3.jpg')}
-                                                />
-                                            <Text style={{marginTop:10}}>维多利亚时期的</Text>
-                                        </View>
-                                        <View style={{width:150*s,
-                                                    height:200*s,
-                                                    marginTop:10,
-                                                    flexDirection:'row',
-                                                    alignItems:'center',
-                                                    justifyContent:'space-around',
-                                                    backgroundColor:'gray'
-                                                    }}>
-                                            <Text>查看全部</Text>
-                                        </View>
+                                        
                                     </View>
                                 </ScrollView>                    
                             </View>
@@ -231,61 +212,63 @@ export default class Learn extends Component {
 
                             {/* 读写 */}
                             <WhiteSpace style={{marginTop:5,height:5,backgroundColor:"#eeeeee"}}></WhiteSpace>
-                            <View style={{width:"100%",marginTop:10,flexDirection:'row',alignItems:'center',justifyContent:"center",}}>
-                                <TouchableOpacity>
-                                    <View style={styles.allbtn}>
-                                            <Text style={styles.btntext}>读写专区</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            
-                            <View style={styles.articleBack}>
-                                <View style={styles.article}>
-                                    <Image 
-                                        style={{
-                                            width:width*0.45,
-                                            height:350*s,
-                                            opacity:0.5
-                                        }}
-                                        source={require('../../pic/article.jpg')}
-                                    />
-                                    <TouchableOpacity style={styles.write}>
-                                    {/* <View style={styles.write}> */}
-                                        <Text onPress={()=>Actions.compositionTitle()} style={{
-                                            width:width*0.18,
-                                            height:width*0.18,
-                                            // backgroundColor:'red',
-                                            borderRadius:width*0.09,
-                                            textAlign:'center',
-                                            lineHeight:width*0.18,
-                                            fontSize:18
-                                        }}>Writing</Text>
-                                    {/* </View> */}
+                            <ImageBackground source={require('../../pic/1.png')}  style={{width:'100%', height:'100%',alignItems:'center'}}>
+                                <View style={{width:"100%",marginTop:10,flexDirection:'row',alignItems:'center',justifyContent:"center",}}>
+                                    <TouchableOpacity>
+                                        <View style={styles.allbtn}>
+                                                <Text style={styles.btntext}>读写专区</Text>
+                                        </View>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={styles.listen}>
-                                    <Image 
+                                
+                                <View style={styles.articleBack}>
+                                    <View style={styles.article}>
+                                        <Image 
                                             style={{
                                                 width:width*0.45,
                                                 height:350*s,
                                                 opacity:0.5
                                             }}
-                                            source={require('../../pic/listen2.jpg')}
+                                            source={require('../../pic/article.jpg')}
                                         />
-                                    <TouchableOpacity style={styles.listenclick} onPress={Actions.listen}>
-                                        {/* <View style={styles.listenclick}> */}
-                                            <Text style={{
+                                        <TouchableOpacity style={styles.write}>
+                                        {/* <View style={styles.write}> */}
+                                            <Text onPress={()=>Actions.compositionTitle()} style={{
                                                 width:width*0.18,
                                                 height:width*0.18,
+                                                // backgroundColor:'red',
                                                 borderRadius:width*0.09,
                                                 textAlign:'center',
                                                 lineHeight:width*0.18,
                                                 fontSize:18
-                                            }}>Listening</Text>
+                                            }}>Writing</Text>
                                         {/* </View> */}
-                                    </TouchableOpacity>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.listen}>
+                                        <Image 
+                                                style={{
+                                                    width:width*0.45,
+                                                    height:350*s,
+                                                    opacity:0.5
+                                                }}
+                                                source={require('../../pic/listen2.jpg')}
+                                            />
+                                        <TouchableOpacity style={styles.listenclick} onPress={Actions.listen}>
+                                            {/* <View style={styles.listenclick}> */}
+                                                <Text style={{
+                                                    width:width*0.18,
+                                                    height:width*0.18,
+                                                    borderRadius:width*0.09,
+                                                    textAlign:'center',
+                                                    lineHeight:width*0.18,
+                                                    fontSize:18
+                                                }}>Listening</Text>
+                                            {/* </View> */}
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
-                            </View>
+                            </ImageBackground>
                         </ScrollView>
                     </View>
                     <View style={style}>
@@ -413,9 +396,9 @@ all:{
 allbtn:{
     width:250*s,
     height:60*s,
-    backgroundColor:'#7eaedc',
+    backgroundColor:'red',
     borderRadius:30*s,
-    borderWidth:1*s
+    // borderWidth:1*s
 },
 btntext:{
     width:250*s,

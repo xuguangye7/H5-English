@@ -43,3 +43,5 @@ ProgressBar.defaultProps = {
   barColor: '#d7dada',
   fillColor: '#6285f7'
 }
+
+

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, DeviceEventEmitter } from 'react-native'
 import Header from '../utils/Header'
 import {myFetch} from '../utils/FetchData' 
+var id;
 export default class Answe extends Component {
     constructor(){
         super();
@@ -12,11 +13,12 @@ export default class Answe extends Component {
         }
     }
     componentDidMount(){
-        // DeviceEventEmitter.addListener("returnanswe", (params) => {
-        //     console.log('paramsaa',params);
-        // })
-        var title_url='writ/test'
-        myFetch.get(title_url)
+        DeviceEventEmitter.addListener("returntitles", (params) => {
+            console.log('paramsaa',params);
+            id=params;
+        })
+        var title_url='writ/detail'
+        myFetch.get(title_url,{id:id})
         .then(res=>{
             console.log(res.content);
             this.setState({
@@ -45,7 +47,7 @@ export default class Answe extends Component {
         return (
             <View>
                 <Header name={this.state.title} />
-                <Text>作文原题</Text>
+                <Text style={{marginLeft:180,fontSize:20,marginTop:3}}>作文原题</Text>
                 {
                     this.state.data.map((item)=>{
                         return (
@@ -55,9 +57,9 @@ export default class Answe extends Component {
                         )
                     })
                 }
-                <Text onPress={this.maytext}>我的作文</Text>
+                <Text style={{marginLeft:180,fontSize:20,marginTop:3}} onPress={this.maytext}>我的作文</Text>
                 <Text>{this.state.mytext}</Text>
-                <Text>范文</Text>
+                <Text style={{marginLeft:200,fontSize:20,marginTop:3}}>范文</Text>
                 {
                     this.state.data.map((item)=>{
                         return (
@@ -67,7 +69,7 @@ export default class Answe extends Component {
                         )
                     })
                 }
-                <Text>范文翻译</Text>
+                <Text style={{marginLeft:180,fontSize:20,marginTop:3}}>范文翻译</Text>
                 {
                     this.state.data.map((item)=>{
                         return (

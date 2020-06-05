@@ -46,6 +46,7 @@ app.post('/',(req,res)=>{
     req.on('end',()=>{
         console.log('data',data);
         var jsonstr =JSON.parse(data);
+        console.log('data123',data);
         var arr = [];
         for(let i in jsonstr){
             arr.push(jsonstr[i])
@@ -62,7 +63,7 @@ app.post('/',(req,res)=>{
                     break;
                 }
             }
-            if(isregister){
+            if(isregister){  
                 let str;
                 console.log("Landing successfully");
                 pool.query(`select * from word where name='${uid}'`, (error,results,fields)=> {
