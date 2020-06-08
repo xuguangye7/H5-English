@@ -1,0 +1,36 @@
+
+
+ {/* 把原来的directions改成direction */}
+
+Answe.js
+
+<Header name={this.state.title} />
+                <Text>作文原题</Text>
+                {
+                    this.state.data.map((item)=>{
+                        return (
+                            <View style={{width:'100%'}}>
+                                {/* 把原来的directions改成direction */}
+                                <Text>{item.direction}</Text>
+                            </View>
+                        )
+                    })
+                }
+
+
+
+
+
+CompositionDetail.js
+
+<Text>写作原题</Text>
+                {
+                    this.state.data.map((item)=>{
+                        return (
+                            <View style={{width:'100%'}}>
+				 {/* 把原来的directions改成direction */}
+                                <Text onPress={()=>this.detail(item)}>{item.direction}</Text>
+                            </View>
+                        )
+                    })
+                }
