@@ -8,13 +8,13 @@ app.get('/',(req,res)=>{
 });
 
 app.get('/test',(req,res)=>{
-    let  sql = 'SELECT * FROM englishtest';
+    let  sql = 'SELECT * FROM zuowen';
     showdata(res,sql);
 });
 
 app.get('/detail',(req,res)=>{
     let id=req.query.id
-    let  sql = `SELECT * FROM englishtest WHERE id='${id}'`;
+    let  sql = `SELECT * FROM zuowen WHERE id='${id}'`;
     showdata(res,sql);
 });
 
