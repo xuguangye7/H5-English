@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text,Dimensions,Alert, Image,ActivityIndicator,ImageBackground, TextInput, AsyncStorage, TouchableOpacity} from 'react-native';
+import {View, Text,Dimensions,Alert, Image,ImageBackground,ActivityIndicator, TextInput, AsyncStorage, TouchableOpacity} from 'react-native';
 import { Icon } from '@ant-design/react-native';
 import { Actions } from 'react-native-router-flux';
 import {myFetch} from '../utils/FetchData'
@@ -24,37 +24,36 @@ export default class Login extends Component {
         this.setState({pwd:text})
     }
     login = ()=>{
-        // if(this.state.username!=''&&this.state.pwd!=''){
-        //     const post ={
-        //         user:this.state.username,
-        //         pwd:this.state.pwd
-
-        //     }
-        //     var newPost={}
-        //     newPost.username=post.username;
-        //     newPost.pwd=post.pwd
-        //     post.child=newPost
-        //     console.log('post',post)
-        //     fetch('http://129.211.62.80:8080/api',{
-        //         method:'POST',
-        //         headers:{
-        //             'Accept': 'application/json',
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body:JSON.stringify(newPost),
-        //     }).then(res=>{
-        //         if(res.ok){
-        //             return res.json()
-        //         }
-        //     }).then(res=>{
-        //         if(res.message){
-        //             Actions.homePage()
-        //         }
-        //     })
-        // }else{
-        //     Alert.alert('不能为空');
-        // }
-        Actions.homePage()
+        console.log('username',this.state.username);
+        if(this.state.username!=''&&this.state.pwd!=''){
+            const post={
+                username:this.state.username,
+                pwd:this.state.pwd
+            }
+            console.log('post',post);
+            fetch('http://129.211.62.80:8080/api',{
+                method:'POST',
+                headers:{
+                    "Accept":'application/json',
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify(post)
+            })
+            .then(res=>res.json())
+            .then(res=>{
+                if(res.message){
+                    AsyncStorage.setItem('logininfo',post.username)
+                    AsyncStorage.getItem('logininfo').then(res=>{
+                        console.log('loginres',res);
+                    })
+                    Actions.homePage();
+                }else{
+                    Alert.alert('用户名或密码错误');
+                }
+            })
+        }else{
+            Alert.alert('不能为空');
+        }
     }
     register=()=>{
       AsyncStorage.setItem('user',true);
@@ -79,9 +78,9 @@ export default class Login extends Component {
                                 alignItems: 'center',
                                 paddingLeft: 20,
                             }}>
-                            <Icon name="user" color="red"/>
-                            <TextInput placeholder="用户名" 
-                                onChange={this.userhandle}  id="username" name="username"
+                            <Icon name="phone" color="red"/>
+                            <TextInput placeholder="手机号" 
+                                onChangeText={this.userhandle}  id="username" name="username"
                             />
                         </View>
                         <View
@@ -98,7 +97,7 @@ export default class Login extends Component {
                         >
                             <Icon name="lock" color="red"/>
                             <TextInput
-                                onChange={this.pwdhandle}  id="pwd"  name="pwd"
+                                onChangeText={this.pwdhandle}  id="pwd"  name="pwd"
                                 placeholder="密码"
                             />
                         </View>

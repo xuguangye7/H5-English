@@ -5,8 +5,8 @@ import {Actions} from 'react-native-router-flux'
 import ImagePicker from 'react-native-image-picker';
 const {width,scale}=Dimensions.get('window');
 const s=width/640
-
-
+var phone;
+import {myFetch} from '../utils/FetchData'
 const IconName=['setting','environment','audit','file-done','qrcode','hdd','star']
 const name=['账户管理','收货地址','我的信息','我的订单','我的二维码','我的积分','我的收藏']
 const data = Array.from(new Array(7)).map((_val, i) => ({
@@ -45,6 +45,9 @@ export default class Mine extends Component {
         super();
         this.state={
             imageUrl:require('../../assets/touxiang.png'),
+            data:[],
+            name:'',
+            phone:''
         }
     }
     componentDidMount(){
@@ -61,6 +64,7 @@ export default class Mine extends Component {
                 })
             }
         })
+        this.show()
     }
     componentDidUpdate(){
         AsyncStorage.getItem('source')
@@ -75,6 +79,33 @@ export default class Mine extends Component {
                     imageUrl:require('../../assets/touxiang.png')
                 })
             }
+        })
+    }
+    show=()=>{
+        AsyncStorage.getItem('logininfo').then(res=>{
+            console.log('loginres',res);
+            phone=res;
+            console.log('resphone',phone)
+            var login_url='api'
+            myFetch.get(login_url)
+            .then(res=>{
+                this.setState({
+                    data:res.content
+                })
+                console.log('data',this.state.data);
+                for(var i=0;i<this.state.data.length;i++){
+                    // console.log('111')
+                    if(this.state.data[i].sphone==phone){
+                        console.log('222')
+                        console.log(this.state.data[i]);
+                        this.setState({
+                            name:this.state.data[i].sname,
+                            phone:this.state.data[i].sphone,
+                        })
+                        console.log('name',this.state.name)
+                    }
+                }
+            })
         })
     }
     takePhoto=()=>{
@@ -122,8 +153,8 @@ export default class Mine extends Component {
                                 </View>
                             </TouchableHighlight>
                             <View>
-                                <Text style={styles.mineName}>AnnyLee</Text>
-                                <Text style={styles.mineId}>ID:12345678</Text>
+                                <Text style={styles.mineName}>{this.state.name}</Text>
+                                <Text style={styles.mineId}>ID:{this.state.phone}</Text>
                             </View>
                             <Icon name="right" 
                                   color="#8a8a8a" 
@@ -167,7 +198,7 @@ export default class Mine extends Component {
                             <WhiteSpace style={{backgroundColor:'#eee'}} />
                             <View style={styles.item}>
                                 <Icon name='table' size={30} color="red" style={styles.icon}/>
-                                <Text style={styles.text} onPress={()=>Actions.collect()}>我的收藏</Text>
+                                <Text style={styles.text}>已完成的课程</Text>
                                 <Icon name="right" color="#8a8a8a" size={20} 
                                     style={{
                                         position:'absolute',
@@ -178,7 +209,7 @@ export default class Mine extends Component {
                             <WhiteSpace style={{backgroundColor:'#eee',height:1}}/>
                             <View style={styles.item}>
                                 <Icon name='flag' size={30} color="red" style={styles.icon}/>
-                                <Text style={styles.text}>我的任务</Text>
+                                <Text style={styles.text} onPress={Actions.collect}>我的收藏</Text>
                                 <Icon name="right" color="#8a8a8a" size={20} 
                                     style={{
                                         position:'absolute',
@@ -189,7 +220,7 @@ export default class Mine extends Component {
                             <WhiteSpace style={{backgroundColor:'#eee'}} />
                             <View style={styles.item}>
                                 <Icon name='file' size={30} color="red" style={styles.icon}/>
-                                <Text style={styles.text}>已完成的课程</Text>
+                                <Text style={styles.text} onPress={Actions.note}>生词本</Text>
                                 <Icon name="right" color="#8a8a8a" size={20} 
                                     style={{
                                         position:'absolute',
@@ -209,45 +240,22 @@ export default class Mine extends Component {
                                 />
                             </View>
                             <WhiteSpace style={{backgroundColor:'#eee'}} />
-                            <View style={styles.item}>
-                                <Icon name='file' size={30} color="red" style={styles.icon}/>
-                                <Text style={styles.text}>已完成的课程</Text>
-                                <Icon name="right" color="#8a8a8a" size={20} 
-                                    style={{
-                                        position:'absolute',
-                                        right:25,
-                                    }}
-                                />
-                            </View>
-                            {/* <WhiteSpace style={{backgroundColor:'#eee',height:1}}/> */}
-                            {/* <View style={styles.item}>
-                                <Icon name='like' size={30} color="red" style={styles.icon}/>
-                                <Text style={styles.text}>我的任务</Text>
-                                <Icon name="right" color="#8a8a8a" size={20} 
-                                    style={{
-                                        position:'absolute',
-                                        right:25,
-                                    }}
-                                />
-                            </View> */}
-                            <View style={{backgroundColor:"#eeeeee"}}>
-                            <View style={{marginLeft:50,marginTop:20,backgroundColor:"#eeeeee"}}>
-                                <View style={{
-                                        width:500*s,
-                                        height:70*s,
-                                        backgroundColor:'#66dd00',
-                                        borderRadius:10,
-                                        flexDirection:'row',
-                                        justifyContent:'space-around',
-                                        alignItems:'center'
-                                        }}>
-                                    <Text onPress={()=>Actions.login()} style={{textAlign:'center',fontSize:18}}>退出登录</Text>
-                                </View>
-                            </View>
-                            </View>
                             
                         </View>
                     </ScrollView>
+                    <View style={{marginLeft:50,marginTop:20,backgroundColor:"#eeeeee"}}>
+                        <View style={{
+                                width:500*s,
+                                height:70*s,
+                                backgroundColor:'#66dd00',
+                                borderRadius:10,
+                                flexDirection:'row',
+                                justifyContent:'space-around',
+                                alignItems:'center'
+                                }}>
+                            <Text onPress={()=>Actions.login()} style={{textAlign:'center',fontSize:18}}>退出登录</Text>
+                        </View>
+                    </View>
                 </SafeAreaView>
             </>
         )
