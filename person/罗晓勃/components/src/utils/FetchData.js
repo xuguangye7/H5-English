@@ -1,5 +1,5 @@
 import queryString from 'query-string'
-const rootUrl='http://129.211.62.80:8080/'
+const rootUrl='http://129.211.62.80:8088/'
 
 let myFetch = {
     get(url,queryParams,callback){
