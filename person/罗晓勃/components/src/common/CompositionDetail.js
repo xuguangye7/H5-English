@@ -78,7 +78,7 @@ export default class CompositionDetail extends Component {
                 <Header name={this.state.title} />
 
                 {/* <TextareaItem editable={true} rows={4} placeholder="在此答题" count={200} /> */}
-                <Text>写作原题</Text>
+                <Text style={styles.title}>写作原题</Text>
                 {
                     this.state.data.map((item)=>{
                         return (
@@ -110,4 +110,7 @@ const styles=StyleSheet.create({
         width:'100%',
         backgroundColor:'red'
     },
+    title:{
+        
+    }
 })

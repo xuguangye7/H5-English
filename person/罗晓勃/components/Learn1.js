@@ -121,7 +121,7 @@ export default class Learn1 extends Component {
                                 }}
                                 source={require('../pic/article.jpg')}
                             />
-                            <TouchableOpacity style={styles.write} onPress={Actions.write}>
+                            <TouchableOpacity style={styles.write} onPress={Actions.compositiontitle}>
                             {/* <View style={styles.write}> */}
                                 <Text style={{
                                     width:width*0.18,

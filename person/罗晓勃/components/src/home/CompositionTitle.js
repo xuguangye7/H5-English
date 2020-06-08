@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View,DeviceEventEmitter,StyleSheet ,Dimensions,ImageBackground} from 'react-native'
+import { Text, View,DeviceEventEmitter,StyleSheet ,Dimensions,ImageBackground,TouchableHighlight} from 'react-native'
 import { Actions} from 'react-native-router-flux'
 import Header from '../utils/Header'
 import {myFetch} from '../utils/FetchData' 
@@ -88,7 +88,12 @@ const styles=StyleSheet.create({
     },
     title:{
         // backgroundColor:'red',
-        fontSize:20,
+        marginTop:15,
+        color:'#fff',
+        textShadowOffset:{width:3,hegith:3},
+        textShadowRadius:2,
+        textShadowColor:'red',
+        fontSize:25,
         flexDirection:'row',
         justifyContent:'center',
         alignItems:'center',
@@ -96,20 +101,29 @@ const styles=StyleSheet.create({
         textAlign:'center'
     },
     item1:{
-        width:width,
+        height:30,
+        marginTop:15,
         flexDirection:"column",
         marginLeft:10,
+        marginRight:10,
         borderWidth:1,
-        borderColor:"red",
+        borderColor:"#fff",
         borderRadius:10
         // justifyContent:'center',
         // alignItems:'center'
 
     },
     item1text:{
-        width:width,
+        height:30,
+        lineHeight:30,
+        color:'#fff',
+        textShadowOffset:{width:2,hegith:2},
+        textShadowRadius:2,
+        textShadowColor:'black',
         // textAlign:'center'
-        fontSize:16,
+        fontSize:18,
+        paddingLeft:5,
+        paddingRight:5
         // fontFamily:'SKTai'
     },
 })

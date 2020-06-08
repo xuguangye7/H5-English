@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import { Icon ,Tabs} from '@ant-design/react-native';
-// import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions, Scene } from 'react-native-router-flux';
 import {
   TextInput,
@@ -8,19 +7,21 @@ import {
   Image,
   localStorage,
   ToastAndroid,
+  AsyncStorage,
   Text,
   StyleSheet
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { WhiteSpace } from '@ant-design/react-native';
-import Item from '@ant-design/react-native/lib/list/ListItem';
+// import Item from '@ant-design/react-native/lib/list/ListItem';
 
 export default class Liuliba extends Component{
     constructor(){
         super();
         this.state={
             data:[],
-            searchData:''
+            searchData:'',
+            isClick:true
         }
     }
     searchhandle = (text)=>{
@@ -64,7 +65,88 @@ export default class Liuliba extends Component{
                 data:res.content
             })
         })
+        AsyncStorage.getItem('clic')
+        .then((res)=>{
+            if(res=='false'){
+                this.setState({
+                    isClick:true
+                })
+            }else{
+                this.setState({
+                    isClick:false
+                })
+            }
+        })
     }
+    componentDidUpdate(){
+        AsyncStorage.getItem('clic')
+        .then((res)=>{
+            if(res=='false'){
+                this.setState({
+                    isClick:true
+                })
+            }else{
+                this.setState({
+                    isClick:false
+                })
+            }
+        })
+    }
+    like=(idx)=>{
+        console.log(idx)
+        AsyncStorage.getItem('clic')
+        .then((res)=>{
+            if(res=='false'||res==null){
+                AsyncStorage.setItem('clic','true',
+                ()=>{
+                    console.log(res);
+                    this.setState({
+                        isClick:true
+                    })
+                    const post ={
+                        userid:15028341232,
+                        scontent:idx.scontent,
+                        touxiang:idx.touxiang,
+                        sname:idx.smane,
+                        stime:idx.stime
+                    }
+                    fetch('http://129.211.62.80:8080/essay/like',{
+                        method:'POST',
+                        headers:{
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body:JSON.stringify(post),
+                    }).then(res=>{
+                        if(res.ok){
+                            return res.json()
+                        }
+                    }).then(res=>{
+                        console.log(res);
+                        console.log(res.id)
+                    }).catch((err)=>{
+                        console.error(err);
+                    })
+                })
+            }else{
+                AsyncStorage.setItem('clic','false',
+                ()=>{
+                    console.log(res)
+                    this.setState({
+                        isClick:false
+                    })
+                    console.log('取消收藏')
+                    console.log(idx.time)
+                    fetch('http://129.211.62.80:8080/essay/delete?stime='+idx.stime)
+                    .then(res=>res.json())
+                    .then((res)=>{
+                        console.log('ok')
+                    })
+                })
+            }
+        })
+    }
+
     render(){
         return(
           <View style={{height:"100%",backgroundColor:"#fff"}}>
@@ -137,9 +219,9 @@ export default class Liuliba extends Component{
                             marginBottom: 9,
                         }}/>}
                     >
-                    <Image source={require('../../assets/a.jpg')} style={{height: 450}}/>
-                    <Image source={require('../../assets/b.jpg')} style={{height: 450}}/>
-                    <Image source={require('../../assets/c.jpg')} style={{height: 450}}/>
+                    <Image source={require('../../pic/a.jpg')} style={{height: 450}}/>
+                    <Image source={require('../../pic/b.jpg')} style={{height: 450}}/>
+                    <Image source={require('../../pic/c.jpg')} style={{height: 450}}/>
                 </Swiper>
             </View>
             {/* 中部四个按钮 */}
@@ -224,28 +306,6 @@ export default class Liuliba extends Component{
             <WhiteSpace style={{height:2,backgroundColor:"#eee"}}/>
             <ScrollView> 
             
-
-            {/* 发布内容 */}
-            {/* <View>
-                <View style={styles.main}>
-                    <View style={styles.touxiang}>
-                        <Image/>
-                    </View>
-                    <Text style={styles.nicheng}>流利君</Text>
-                </View>
-                <View style={styles.content}>
-                    <Text style={styles.text}>发表的内容</Text>
-                    <Image source={require('../../assets/a.jpg')} style={{
-                        height: 150,
-                        width:'95%',
-                        borderRadius:10,
-                        marginBottom:50
-                        }}
-                    />
-                    <Text style={styles.time}>2020-4-26</Text>
-                </View>
-                <WhiteSpace style={{height:2,backgroundColor:"#eee"}}/>
-            </View> */}
             {
                 this.state.data.map((item)=>{
                     return (
@@ -266,7 +326,7 @@ export default class Liuliba extends Component{
                                     marginBottom:50
                                     }}
                                 />
-                                <Text style={styles.time}>{item.stime}</Text>
+                                <Icon style={styles.icon} name="like" color={this.state.isClick?'#8a8a8a':"red"} size={30} onPress={()=>this.like(item)} />
                             </View>
                         
                         </View>
@@ -311,5 +371,10 @@ const styles=StyleSheet.create({
         position:'absolute',
         right:'5%',
         bottom:10
+    },
+    icon:{
+        position:'absolute',
+        right:20,
+        bottom:0
     }
 })
