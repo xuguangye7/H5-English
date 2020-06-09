@@ -3,6 +3,7 @@ import { Text, View,DeviceEventEmitter,StyleSheet ,Dimensions,ImageBackground,To
 import { Actions} from 'react-native-router-flux'
 import Header from '../utils/Header'
 import {myFetch} from '../utils/FetchData' 
+import LinearGradient from 'react-native-linear-gradient';
 const {width,scale,height} = Dimensions.get('window');
 const s = width / 640;
 export default class CompositionTitle extends Component {
@@ -45,34 +46,38 @@ export default class CompositionTitle extends Component {
     render() {
         return (
             <View style={styles.back}>
-                <ImageBackground
+                {/* <ImageBackground
                     source={require('../../../pic/writeback.jpg')} 
                     style={{width: '100%', height: '100%'}}
-                >
+                > */}
+                
                 <Header name='写作' />
-                <Text style={styles.title}>真题部分</Text>
-                {
-                    this.state.data.map((item)=>{
-                        return (
-                            <View style={styles.item1}>
-                                <Text onPress={()=>this.detail(item)} style={styles.item1text}>{item.title}</Text>
-                            </View>
-                        )
-                    })
-                }
-                <View>
-                <Text style={styles.title}>经典范文</Text>
-                {
-                    this.state.data1.map((item)=>{
-                        return (
-                            <View style={styles.item1}>
-                                <Text onPress={()=>this.detail1(item)}  style={styles.item1text}>{item.title}</Text>
-                            </View>
-                        )
-                    })
-                }
-                </View>
-                </ImageBackground>
+                {/* #ffcccc */}
+                    <LinearGradient colors={['#ffcc99', '#ccffff', '#99ffff',]} style={{height: height}}>   
+                        <Text style={styles.title}>真题写作</Text>
+                        {
+                            this.state.data.map((item)=>{
+                                return (
+                                    <View style={styles.item1}>
+                                        <Text onPress={()=>this.detail(item)} style={styles.item1text}>{item.title}</Text>
+                                    </View>
+                                )
+                            })
+                        }
+                        <View>
+                        <Text style={styles.title}>经典范文</Text>
+                        {
+                            this.state.data1.map((item)=>{
+                                return (
+                                    <View style={styles.item1}>
+                                        <Text onPress={()=>this.detail1(item)}  style={styles.item1text}>{item.title}</Text>
+                                    </View>
+                                )
+                            })
+                        }
+                        </View>
+                        </LinearGradient>
+                {/* </ImageBackground> */}
             </View>
         )
     }
@@ -87,12 +92,11 @@ const styles=StyleSheet.create({
         
     },
     title:{
-        // backgroundColor:'red',
         marginTop:15,
-        color:'#fff',
+        color:'#ffff00',
         textShadowOffset:{width:3,hegith:3},
         textShadowRadius:2,
-        textShadowColor:'red',
+        textShadowColor:'#99ccff',
         fontSize:25,
         flexDirection:'row',
         justifyContent:'center',
@@ -106,9 +110,11 @@ const styles=StyleSheet.create({
         flexDirection:"column",
         marginLeft:10,
         marginRight:10,
-        borderWidth:1,
+        borderWidth:2,
         borderColor:"#fff",
-        borderRadius:10
+        borderRadius:10,
+        backgroundColor:'#99ccff'
+        // backgroundColor:'red'
         // justifyContent:'center',
         // alignItems:'center'
 
