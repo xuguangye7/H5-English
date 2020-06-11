@@ -4,6 +4,25 @@ import { Actions } from 'react-native-router-flux';
 import { Icon ,Tabs, TextareaItem, Button} from '@ant-design/react-native';
 import TextAreaItem from '@ant-design/react-native/lib/textarea-item';
 export default class Add extends Component {
+    constructor(){
+        super();
+        this.state={
+            name:'',
+            scontent:'',
+            img:'',
+            data:[],
+            a:1,
+            time:time
+        }
+    }
+    handlechange=(e)=>{
+        this.setState({
+            scontent:e.target.value
+        })
+    }
+    share=()=>{
+
+    }
     render() {
         return (
             <View>
@@ -18,7 +37,7 @@ export default class Add extends Component {
                     <Text style={{color:'white',fontSize:18,marginTop:10,marginLeft:170}}>分享</Text>
                     <Text style={{color:'white',fontSize:30,marginLeft:165,marginTop:-10}}></Text>
                 </View>
-                <TextareaItem style={{width:"100%",height:300,backgroundColor:'#fff',color:"gray"}} placeholder="分享新鲜事...">
+                <TextareaItem style={{width:"100%",height:300,backgroundColor:'#fff',color:"gray"}} onChange={this.handlechange} placeholder="分享新鲜事...">
 
                 </TextareaItem>
                 <View style={{
