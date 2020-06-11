@@ -80,9 +80,9 @@ const styles=StyleSheet.create({
         textShadowRadius:2,
         textShadowColor:'#99ccff',
         fontSize:25,
-        flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center',
+        // flexDirection:'row',
+        // justifyContent:'center',
+        // alignItems:'center',
         lineHeight:30,
         textAlign:'center'
     },
@@ -100,8 +100,6 @@ const styles=StyleSheet.create({
         backgroundColor:'#99ccff',
         paddingLeft:10,
         paddingRight:10
-        
-
     },
     txt:{
         fontSize:16,
