@@ -212,14 +212,14 @@ export default class Learn extends Component {
 
                             {/* 读写 */}
                             <WhiteSpace style={{marginTop:5,height:5,backgroundColor:"#eeeeee"}}></WhiteSpace>
-                            <ImageBackground source={require('../../pic/1.png')}  style={{width:'100%', height:'100%',alignItems:'center'}}>
-                                <View style={{width:"100%",marginTop:10,flexDirection:'row',alignItems:'center',justifyContent:"center",}}>
+                            {/* <ImageBackground source={require('../../pic/1.png')}  style={{width:'100%', height:'100%',alignItems:'center'}}> */}
+                                {/* <View style={{width:"100%",marginTop:10,flexDirection:'row',alignItems:'center',justifyContent:"center",}}>
                                     <TouchableOpacity>
                                         <View style={styles.allbtn}>
                                                 <Text style={styles.btntext}>读写专区</Text>
                                         </View>
                                     </TouchableOpacity>
-                                </View>
+                                </View> */}
                                 
                                 <View style={styles.articleBack}>
                                     <View style={styles.article}>
@@ -227,7 +227,7 @@ export default class Learn extends Component {
                                             style={{
                                                 width:width*0.45,
                                                 height:350*s,
-                                                opacity:0.5
+                                                opacity:0.8
                                             }}
                                             source={require('../../pic/article.jpg')}
                                         />
@@ -236,7 +236,7 @@ export default class Learn extends Component {
                                             <Text onPress={()=>Actions.compositionTitle()} style={{
                                                 width:width*0.18,
                                                 height:width*0.18,
-                                                // backgroundColor:'red',
+                                                // backgroundColor:'red',,,
                                                 borderRadius:width*0.09,
                                                 textAlign:'center',
                                                 lineHeight:width*0.18,
@@ -250,7 +250,7 @@ export default class Learn extends Component {
                                                 style={{
                                                     width:width*0.45,
                                                     height:350*s,
-                                                    opacity:0.5
+                                                    opacity:0.8
                                                 }}
                                                 source={require('../../pic/listen2.jpg')}
                                             />
@@ -268,7 +268,7 @@ export default class Learn extends Component {
                                         </TouchableOpacity>
                                     </View>
                                 </View>
-                            </ImageBackground>
+                            {/* </ImageBackground> */}
                         </ScrollView>
                     </View>
                     <View style={style}>
@@ -406,6 +406,7 @@ btntext:{
     textAlign:'center',
     lineHeight:60*s,
     fontSize:20,
+    color:"#fff"
     // fontFamily:''
     // backgroundColor:"red"
 },

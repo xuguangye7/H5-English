@@ -14,7 +14,7 @@ export default class Note extends Component {
         }
     }
     componentDidMount(){
-        fetch('http://129.211.62.80:8088/word/like')
+        fetch('http://129.211.62.80:8080/word/like')
         .then(res=>res.json())
         .then(res=>{
             this.setState({
@@ -24,7 +24,7 @@ export default class Note extends Component {
     }
     delete=(idx)=>{
         console.log(idx.scontent)
-        fetch('http://129.211.62.80:8088/word/delete?id='+idx.id)
+        fetch('http://129.211.62.80:8080/word/delete?id='+idx.id)
         .then(res=>res.json())
         .then((res)=>{
             console.log('ok')

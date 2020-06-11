@@ -11,11 +11,13 @@ import {
     ScrollView,
     ActivityIndicator,
     Animated,
-    Easing
+    Easing,
+    ImageBackground
 } from 'react-native'
 import {Icon} from '@ant-design/react-native';
 import { Actions} from 'react-native-router-flux'
 var {width,height} = Dimensions.get('window');
+import Header from '../utils/Header';
 import Video from 'react-native-video'
 import {myFetch} from '../utils/FetchData'
 
@@ -254,11 +256,15 @@ export default class Main extends Component {
                     {/* <Image source={{uri:this.state.pic_big}} style={{flex:1}}/> */}
                     {/*背景白色透明遮罩*/}
                     <View style = {{position:'absolute',width: width,height:height,backgroundColor:'#f8f6f1',opacity:0.8}}/>
-                        <View style={{height:45,width:'100%',backgroundColor:'#e9e4d9',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                            <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
-                            <Text style={{color:'#fff',fontSize:23}}>单词</Text>
-                            <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
-                        </View>
+                    <Header name='听力' />
+                    <Image 
+                                                style={{
+                                                    width:"100%",
+                                                    height:"100%",
+                                                    opacity:0.5
+                                                }}
+                                                source={require('../../pic/tingli.jpg')}
+                                            />
                     <View style = {{position:'absolute',width: width,height:500}}>
                         <View style={{
                             width:width,

@@ -247,13 +247,13 @@ export default class Mine extends Component {
                         <View style={{
                                 width:500*s,
                                 height:70*s,
-                                backgroundColor:'#66dd00',
+                                backgroundColor:'red',
                                 borderRadius:10,
                                 flexDirection:'row',
                                 justifyContent:'space-around',
                                 alignItems:'center'
                                 }}>
-                            <Text onPress={()=>Actions.login()} style={{textAlign:'center',fontSize:18}}>退出登录</Text>
+                            <Text onPress={()=>Actions.login()} style={{color:"#fff",textAlign:'center',fontSize:18}}>退出登录</Text>
                         </View>
                     </View>
                 </SafeAreaView>

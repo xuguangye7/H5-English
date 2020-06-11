@@ -3,6 +3,7 @@ import { Text, View, StyleSheet,Image,TouchableOpacity, TextInput,ScrollView } f
 import { NoticeBar,Icon ,Tabs, WhiteSpace, Button} from '@ant-design/react-native';
 import { Actions} from 'react-native-router-flux'
 import Sound from 'react-native-sound';
+import Header from '../utils/Header';
 export default class Search extends Component {
     constructor(){
         super();
@@ -30,11 +31,7 @@ export default class Search extends Component {
         );
         return (
             <View style={styles.main}>
-                <View style={{height:55,width:'100%',backgroundColor:'#8a8a8a',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                    <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
-                    <Text style={{color:'#fff',fontSize:23}}>单词详情</Text>
-                    <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
-                </View>
+                <Header name='单词详情' />
                 {/* <View style={styles.header}>
                     {
                         this.state.data.map((item)=>(
@@ -86,7 +83,7 @@ export default class Search extends Component {
                                 return (
                                     <View style={{flexDirection:'row',alignItems:'center'}}>
                                         <Text style={styles.text} >{item.name}</Text>
-                                        <Icon name='setting' style={styles.icon} color="#8a8a8a" size={35} onPress={()=>{music.play()}} />
+                                        <Icon name='notification' style={styles.icon} color="#8a8a8a" size={35} onPress={()=>{music.play()}} />
                                     </View>
                                 )
                             })

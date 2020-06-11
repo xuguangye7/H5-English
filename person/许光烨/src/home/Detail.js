@@ -4,6 +4,7 @@ import { Actions, Scene } from 'react-native-router-flux';
 // import { Icon } from '@ant-design/react-native';
 import { Button, Icon } from '@ant-design/react-native';
 import Sound from 'react-native-sound';
+import Header from '../utils/Header';
 const {width,scale,height} = Dimensions.get('window');
 const s = width / 640;
 
@@ -29,11 +30,7 @@ export default class Detail extends Component {
     render() {
         return (
             <View>
-                <View style={{height:55,width:'100%',backgroundColor:'#8a8a8a',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                    <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
-                    <Text style={{color:'#fff',fontSize:23}}>单词详情</Text>
-                    <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
-                </View>
+                <Header name='单词详情' />
                 <ScrollView style={{backgroundColor:'#fff'}}>
                     <View style={styles.header}>
                         {
@@ -138,7 +135,7 @@ const styles=StyleSheet.create({
         width:'80%',
         height:50,
         borderRadius:20,
-        backgroundColor:'#8a8a8a'
+        backgroundColor:'red'
     },
     text1:{
         color:'#fff'

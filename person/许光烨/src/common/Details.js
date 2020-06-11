@@ -34,7 +34,8 @@ export default class Details extends Component {
                 {
                     this.state.data.map((item)=>{
                         return (
-                            <View style={{width:'100%'}}>
+                            <View>
+                                <Text style={{marginLeft:170,fontSize:18}}>{item.title}</Text>
                                 <Text>{item.name}</Text>
                             </View>
                         )

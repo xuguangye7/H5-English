@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, DeviceEventEmitter } from 'react-native'
+import { Text, View,ScrollView, DeviceEventEmitter } from 'react-native'
 import Header from '../utils/Header'
 import {myFetch} from '../utils/FetchData' 
 var id;
@@ -47,12 +47,13 @@ export default class Answe extends Component {
         return (
             <View>
                 <Header name={this.state.title} />
+                <ScrollView>
                 <Text style={{marginLeft:180,fontSize:20,marginTop:3}}>作文原题</Text>
                 {
                     this.state.data.map((item)=>{
                         return (
                             <View style={{width:'100%'}}>
-                                <Text>{item.directions}</Text>
+                                <Text>{item.direction}</Text>
                             </View>
                         )
                     })
@@ -79,7 +80,9 @@ export default class Answe extends Component {
                         )
                     })
                 }
+                </ScrollView>
             </View>
+            
         )
     }
 }

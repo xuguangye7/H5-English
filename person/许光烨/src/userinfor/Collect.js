@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, ScrollView,Image,StyleSheet } from 'react-native'
 import { Icon ,Tabs} from '@ant-design/react-native';
 import { Actions,} from 'react-native-router-flux';
+import Header from '../utils/Header';
 export default class List1 extends Component {
     constructor(){
         super();
@@ -38,11 +39,7 @@ export default class List1 extends Component {
     render() {
         return (
             <View>
-                <View style={{height:55,width:'100%',backgroundColor:'#8a8a8a',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                    <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
-                    <Text style={{color:'#fff',fontSize:23}}>我的收藏</Text>
-                    <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
-                </View>
+                <Header name="收藏" />
                 <ScrollView>
                     {
                         this.state.data.map((item)=>{
