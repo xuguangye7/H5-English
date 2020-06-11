@@ -4,6 +4,7 @@ import { Actions, Scene } from 'react-native-router-flux';
 // import { Icon } from '@ant-design/react-native';
 import { Button, Icon } from '@ant-design/react-native';
 import Sound from 'react-native-sound';
+import Header from '../utils/Header';
 const {width,scale,height} = Dimensions.get('window');
 const s = width / 640;
 
@@ -15,7 +16,7 @@ export default class Detail extends Component {
         }
     }
     componentDidMount(){
-        fetch('http://129.211.62.80:8080/word/show')
+        fetch('http://129.211.62.80:8088/word/show')
         .then(res=>res.json())
         .then(res=>{
             this.setState({
@@ -26,14 +27,38 @@ export default class Detail extends Component {
     next=()=>{
         Actions.pop();
     }
+    like=(idx)=>{
+        console.log(idx)
+        const post ={
+            userid:15028341232,
+            id:idx.id,
+            name:idx.name,
+            symbol:idx.symbol,
+            chiness:idx.chiness,
+            exmple:idx.exmple
+        }
+        fetch('http://129.211.62.80:8088/word/like',{
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(post),
+        }).then(res=>{
+            if(res.ok){
+                return res.json()
+            }
+        }).then(res=>{
+            console.log(res);
+            console.log(res.id)
+            console.log(res.message)
+            console.log('收藏成功')
+        })
+    }
     render() {
         return (
             <View>
-                <View style={{height:55,width:'100%',backgroundColor:'#8a8a8a',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                    <Icon name='left' style={{marginLeft:15}}  color="#fff" onPress={()=>{Actions.pop()}} />
-                    <Text style={{color:'#fff',fontSize:23}}>单词详情</Text>
-                    <Icon name='ellipsis' size={35} color="#fff" style={{marginRight:15}}/>
-                </View>
+                <Header name="单词详情" />
                 <ScrollView style={{backgroundColor:'#fff'}}>
                     <View style={styles.header}>
                         {
@@ -76,6 +101,13 @@ export default class Detail extends Component {
                         }
                     </View>
                     <View style={styles.footer}>
+                        {
+                            this.state.data.map((item)=>(
+                                <Button style={styles.button} onPress={()=>this.like(item)}>
+                                    <Text style={styles.text1}>添加生词本</Text>
+                                </Button>
+                            ))
+                        }
                         <Button style={styles.button} onPress={this.next}>
                             <Text style={styles.text1}>继续</Text>
                         </Button>
@@ -130,13 +162,14 @@ const styles=StyleSheet.create({
     footer:{
         width:'100%',
         height:120,
-        marginTop:400,
+        marginTop:350,
         backgroundColor:'#fff',
         alignItems:'center',
     },
     button:{
         width:'80%',
         height:50,
+        marginBottom:10,
         borderRadius:20,
         backgroundColor:'#8a8a8a'
     },
