@@ -89,12 +89,6 @@ export default class Answe extends Component {
     }
 }
 const styles=StyleSheet.create({
-    back:{
-        width:width,
-        height:height,
-        backgroundColor:'blue',
-        
-    },
     title:{
         marginTop:15,
         color:'#ffff00',
