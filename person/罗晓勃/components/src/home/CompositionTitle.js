@@ -46,10 +46,10 @@ export default class CompositionTitle extends Component {
     render() {
         return (
             <View style={styles.back}>
-                {/* <ImageBackground
+                <ImageBackground
                     source={require('../../../pic/writeback.jpg')} 
                     style={{width: '100%', height: '100%'}}
-                > */}
+                >     
                 
                 <Header name='写作' />
                 {/* #ffcccc */}
@@ -77,7 +77,7 @@ export default class CompositionTitle extends Component {
                         }
                         </View>
                         </LinearGradient>
-                {/* </ImageBackground> */}
+                </ImageBackground>
             </View>
         )
     }

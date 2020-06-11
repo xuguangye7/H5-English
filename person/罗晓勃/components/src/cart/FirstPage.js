@@ -3,7 +3,7 @@ import { Text, View,ScrollView,DeviceEventEmitter, Image } from 'react-native'
 import Header from '../utils/Header'
 import {myFetch} from '../utils/FetchData'
 import { Actions } from 'react-native-router-flux';
-export default class ScreenList extends Component {
+export default class FirstPage extends Component {
     constructor(){
         super();
         this.state={
@@ -49,24 +49,6 @@ export default class ScreenList extends Component {
                 <Text style={{marginLeft:210,fontSize:20,marginTop:3}}>cet4</Text>
                 {
                     this.state.data.map((item)=>(
-                        <View style={{backgroundColor:"#fff",height:100,marginTop:20,flexDirection:'row',alignItems:'center',}}>
-                            <Image style={{width:150,marginLeft:5,height:90}} source={require("../../../pic/siji.png")}/>
-                            <Text style={{width:200,marginLeft:100}} onPress={()=>this.detail(item)}>{item.name}</Text>
-                        </View>
-                    ))
-                }
-                <Text style={{marginLeft:210,fontSize:20,marginTop:3}}>新概念</Text>
-                {
-                    this.state.data1.map((item)=>(
-                        <View style={{backgroundColor:"#fff",height:100,marginTop:20,flexDirection:'row',alignItems:'center',}}>
-                            <Image style={{width:150,marginLeft:5,height:90}} source={require("../../../pic/siji.png")}/>
-                            <Text style={{width:200,marginLeft:100}} onPress={()=>this.detail(item)}>{item.name}</Text>
-                        </View>
-                    ))
-                }
-                <Text style={{marginLeft:210,fontSize:20,marginTop:3}}>口语</Text>
-                {
-                    this.state.data2.map((item)=>(
                         <View style={{backgroundColor:"#fff",height:100,marginTop:20,flexDirection:'row',alignItems:'center',}}>
                             <Image style={{width:150,marginLeft:5,height:90}} source={require("../../../pic/siji.png")}/>
                             <Text style={{width:200,marginLeft:100}} onPress={()=>this.detail(item)}>{item.name}</Text>
